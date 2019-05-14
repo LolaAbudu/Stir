@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Stir</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="login_username_hint">username</string>
+    <string name="login_password_hint">password</string>
+    <string name="login_button_text">LOGIN</string>
+    <string name="login_sign_up_textview">sign up</string>
 </resources>
