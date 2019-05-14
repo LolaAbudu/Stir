@@ -6,13 +6,82 @@
     android:layout_height="match_parent"
     tools:context=".LoginActivity">
 
+    <ImageView
+        android:id="@+id/login_logo_imageView"
+        android:layout_width="210dp"
+        android:layout_height="210dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toTopOf="@id/login_username_editText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/login_username_editText"
+        android:layout_width="380dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/round_edittext"
+        android:foregroundTint="@color/colorAccent"
+        android:hint="@string/login_username_hint"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@+id/login_password_editText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/login_logo_imageView" />
+
+    <EditText
+        android:id="@+id/login_password_editText"
+        android:layout_width="380dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/round_edittext"
+        android:hint="@string/login_password_hint"
+        android:inputType="textPassword"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@+id/login_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/login_username_editText" />
+
+    <Button
+        android:id="@+id/login_button"
+        android:layout_width="380dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/round_button"
+        android:fontFamily="sans-serif"
+        android:text="@string/login_button_text"
+        android:textAlignment="center"
+        android:textColor="@color/colorWhiteText"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/login_password_editText"
+        app:layout_constraintBottom_toTopOf="@+id/login_sign_up_textview"
+        android:foreground="?attr/selectableItemBackground"/>
+
     <TextView
+        android:id="@+id/login_sign_up_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="150dp"
+        android:fontFamily="sans-serif"
+        android:text="@string/login_sign_up_textview"
+        android:textColor="@color/colorAccent"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:clickable="true"
+        android:focusable="true"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/login_button"
+        android:foreground="?attr/selectableItemBackground"/>
 
 </android.support.constraint.ConstraintLayout>
