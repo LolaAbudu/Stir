@@ -13,10 +13,10 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        circleLogoImage();
+        createRoundLogoImage();
     }
 
-    public void circleLogoImage() {
+    public void createRoundLogoImage() {
         ImageView imageView = findViewById(R.id.login_logo_imageView);
         Glide.with(getApplicationContext())
                 .load(R.mipmap.stir_name_logo)
