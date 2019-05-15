@@ -1,14 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".SignUpFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+    <EditText
+        android:id="@+id/sign_up_username_editText"
+        style="@style/AppEditText"
+        android:layout_marginTop="70dp"
+        android:hint="username"
+        android:inputType="text"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-</FrameLayout>
+    <EditText
+        android:id="@+id/sign_up_password_editText"
+        style="@style/AppEditText"
+        android:layout_marginTop="16dp"
+        android:hint="password"
+        android:inputType="textPassword"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sign_up_username_editText" />
+
+    <EditText
+        android:id="@+id/sign_up_confirm_editText"
+        style="@style/AppEditText"
+        android:layout_marginTop="16dp"
+        android:hint="confirm password"
+        android:inputType="textPassword"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/sign_up_password_editText" />
+
+    <EditText
+        android:id="@+id/sign_up_birth_editText"
+        style="@style/AppEditText"
+        android:layout_marginTop="16dp"
+        android:hint="date / of / birth"
+        android:inputType="date"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/sign_up_confirm_editText" />
+
+    <Button
+        android:id="@+id/sign_up_continue_button"
+        style="@style/AppButton"
+        android:text="continue"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="80dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/sign_up_birth_editText" />
+
+</android.support.constraint.ConstraintLayout>
