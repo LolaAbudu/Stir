@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "311595574605",
+    "firebase_url": "https://stir-ea02a.firebaseio.com",
+    "project_id": "stir-ea02a",
+    "storage_bucket": "stir-ea02a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:311595574605:android:16f1b2171b3b4f64",
+        "android_client_info": {
+          "package_name": "org.pursuit.stir"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "311595574605-kmgg67d89ohiq9rolg3tf7fdftsaj8nb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "org.pursuit.stir",
+            "certificate_hash": "0addf464d0fd74ef7257e1fa91f7724aafcd53d9"
+          }
+        },
+        {
+          "client_id": "311595574605-h1r1ub9hl8pbrpfqt1nv6tsup9nan1r5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCH-nH4JjDIPmrmoPHd9IsAZJcMw9LxLcc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "311595574605-h1r1ub9hl8pbrpfqt1nv6tsup9nan1r5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
