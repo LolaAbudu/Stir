@@ -26,11 +26,16 @@ import static android.support.constraint.Constraints.TAG;
 public class SignUpFragment extends Fragment {
 
     private SignUpListener signUpListener;
-    @BindView(R.id.sign_up_username_editText) EditText emailEditText;
-    @BindView(R.id.sign_up_password_editText) EditText passwordEditText;
-    @BindView(R.id.sign_up_confirm_editText) EditText confirmEditText;
-    @BindView(R.id.sign_up_birth_editText) EditText dateOfBirthEditText;
-    @BindView(R.id.sign_up_continue_button) Button continueButton;
+    @BindView(R.id.sign_up_username_editText)
+    EditText emailEditText;
+    @BindView(R.id.sign_up_password_editText)
+    EditText passwordEditText;
+    @BindView(R.id.sign_up_confirm_editText)
+    EditText confirmEditText;
+    @BindView(R.id.sign_up_birth_editText)
+    EditText dateOfBirthEditText;
+    @BindView(R.id.sign_up_continue_button)
+    Button continueButton;
 
     private FirebaseAuth firebaseAuth;
 
@@ -86,21 +91,28 @@ public class SignUpFragment extends Fragment {
         //TODO: check for user's confirm password logic
         String email = emailEditText.getText().toString();
         String password = passwordEditText.getText().toString();
-        firebaseAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d(TAG, "createUserWithEmail:success");
-                            signUpListener.replaceWithCoffeePrefFragment();
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                            Toast.makeText(getContext(), "Oops! Something went wrong. Please try again.",
-                                    Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
+        String confirmPW = confirmEditText.getText().toString();
+        if (email != null && password != null) {
+            if (password.equals(confirmPW)) {
+                firebaseAuth.createUserWithEmailAndPassword(email, password)
+                        .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                if (task.isSuccessful()) {
+                                    // Sign in success, update UI with the signed-in user's information
+                                    Log.d(TAG, "createUserWithEmail:success");
+                                    signUpListener.replaceWithCoffeePrefFragment();
+                                } else {
+                                    // If sign in fails, display a message to the user.
+                                    Log.w(TAG, "createUserWithEmail:failure", task.getException());
+                                    Toast.makeText(getContext(), "Oops! Something went wrong. Please try again.",
+                                            Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+            }else {
+                Toast.makeText(getContext(), "Oops! Password and Confirm Password do not match.",Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 }
