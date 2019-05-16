@@ -18,16 +18,19 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 import static android.support.constraint.Constraints.TAG;
 
 public class SignUpFragment extends Fragment {
 
     private SignUpListener signUpListener;
-    private EditText emailEditText;
-    private EditText passwordEditText;
-    private EditText confirmEditText;
-    private EditText dateOfBirthEditText;
-    private Button continueButton;
+    @BindView(R.id.sign_up_username_editText) EditText emailEditText;
+    @BindView(R.id.sign_up_password_editText) EditText passwordEditText;
+    @BindView(R.id.sign_up_confirm_editText) EditText confirmEditText;
+    @BindView(R.id.sign_up_birth_editText) EditText dateOfBirthEditText;
+    @BindView(R.id.sign_up_continue_button) Button continueButton;
 
     private FirebaseAuth firebaseAuth;
 
@@ -63,11 +66,7 @@ public class SignUpFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        emailEditText = view.findViewById(R.id.sign_up_username_editText);
-        passwordEditText = view.findViewById(R.id.sign_up_password_editText);
-        confirmEditText = view.findViewById(R.id.sign_up_confirm_editText);
-        dateOfBirthEditText = view.findViewById(R.id.sign_up_birth_editText);
-        continueButton = view.findViewById(R.id.sign_up_continue_button);
+        ButterKnife.bind(this, view);
         continueButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
