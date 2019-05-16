@@ -17,6 +17,16 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
+        android:id="@+id/sign_up_email_editText"
+        style="@style/AppEditText"
+        android:layout_marginTop="16dp"
+        android:hint="email"
+        android:inputType="text"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/sign_up_username_editText"/>
+
+    <EditText
         android:id="@+id/sign_up_password_editText"
         style="@style/AppEditText"
         android:layout_marginTop="16dp"
@@ -24,7 +34,7 @@
         android:inputType="textPassword"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sign_up_username_editText" />
+        app:layout_constraintTop_toBottomOf="@+id/sign_up_email_editText" />
 
     <EditText
         android:id="@+id/sign_up_confirm_editText"

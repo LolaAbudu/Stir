@@ -26,7 +26,11 @@ import static android.support.constraint.Constraints.TAG;
 public class SignUpFragment extends Fragment {
 
     private SignUpListener signUpListener;
+    private FirebaseAuth firebaseAuth;
+
     @BindView(R.id.sign_up_username_editText)
+    EditText usernameEditText;
+    @BindView(R.id.sign_up_email_editText)
     EditText emailEditText;
     @BindView(R.id.sign_up_password_editText)
     EditText passwordEditText;
@@ -36,9 +40,6 @@ public class SignUpFragment extends Fragment {
     EditText dateOfBirthEditText;
     @BindView(R.id.sign_up_continue_button)
     Button continueButton;
-
-    private FirebaseAuth firebaseAuth;
-
 
     public SignUpFragment() {
     }
