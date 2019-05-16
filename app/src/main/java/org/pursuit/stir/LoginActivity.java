@@ -61,14 +61,13 @@ public class LoginActivity extends AppCompatActivity {
     private boolean validateUserInput() {
         boolean valid = true;
         String email = emailEditText.getText().toString();
+        String password = passwordEditText.getText().toString();
         if (TextUtils.isEmpty(email)) {
             emailEditText.setError("Required.");
             valid = false;
         } else {
             emailEditText.setError(null);
         }
-
-        String password = passwordEditText.getText().toString();
         if (TextUtils.isEmpty(password)) {
             passwordEditText.setError("Required.");
             valid = false;
