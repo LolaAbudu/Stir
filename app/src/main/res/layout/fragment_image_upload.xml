@@ -7,7 +7,7 @@
     tools:context=".ImageUploadFragment">
 
     <Button
-        android:id="@+id/choose_image_button"
+        android:id="@+id/select_image_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Select image" />
@@ -17,7 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_toEndOf="@id/choose_image_button"
+        android:layout_toEndOf="@id/select_image_button"
         android:hint="Enter name of image" />
 
     <ImageView
@@ -41,8 +41,10 @@
         android:id="@+id/upload_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="48dp"
         android:text="Upload" />
 
     <TextView
@@ -51,8 +53,11 @@
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@id/upload_button"
         android:layout_alignBottom="@id/upload_button"
-        android:layout_marginStart="24dp"
-        android:layout_toEndOf="@id/upload_button"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="160dp"
+        android:layout_marginBottom="8dp"
+        android:layout_toStartOf="@id/upload_button"
         android:gravity="center"
         android:text="Home"
         android:textSize="16sp" />
