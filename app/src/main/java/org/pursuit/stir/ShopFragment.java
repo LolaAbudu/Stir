@@ -2,6 +2,7 @@ package org.pursuit.stir;
 
 
 import android.content.pm.PackageManager;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -13,10 +14,24 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnSuccessListener;
+
+import org.pursuit.stir.models.FoursquareJSON;
+import org.pursuit.stir.network.FoursquareService;
+import org.pursuit.stir.network.RetrofitSingleton;
+
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 
 /**
@@ -56,25 +71,68 @@ public class ShopFragment extends Fragment
                 .addOnConnectionFailedListener(this)
                 .addApi(LocationServices.API)
                 .build();
+        // TODO: Evelyn replace these IDs with string resource to actual thing
+        foursquareClientID = "1234";
+        foursquareClientSecret = "123345";
     }
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
 
         if (ContextCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-        // TODO:
+
+            FusedLocationProviderClient fusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity());
+
+            fusedLocationClient.getLastLocation()
+                    .addOnSuccessListener(getActivity(), new OnSuccessListener<Location>() {
+                        @Override
+                        public void onSuccess(Location location) {
+                            if (location != null) {
+                                //TODO: Evelyn Create method to go to after successful location found
+                                String userLastLocation = location.getLatitude() + "," + location.getLongitude();
+                                double userLocationAccuracy = location.getAccuracy();
+
+                                Retrofit retrofit = RetrofitSingleton.getInstance();
+                                FoursquareService foursquareService = retrofit.create(FoursquareService.class);
+
+                                Call<FoursquareJSON> coffeeCall = foursquareService.searchCoffee(
+                                        foursquareClientID,
+                                        foursquareClientSecret,
+                                        userLastLocation,
+                                        userLocationAccuracy);
+
+                                coffeeCall.enqueue(new Callback<FoursquareJSON>() {
+                                    @Override
+                                    public void onResponse(Call<FoursquareJSON> call, Response<FoursquareJSON> response) {
+                                        FoursquareJSON foursquareJSON = response.body();
+                                        FoursquareJSON.FoursquareResponse fr = foursquareJSON.getResponse();
+                                        FoursquareJSON.FoursquareResponse.FoursquareGroup fg = fr.getGroup();
+                                        List<FoursquareJSON.FoursquareResponse.FoursquareGroup.FoursquareResults> foursquareResultsList = fg.getResults();
+
+                                    }
+
+                                    @Override
+                                    public void onFailure(Call<FoursquareJSON> call, Throwable t) {
+
+                                    }
+                                });
+                            }
+                        }
+                    });
+
+
+            // TODO: Evelyn: Add calls
 
         }
-
-        }
-
-    @Override
-    public void onConnectionSuspended(int i) {
 
     }
 
     @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+    public void onConnectionSuspended(int i) {}
 
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+        Toast.makeText(getActivity(), "Stir can't connect to Google's servers", Toast.LENGTH_SHORT).show();
+        getActivity().finish();
     }
 }
