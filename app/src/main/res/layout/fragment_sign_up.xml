@@ -8,8 +8,7 @@
 
     <EditText
         android:id="@+id/sign_up_username_editText"
-        style="@style/AppEditText"
-        android:layout_marginTop="70dp"
+        style="@style/AppUsernameEditText"
         android:hint="username"
         android:inputType="text"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -19,7 +18,6 @@
     <EditText
         android:id="@+id/sign_up_email_editText"
         style="@style/AppEditText"
-        android:layout_marginTop="16dp"
         android:hint="email"
         android:inputType="text"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -29,7 +27,6 @@
     <EditText
         android:id="@+id/sign_up_password_editText"
         style="@style/AppEditText"
-        android:layout_marginTop="16dp"
         android:hint="password"
         android:inputType="textPassword"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -39,7 +36,6 @@
     <EditText
         android:id="@+id/sign_up_confirm_editText"
         style="@style/AppEditText"
-        android:layout_marginTop="16dp"
         android:hint="confirm password"
         android:inputType="textPassword"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -49,7 +45,6 @@
     <EditText
         android:id="@+id/sign_up_birth_editText"
         style="@style/AppEditText"
-        android:layout_marginTop="16dp"
         android:hint="date / of / birth"
         android:inputType="date"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -60,8 +55,6 @@
         android:id="@+id/sign_up_continue_button"
         style="@style/AppButton"
         android:text="continue"
-        android:layout_marginTop="24dp"
-        android:layout_marginBottom="80dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
