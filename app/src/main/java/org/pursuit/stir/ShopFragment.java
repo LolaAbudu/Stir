@@ -1,6 +1,7 @@
 package org.pursuit.stir;
 
 
+import android.annotation.SuppressLint;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
@@ -22,12 +23,14 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
 
+import org.pursuit.stir.models.FourSquareVenuePhoto;
 import org.pursuit.stir.models.FoursquareJSON;
 import org.pursuit.stir.network.FoursquareService;
 import org.pursuit.stir.network.RetrofitSingleton;
 import org.pursuit.stir.shoprv.ShopAdapter;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
 import io.reactivex.Scheduler;
@@ -53,6 +56,7 @@ public class ShopFragment extends Fragment
 
     private String foursquareClientID;
     private String foursquareClientSecret;
+    private List<FoursquareJSON.FoursquareResponse.FoursquareGroup.FoursquareResults> foursquareResultsList;
 
     public ShopFragment() {
         // Required empty public constructor
@@ -92,11 +96,14 @@ public class ShopFragment extends Fragment
 
             fusedLocationClient.getLastLocation()
                     .addOnSuccessListener(getActivity(), new OnSuccessListener<Location>() {
+                        @SuppressLint("CheckResult")
                         @Override
                         public void onSuccess(Location location) {
                             if (location != null) {
                                 String userLastLocation = location.getLatitude() + "," + location.getLongitude();
                                 double userLocationAccuracy = location.getAccuracy();
+
+
 
                                 RetrofitSingleton.getInstance()
                                         .create(FoursquareService.class)
@@ -107,26 +114,30 @@ public class ShopFragment extends Fragment
                                                 userLocationAccuracy)
                                         .subscribeOn(Schedulers.io())
                                         .observeOn(AndroidSchedulers.mainThread())
-                                        .subscribe(new Consumer<FoursquareJSON>() {
-                                            @Override
-                                            public void accept(FoursquareJSON foursquareJSON) throws Exception {
-                                                FoursquareJSON.FoursquareResponse fr = foursquareJSON.getResponse();
-                                                FoursquareJSON.FoursquareResponse.FoursquareGroup fg = fr.getGroup();
-                                                List<FoursquareJSON.FoursquareResponse.FoursquareGroup.FoursquareResults> foursquareResultsList = fg.getResults();
-                                                adapter = new ShopAdapter(foursquareResultsList);
-                                                recyclerView.setAdapter(adapter);
-                                            }
-
-
+                                        .subscribe(foursquareJSON -> {
+                                            FoursquareJSON.FoursquareResponse fr = foursquareJSON.getResponse();
+                                            FoursquareJSON.FoursquareResponse.FoursquareGroup fg = fr.getGroup();
+                                            foursquareResultsList = fg.getResults();
+                                            adapter = new ShopAdapter(foursquareResultsList);
+                                            recyclerView.setAdapter(adapter);
                                         }, throwable ->
                                                 Toast.makeText(getContext(), "Oops, Stir can't connect to Foursquare's servers", Toast.LENGTH_SHORT).show());
                                 getActivity().finish();
+
+                                for (int i = 0; i < foursquareResultsList.size(); i++) {
+                                    FoursquareJSON.FoursquareResponse.FoursquareGroup.FoursquareResults.FoursquareVenue venue = foursquareResultsList.get(i).getVenue();
+                                    final String venueId = venue.getId();
+                                }
+
+                                Observable.fromIterable(foursquareResultsList)
+                                        .flatMap();
 
 //
 //                            } else {
 //                                Toast.makeText(getContext(), "Oops, Stir can't determine your current location", Toast.LENGTH_SHORT).show();
 //                                getActivity().finish();
 //                            }
+
                             }
                         }
                     });
@@ -154,5 +165,13 @@ public class ShopFragment extends Fragment
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         Toast.makeText(getActivity(), "Oops, Stir can't connect to Google's servers", Toast.LENGTH_SHORT).show();
         getActivity().finish();
+    }
+
+    public Observable<FourSquareVenuePhoto> getStringsAfterVenueIDLookup(String venue_id) {
+        FoursquareService foursquareService = RetrofitSingleton.getInstance().create(FoursquareService.class);
+        return foursquareService.getCoffeeVenuePhoto(venue_id, foursquareClientID, foursquareClientSecret)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .timeout(10, TimeUnit.SECONDS);
     }
 }
