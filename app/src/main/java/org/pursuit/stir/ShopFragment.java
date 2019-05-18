@@ -129,8 +129,8 @@ public class ShopFragment extends Fragment
                                     final String venueId = venue.getId();
                                 }
 
-                                Observable.fromIterable(foursquareResultsList)
-                                        .flatMap();
+                                Observable.fromIterable(foursquareResultsList);
+//                                        .flatMap();
 
 //
 //                            } else {
