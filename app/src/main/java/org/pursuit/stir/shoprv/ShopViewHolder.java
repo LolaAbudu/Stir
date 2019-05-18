@@ -35,6 +35,7 @@ public class ShopViewHolder extends RecyclerView.ViewHolder {
     public void onBind(final FoursquareJSON.FoursquareResponse.FoursquareGroup.FoursquareResults.FoursquareVenue foursquareVenue) {
         shopName.setText(foursquareVenue.getName());
         distance.setText(foursquareVenue.getLocation().getDistance());
+        //TODO: Implement photo call here or in shop fragment?
         Picasso.get()
                 .load(R.mipmap.ic_launcher)
                 .into(shopImage);
@@ -42,7 +43,7 @@ public class ShopViewHolder extends RecyclerView.ViewHolder {
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO: pass model to maps activity
+                // TODO: pass model to maps activity through interface
             }
         });
     }
