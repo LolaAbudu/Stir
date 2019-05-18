@@ -29,6 +29,11 @@ import org.pursuit.stir.shoprv.ShopAdapter;
 
 import java.util.List;
 
+import io.reactivex.Observable;
+import io.reactivex.Scheduler;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -73,7 +78,7 @@ public class ShopFragment extends Fragment
                 .addOnConnectionFailedListener(this)
                 .addApi(LocationServices.API)
                 .build();
-        // TODO: Evelyn replace these IDs with string resource to actual thing
+
         foursquareClientID = BuildConfig.FoursquareClientID;
         foursquareClientSecret = BuildConfig.FoursquareClientSecret;
     }
@@ -90,45 +95,43 @@ public class ShopFragment extends Fragment
                         @Override
                         public void onSuccess(Location location) {
                             if (location != null) {
-                                //TODO: Evelyn Create method to go to after successful location found
                                 String userLastLocation = location.getLatitude() + "," + location.getLongitude();
                                 double userLocationAccuracy = location.getAccuracy();
 
-                                Retrofit retrofit = RetrofitSingleton.getInstance();
-                                FoursquareService foursquareService = retrofit.create(FoursquareService.class);
+                                RetrofitSingleton.getInstance()
+                                        .create(FoursquareService.class)
+                                        .searchCoffee(
+                                                foursquareClientID,
+                                                foursquareClientSecret,
+                                                userLastLocation,
+                                                userLocationAccuracy)
+                                        .subscribeOn(Schedulers.io())
+                                        .observeOn(AndroidSchedulers.mainThread())
+                                        .subscribe(new Consumer<FoursquareJSON>() {
+                                            @Override
+                                            public void accept(FoursquareJSON foursquareJSON) throws Exception {
+                                                FoursquareJSON.FoursquareResponse fr = foursquareJSON.getResponse();
+                                                FoursquareJSON.FoursquareResponse.FoursquareGroup fg = fr.getGroup();
+                                                List<FoursquareJSON.FoursquareResponse.FoursquareGroup.FoursquareResults> foursquareResultsList = fg.getResults();
+                                                adapter = new ShopAdapter(foursquareResultsList);
+                                                recyclerView.setAdapter(adapter);
+                                            }
 
-                                Call<FoursquareJSON> coffeeCall = foursquareService.searchCoffee(
-                                        foursquareClientID,
-                                        foursquareClientSecret,
-                                        userLastLocation,
-                                        userLocationAccuracy);
 
-                                coffeeCall.enqueue(new Callback<FoursquareJSON>() {
-                                    @Override
-                                    public void onResponse(Call<FoursquareJSON> call, Response<FoursquareJSON> response) {
-                                        FoursquareJSON foursquareJSON = response.body();
-                                        FoursquareJSON.FoursquareResponse fr = foursquareJSON.getResponse();
-                                        FoursquareJSON.FoursquareResponse.FoursquareGroup fg = fr.getGroup();
-                                        List<FoursquareJSON.FoursquareResponse.FoursquareGroup.FoursquareResults> foursquareResultsList = fg.getResults();
-
-                                        adapter = new ShopAdapter(foursquareResultsList);
-                                        recyclerView.setAdapter(adapter);
-
-                                    }
-
-                                    @Override
-                                    public void onFailure(Call<FoursquareJSON> call, Throwable t) {
-                                        Toast.makeText(getContext(), "Oops, Stir can't connect to Foursquare's servers", Toast.LENGTH_SHORT).show();
-                                        getActivity().finish();
-                                    }
-                                });
-                            } else {
-                                Toast.makeText(getContext(), "Oops, Stir can't determine your current location", Toast.LENGTH_SHORT).show();
+                                        }, throwable ->
+                                                Toast.makeText(getContext(), "Oops, Stir can't connect to Foursquare's servers", Toast.LENGTH_SHORT).show());
                                 getActivity().finish();
+
+//
+//                            } else {
+//                                Toast.makeText(getContext(), "Oops, Stir can't determine your current location", Toast.LENGTH_SHORT).show();
+//                                getActivity().finish();
+//                            }
                             }
                         }
                     });
         }
+
     }
 
     @Override
