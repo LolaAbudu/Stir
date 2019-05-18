@@ -5,7 +5,7 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
-public class MainHostActivity extends AppCompatActivity implements MainHostListener{
+public class MainHostActivity extends AppCompatActivity implements MainHostListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +27,7 @@ public class MainHostActivity extends AppCompatActivity implements MainHostListe
                     Toast.makeText(this, "profile selected", Toast.LENGTH_SHORT).show();
                     break;
                 case R.id.navigation_shops:
-                Toast.makeText(this, "shops selected", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "shops selected", Toast.LENGTH_SHORT).show();
                     break;
                 case R.id.navigation_photo_upload:
                     Toast.makeText(this, "add photo selected", Toast.LENGTH_SHORT).show();
@@ -39,20 +39,20 @@ public class MainHostActivity extends AppCompatActivity implements MainHostListe
 
     @Override
     public void replaceWithHomeFragment() {
-//        getSupportFragmentManager()
-//                .beginTransaction()
-//                .setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit)
-//                .replace(R.id.main_host_container, HomeFragment.newInstance())
-//                .commit();
+        getSupportFragmentManager()
+                .beginTransaction()
+                .setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit)
+                .replace(R.id.main_host_container, HomeFragment.newInstance())
+                .commit();
     }
 
     @Override
     public void replaceWithProfileFragment() {
-//        getSupportFragmentManager()
-//                .beginTransaction()
-//                .setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit)
-//                .replace(R.id.main_host_container, ProfileFragment.newInstance())
-//                .commit();
+        getSupportFragmentManager()
+                .beginTransaction()
+                .setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit)
+                .replace(R.id.main_host_container, ProfileFragment.newInstance())
+                .commit();
     }
 
     @Override
@@ -63,6 +63,8 @@ public class MainHostActivity extends AppCompatActivity implements MainHostListe
 //                .replace(R.id.main_host_container, Shop.newInstance())
 //                .commit();
 
+        }
+
     @Override
     public void replaceWithImageUploadFragment() {
         getSupportFragmentManager()
@@ -70,6 +72,5 @@ public class MainHostActivity extends AppCompatActivity implements MainHostListe
                 .setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit)
                 .replace(R.id.main_host_container, ImageUploadFragment.newInstance())
                 .commit();
-
     }
 }
