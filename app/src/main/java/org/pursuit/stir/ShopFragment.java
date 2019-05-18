@@ -33,14 +33,8 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
-import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
 
 
 /**
@@ -60,6 +54,11 @@ public class ShopFragment extends Fragment
 
     public ShopFragment() {
         // Required empty public constructor
+    }
+
+    public static ShopFragment newInstance(){
+        ShopFragment fragment = new ShopFragment();
+        return fragment;
     }
 
     @Override
@@ -102,8 +101,6 @@ public class ShopFragment extends Fragment
                             if (location != null) {
                                 String userLastLocation = location.getLatitude() + "," + location.getLongitude();
                                 double userLocationAccuracy = location.getAccuracy();
-
-
 
                                 RetrofitSingleton.getInstance()
                                         .create(FoursquareService.class)

@@ -7,4 +7,6 @@ public interface MainHostListener {
     void replaceWithProfileFragment();
 
     void replaceWithShopFragment();
+
+    void replaceWithImageUploadFragment();
 }
