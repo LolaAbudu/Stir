@@ -7,6 +7,7 @@ import android.widget.Toast;
 
 public class MainHostActivity extends AppCompatActivity implements MainHostListener{
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -16,6 +17,11 @@ public class MainHostActivity extends AppCompatActivity implements MainHostListe
             switch (menuItem.getItemId()) {
                 case R.id.navigation_home:
                     Toast.makeText(this, "home selected", Toast.LENGTH_SHORT).show();
+                    getSupportFragmentManager()
+                            .beginTransaction()
+                            .setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit)
+                            .replace(R.id.main_host_container, DetailFragment.newInstance())
+                            .commit();
                     break;
                 case R.id.navigation_profile:
                     Toast.makeText(this, "profile selected", Toast.LENGTH_SHORT).show();
@@ -36,7 +42,7 @@ public class MainHostActivity extends AppCompatActivity implements MainHostListe
 //        getSupportFragmentManager()
 //                .beginTransaction()
 //                .setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit)
-//                .replace(R.id.sign_up_container, HomeFragment.newInstance())
+//                .replace(R.id.main_host_container, HomeFragment.newInstance())
 //                .commit();
     }
 
@@ -45,7 +51,7 @@ public class MainHostActivity extends AppCompatActivity implements MainHostListe
 //        getSupportFragmentManager()
 //                .beginTransaction()
 //                .setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit)
-//                .replace(R.id.sign_up_container, ProfileFragment.newInstance())
+//                .replace(R.id.main_host_container, ProfileFragment.newInstance())
 //                .commit();
     }
 
@@ -54,7 +60,7 @@ public class MainHostActivity extends AppCompatActivity implements MainHostListe
 //        getSupportFragmentManager()
 //                .beginTransaction()
 //                .setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit)
-//                .replace(R.id.sign_up_container, Shop.newInstance())
+//                .replace(R.id.main_host_container, Shop.newInstance())
 //                .commit();
     }
 }

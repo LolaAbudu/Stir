@@ -5,4 +5,5 @@
     <string name="login_password_hint">password</string>
     <string name="login_button_text">LOGIN</string>
     <string name="login_sign_up_textview">sign up</string>
+    <string name="detail_posted_by_text">Posted by:</string>
 </resources>
