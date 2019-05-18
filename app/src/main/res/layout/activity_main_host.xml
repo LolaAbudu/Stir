@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainHostActivity">
+    tools:context=".MainHostActivity"
+    android:id="@+id/main_host_container">
 
 </android.support.constraint.ConstraintLayout>
