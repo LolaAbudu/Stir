@@ -10,7 +10,9 @@
         android:id="@+id/select_image_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Select image" />
+        android:background="@drawable/round_button"
+        android:text="Select image"
+        android:textColor="@color/colorWhiteText" />
 
     <EditText
         android:id="@+id/image_name_editText"
@@ -45,7 +47,9 @@
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="48dp"
-        android:text="Upload" />
+        android:background="@drawable/round_button"
+        android:text="Upload"
+        android:textColor="@color/colorWhiteText" />
 
     <TextView
         android:id="@+id/home_textView"

@@ -10,7 +10,7 @@ public class MainHostActivity extends AppCompatActivity implements HomeListener{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_host);
 
-        replaceWithHomeFragment();
+        replaceWithImageUploadFragment();
     }
 
     @Override
@@ -19,6 +19,15 @@ public class MainHostActivity extends AppCompatActivity implements HomeListener{
                 .beginTransaction()
                 .setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit)
                 .replace(R.id.main_host_container, HomeFragment.newInstance())
+                .commit();
+    }
+
+    @Override
+    public void replaceWithImageUploadFragment() {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit)
+                .replace(R.id.main_host_container, ImageUploadFragment.newInstance())
                 .commit();
     }
 }
