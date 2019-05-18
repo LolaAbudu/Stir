@@ -5,7 +5,8 @@
     android:id="@+id/main_host_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainHostActivity">
+    tools:context=".MainHostActivity"
+    android:id="@+id/main_host_container">
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/bottom_navigation"

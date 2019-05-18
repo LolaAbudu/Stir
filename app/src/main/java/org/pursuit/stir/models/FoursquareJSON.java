@@ -8,6 +8,10 @@ public class FoursquareJSON {
     // A response object within the JSON.
     FoursquareResponse response;
 
+    public FoursquareResponse getResponse() {
+        return response;
+    }
+
     public class FoursquareResponse {
 
         // A group object within the response.
@@ -43,8 +47,6 @@ public class FoursquareJSON {
                     // The name of the venue.
                     String name;
 
-                    FourSquarePhoto photos;
-
                     // A location object within the venue.
                     FoursquareLocation location;
 
@@ -52,23 +54,43 @@ public class FoursquareJSON {
                         return id;
                     }
 
+                    public String getName() {
+                        return name;
+                    }
+
+                    public FoursquareLocation getLocation() {
+                        return location;
+                    }
+
                     public class FoursquareLocation {
 
                         // The address of the location.
-                        String address;
+                        private String address;
 
                         // The latitude of the location.
-                        double lat;
+                        private double lat;
 
                         // The longitude of the location.
-                        double lng;
+                        private double lng;
 
                         // The distance of the location, calculated from the specified location.
-                        int distance;
+                        private int distance;
 
-                    }
+                        public String getAddress() {
+                            return address;
+                        }
 
-                    private class FourSquarePhoto {
+                        public double getLat() {
+                            return lat;
+                        }
+
+                        public double getLng() {
+                            return lng;
+                        }
+
+                        public int getDistance() {
+                            return distance;
+                        }
                     }
                 }
 

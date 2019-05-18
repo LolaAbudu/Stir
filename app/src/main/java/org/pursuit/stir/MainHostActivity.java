@@ -7,11 +7,11 @@ import android.widget.Toast;
 
 public class MainHostActivity extends AppCompatActivity implements MainHostListener{
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_host);
+
         BottomNavigationView navigationView = findViewById(R.id.bottom_navigation);
         navigationView.setOnNavigationItemSelectedListener(menuItem -> {
             switch (menuItem.getItemId()) {
@@ -62,5 +62,14 @@ public class MainHostActivity extends AppCompatActivity implements MainHostListe
 //                .setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit)
 //                .replace(R.id.main_host_container, Shop.newInstance())
 //                .commit();
+
+    @Override
+    public void replaceWithImageUploadFragment() {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit)
+                .replace(R.id.main_host_container, ImageUploadFragment.newInstance())
+                .commit();
+
     }
 }
