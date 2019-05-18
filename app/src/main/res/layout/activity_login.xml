@@ -20,8 +20,6 @@
     <EditText
         style="@style/AppEditText"
         android:id="@+id/login_email_editText"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
         android:hint="@string/login_email_hint"
         android:inputType="text"
         app:layout_constraintBottom_toTopOf="@+id/login_password_editText"
@@ -32,8 +30,6 @@
     <EditText
         style="@style/AppEditText"
         android:id="@+id/login_password_editText"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
         android:hint="@string/login_password_hint"
         android:inputType="textPassword"
         app:layout_constraintBottom_toTopOf="@+id/login_button"
