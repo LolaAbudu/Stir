@@ -25,6 +25,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import org.pursuit.stir.models.FoursquareJSON;
 import org.pursuit.stir.network.FoursquareService;
 import org.pursuit.stir.network.RetrofitSingleton;
+import org.pursuit.stir.shoprv.ShopAdapter;
 
 import java.util.List;
 
@@ -43,6 +44,7 @@ public class ShopFragment extends Fragment
     private GoogleApiClient googleApiClient;
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
+    private ShopAdapter adapter;
 
     private String foursquareClientID;
     private String foursquareClientSecret;
@@ -109,30 +111,45 @@ public class ShopFragment extends Fragment
                                         FoursquareJSON.FoursquareResponse.FoursquareGroup fg = fr.getGroup();
                                         List<FoursquareJSON.FoursquareResponse.FoursquareGroup.FoursquareResults> foursquareResultsList = fg.getResults();
 
+                                        adapter = new ShopAdapter(foursquareResultsList);
+                                        recyclerView.setAdapter(adapter);
+
                                     }
 
                                     @Override
                                     public void onFailure(Call<FoursquareJSON> call, Throwable t) {
-
+                                        Toast.makeText(getContext(), "Oops, Stir can't connect to Foursquare's servers", Toast.LENGTH_SHORT).show();
+                                        getActivity().finish();
                                     }
                                 });
+                            } else {
+                                Toast.makeText(getContext(), "Oops, Stir can't determine your current location", Toast.LENGTH_SHORT).show();
+                                getActivity().finish();
                             }
                         }
                     });
-
-
-            // TODO: Evelyn: Add calls
-
         }
-
     }
 
     @Override
-    public void onConnectionSuspended(int i) {}
+    public void onResume() {
+        super.onResume();
+        googleApiClient.connect();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        googleApiClient.disconnect();
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+    }
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-        Toast.makeText(getActivity(), "Stir can't connect to Google's servers", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), "Oops, Stir can't connect to Google's servers", Toast.LENGTH_SHORT).show();
         getActivity().finish();
     }
 }

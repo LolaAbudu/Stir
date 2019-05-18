@@ -32,9 +32,9 @@ public class ShopViewHolder extends RecyclerView.ViewHolder {
         ButterKnife.bind(this, itemView);
     }
 
-    public void onBind(final FoursquareJSON.FoursquareResponse.FoursquareGroup.FoursquareResults.FoursquareVenue foursquareVenue) {
-        shopName.setText(foursquareVenue.getName());
-        distance.setText(foursquareVenue.getLocation().getDistance());
+    public void onBind(final FoursquareJSON.FoursquareResponse.FoursquareGroup.FoursquareResults results) {
+        shopName.setText(results.getVenue().getName());
+        distance.setText(results.getVenue().getLocation().getDistance());
         //TODO: Implement photo call here or in shop fragment?
         Picasso.get()
                 .load(R.mipmap.ic_launcher)

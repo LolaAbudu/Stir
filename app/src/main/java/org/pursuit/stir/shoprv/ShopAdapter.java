@@ -13,9 +13,9 @@ import java.util.List;
 
 public class ShopAdapter extends RecyclerView.Adapter<ShopViewHolder> {
 
-    private List<FoursquareJSON.FoursquareResponse.FoursquareGroup.FoursquareResults.FoursquareVenue> resultsList;
+    private List<FoursquareJSON.FoursquareResponse.FoursquareGroup.FoursquareResults> resultsList;
 
-    public ShopAdapter(List<FoursquareJSON.FoursquareResponse.FoursquareGroup.FoursquareResults.FoursquareVenue> resultsList) {
+    public ShopAdapter(List<FoursquareJSON.FoursquareResponse.FoursquareGroup.FoursquareResults> resultsList) {
         this.resultsList = resultsList;
     }
     @NonNull
