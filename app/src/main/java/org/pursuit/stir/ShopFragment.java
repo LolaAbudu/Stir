@@ -74,8 +74,8 @@ public class ShopFragment extends Fragment
                 .addApi(LocationServices.API)
                 .build();
         // TODO: Evelyn replace these IDs with string resource to actual thing
-        foursquareClientID = "1234";
-        foursquareClientSecret = "123345";
+        foursquareClientID = BuildConfig.FoursquareClientID;
+        foursquareClientSecret = BuildConfig.FoursquareClientSecret;
     }
 
     @Override
