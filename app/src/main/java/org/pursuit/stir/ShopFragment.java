@@ -1,16 +1,21 @@
 package org.pursuit.stir;
 
+
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,36 +29,65 @@ import com.google.android.gms.tasks.OnSuccessListener;
 
 import org.pursuit.stir.models.FourSquareVenuePhoto;
 import org.pursuit.stir.models.FoursquareJSON;
+import org.pursuit.stir.models.FoursquareJSON.FoursquareResponse.FoursquareGroup.FoursquareResults;
+import org.pursuit.stir.models.FoursquareJSON.FoursquareResponse.FoursquareGroup.FoursquareResults.FoursquareVenue;
 import org.pursuit.stir.network.FoursquareService;
 import org.pursuit.stir.network.RetrofitSingleton;
 import org.pursuit.stir.shoprv.ShopAdapter;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
+import io.reactivex.ObservableSource;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.BiFunction;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
+
+/**
+ * A simple {@link Fragment} subclass.
+ */
 public class ShopFragment extends Fragment
-        implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+        implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
+                    MapListener{
 
     private GoogleApiClient googleApiClient;
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
     private ShopAdapter adapter;
+    private static final int PERMISSION_ACCESS_FINE_LOCATION = 1;
+
 
     private String foursquareClientID;
     private String foursquareClientSecret;
-    private List<FoursquareJSON.FoursquareResponse.FoursquareGroup.FoursquareResults> foursquareResultsList;
+    private List<FoursquareResults> foursquareResultsList;
+    private static final String TAG = "evelyn";
+
+    private MainHostListener mainHostListener;
 
     public ShopFragment() {
         // Required empty public constructor
     }
 
     public static ShopFragment newInstance() {
-        ShopFragment fragment = new ShopFragment();
-        return fragment;
+        return new ShopFragment();
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof HomeListener) {
+            mainHostListener = (MainHostListener) context;
+        }
     }
 
     @Override
@@ -66,9 +100,12 @@ public class ShopFragment extends Fragment
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        if (ContextCompat.checkSelfPermission(view.getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(getActivity(), new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSION_ACCESS_FINE_LOCATION);
+        }
         recyclerView = view.findViewById(R.id.shop_recyclerview);
         recyclerView.setHasFixedSize(true);
-        linearLayoutManager = new GridLayoutManager(view.getContext(), 2);
+        linearLayoutManager = new LinearLayoutManager(view.getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
 
         googleApiClient = new GoogleApiClient.Builder(view.getContext())
@@ -76,6 +113,7 @@ public class ShopFragment extends Fragment
                 .addOnConnectionFailedListener(this)
                 .addApi(LocationServices.API)
                 .build();
+        Log.d(TAG, "onViewCreated: " + googleApiClient.isConnected());
 
         foursquareClientID = BuildConfig.FoursquareClientID;
         foursquareClientSecret = BuildConfig.FoursquareClientSecret;
@@ -95,37 +133,81 @@ public class ShopFragment extends Fragment
                         public void onSuccess(Location location) {
                             if (location != null) {
                                 String userLastLocation = location.getLatitude() + "," + location.getLongitude();
-                                double userLocationAccuracy = location.getAccuracy();
-                                RetrofitSingleton.getInstance()
-                                        .create(FoursquareService.class)
-                                        .searchCoffee(
-                                                foursquareClientID,
-                                                foursquareClientSecret,
-                                                userLastLocation,
-                                                userLocationAccuracy)
-                                        .subscribeOn(Schedulers.io())
-                                        .observeOn(AndroidSchedulers.mainThread())
-                                        .subscribe(foursquareJSON -> {
-                                            FoursquareJSON.FoursquareResponse fr = foursquareJSON.getResponse();
-                                            FoursquareJSON.FoursquareResponse.FoursquareGroup fg = fr.getGroup();
-                                            foursquareResultsList = fg.getResults();
-                                            adapter = new ShopAdapter(foursquareResultsList);
-                                            recyclerView.setAdapter(adapter);
-                                        }, throwable ->
-                                                Toast.makeText(getContext(), "Oops, Stir can't connect to Foursquare's servers", Toast.LENGTH_SHORT).show());
-                                getActivity().finish();
 
-                                for (int i = 0; i < foursquareResultsList.size(); i++) {
-                                    FoursquareJSON.FoursquareResponse.FoursquareGroup.FoursquareResults.FoursquareVenue venue = foursquareResultsList.get(i).getVenue();
-                                    final String venueId = venue.getId();
-                                }
-                                Observable.fromIterable(foursquareResultsList);
-//                                        .flatMap();
+                                double userLocationAccuracy = location.getAccuracy();
+
+                                FoursquareService foursquareService = RetrofitSingleton.getInstance()
+                                        .create(FoursquareService.class);
+
+                                Call<FoursquareJSON> coffeeCall = foursquareService.searchCoffee(
+                                        foursquareClientID,
+                                        foursquareClientSecret,
+                                        userLastLocation,
+                                        userLocationAccuracy);
+                                coffeeCall.enqueue(new Callback<FoursquareJSON>() {
+                                    @Override
+                                    public void onResponse(Call<FoursquareJSON> call, Response<FoursquareJSON> response) {
+
+                                        // Gets the venue object from the JSON response
+                                        FoursquareJSON fjson = response.body();
+                                        FoursquareJSON.FoursquareResponse fr = fjson.getResponse();
+                                        FoursquareJSON.FoursquareResponse.FoursquareGroup fg = fr.getGroup();
+                                        List<FoursquareJSON.FoursquareResponse.FoursquareGroup.FoursquareResults> frs = fg.getResults();
+
+                                        // Displays the results in the RecyclerView
+                                        adapter = new ShopAdapter(frs, mainHostListener);
+                                        recyclerView.setAdapter(adapter);
+                                    }
+
+                                    @Override
+                                    public void onFailure(Call<FoursquareJSON> call, Throwable t) {
+                                        Log.d(TAG, "onFailure: " + t.toString());
+                                    }
+                                });
+
+
+//                                foursquareService
+//                                        .searchCoffee(
+//                                                foursquareClientID,
+//                                                foursquareClientSecret,
+//                                                userLastLocation,
+//                                                userLocationAccuracy)
+//                                        .flatMapIterable(foursquareJSON -> foursquareJSON.getResponse().getGroup().getResults())
+//                                        .flatMap(result -> foursquareService.getCoffeeVenuePhoto(result.getVenue().getId(), foursquareClientID, foursquareClientSecret),
+//                                                (results, photo) -> {
+//                                                    Log.d(TAG, "onSuccess: " + results.getVenue().getName() + photo.getResponse().getPhotos().getItems().get(0).getSuffix());
+//                                                    return new Pair(results, photo);
+//                                                }
+//                                        )
+//                                        .toList()
+//                                        .subscribeOn(Schedulers.io())
+//                                        .observeOn(AndroidSchedulers.mainThread())
+//                                        .subscribe(new Consumer<List<Pair>>() {
+//                                            @Override
+//                                            public void accept(List<Pair> pairList) throws Exception {
+//                                                adapter = new ShopAdapter(pairList);
+//                                                recyclerView.setAdapter(adapter);
+//                                            }
+//                                        }, new Consumer<Throwable>() {
+//                                            @Override
+//                                            public void accept(Throwable throwable) throws Exception {
+//                                                Toast.makeText(getContext(), "Oops, Stir can't connect to Foursquare's servers", Toast.LENGTH_SHORT).show();
+//                                                Log.d(TAG, "accept: " + throwable.toString());
+//                                            }
+//                                        });
+////                                getActivity().finish();
+//
 //                            } else {
 //                                Toast.makeText(getContext(), "Oops, Stir can't determine your current location", Toast.LENGTH_SHORT).show();
-//                                getActivity().finish();
+////                                getActivity().finish();
 //                            }
+//                        }
+//                    });
+                            } else {
+                                Toast.makeText(getContext(), "There was an error with this request", Toast.LENGTH_SHORT).show();
+                                Log.d("evelyn", "onConnected: error with request");
                             }
+
                         }
                     });
         }
@@ -153,11 +235,10 @@ public class ShopFragment extends Fragment
         getActivity().finish();
     }
 
-    public Observable<FourSquareVenuePhoto> getStringsAfterVenueIDLookup(String venue_id) {
-        FoursquareService foursquareService = RetrofitSingleton.getInstance().create(FoursquareService.class);
-        return foursquareService.getCoffeeVenuePhoto(venue_id, foursquareClientID, foursquareClientSecret)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .timeout(10, TimeUnit.SECONDS);
+    @Override
+    public void moveToMap(FoursquareVenue foursquareVenue) {
+
+
+
     }
 }

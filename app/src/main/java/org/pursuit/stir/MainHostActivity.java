@@ -7,6 +7,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.widget.Toast;
 
+import org.pursuit.stir.models.FoursquareJSON;
+
 public class MainHostActivity extends AppCompatActivity implements MainHostListener {
 
     @Override
@@ -82,4 +84,15 @@ public class MainHostActivity extends AppCompatActivity implements MainHostListe
                 .replace(R.id.main_host_container, ImageUploadFragment.newInstance())
                 .commit();
     }
+
+    @Override
+    public void moveToMap(FoursquareJSON.FoursquareResponse.FoursquareGroup.FoursquareResults.FoursquareVenue foursquareVenue) {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit)
+                .replace(R.id.main_host_container, MapFragment.newInstance(foursquareVenue))
+                .commit();
+
+    }
 }
+

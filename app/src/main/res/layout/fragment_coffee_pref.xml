@@ -106,5 +106,5 @@
         android:id="@+id/coff_pref_continue_button"
         style="@style/AppButton"
         android:text="continue"/>
-
+  
 </LinearLayout>

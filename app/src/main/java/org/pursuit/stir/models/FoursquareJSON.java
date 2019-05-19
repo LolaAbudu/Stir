@@ -1,9 +1,10 @@
 package org.pursuit.stir.models;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FoursquareJSON {
+public class FoursquareJSON implements Serializable {
 
     // A response object within the JSON.
     FoursquareResponse response;
@@ -39,7 +40,7 @@ public class FoursquareJSON {
                     return venue;
                 }
 
-                public class FoursquareVenue {
+                public class FoursquareVenue implements Serializable {
 
                     // The ID of the venue.
                     String id;

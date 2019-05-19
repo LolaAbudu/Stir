@@ -4,7 +4,7 @@ import java.util.List;
 
 public class FourSquareVenuePhoto {
 
-    FourSquareResponse response;
+    private FourSquareResponse response;
 
     public FourSquareResponse getResponse() {
         return response;
@@ -12,7 +12,7 @@ public class FourSquareVenuePhoto {
 
     public class FourSquareResponse {
 
-        FourSquarePhotoResponse photos;
+        private FourSquarePhotoResponse photos;
 
         public FourSquarePhotoResponse getPhotos() {
             return photos;
@@ -20,12 +20,24 @@ public class FourSquareVenuePhoto {
 
         public class FourSquarePhotoResponse {
 
-            List<PhotoUserAccount> items;
+            private List<PhotoUserAccount> items;
+
+            public List<PhotoUserAccount> getItems() {
+                return items;
+            }
 
             public class PhotoUserAccount {
 
-                String prefix;
-                String suffix;
+                private String prefix;
+                private String suffix;
+
+                public String getPrefix() {
+                    return prefix;
+                }
+
+                public String getSuffix() {
+                    return suffix;
+                }
             }
         }
     }
