@@ -7,15 +7,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
 import org.pursuit.stir.HomeListener;
+import org.pursuit.stir.MainHostListener;
 import org.pursuit.stir.R;
 import org.pursuit.stir.models.ImageUpload;
 
-public class HomeViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener,
+public class HomeViewHolder extends RecyclerView.ViewHolder implements
         View.OnCreateContextMenuListener, MenuItem.OnMenuItemClickListener {
 
     private ImageView imageview;
@@ -27,11 +27,12 @@ public class HomeViewHolder extends RecyclerView.ViewHolder implements View.OnCl
 
         imageview = itemView.findViewById(R.id.home_itemview_image_view);
 
-        itemView.setOnClickListener(this);
+//        itemView.setOnClickListener(this);
         itemView.setOnCreateContextMenuListener(this);
+
     }
 
-    public void onBind(ImageUpload imageUpload) {
+    public void onBind(ImageUpload imageUpload, MainHostListener mainHostListener) {
 
         Picasso.get()
                 .load(imageUpload.getImageUrl())
@@ -39,20 +40,17 @@ public class HomeViewHolder extends RecyclerView.ViewHolder implements View.OnCl
                 .fit()
                 .centerCrop()
                 .into(imageview);
+
+        imageview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mainHostListener.moveToDetailFragment();
+            }
+        });
     }
 
     public void setOnItemClickListener(HomeListener listener){
         this.homeListener = listener;
-    }
-
-    @Override
-    public void onClick(View v) {
-        if(homeListener != null){
-            int position = getAdapterPosition();
-            if(position != RecyclerView.NO_POSITION){
-                homeListener.onItemClick(position);
-            }
-        }
     }
 
     @Override

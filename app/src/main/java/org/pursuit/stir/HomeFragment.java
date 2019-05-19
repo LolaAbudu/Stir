@@ -1,6 +1,7 @@
 package org.pursuit.stir;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -39,6 +40,7 @@ public class HomeFragment extends Fragment implements HomeListener{
 
     private DatabaseReference databaseReference;
     private List<ImageUpload> imageList;
+    private MainHostListener mainHostListener;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -53,6 +55,13 @@ public class HomeFragment extends Fragment implements HomeListener{
         return fragment;
     }
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof MainHostListener){
+            mainHostListener = (MainHostListener) context;
+        }
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -87,7 +96,7 @@ public class HomeFragment extends Fragment implements HomeListener{
                     imageList.add(imageUpload);
                 }
 
-                homeAdapter = new HomeAdapter(getContext(), imageList);
+                homeAdapter = new HomeAdapter(getContext(), imageList, mainHostListener);
                 recyclerView.setAdapter(homeAdapter);
 
                 //homeAdapter.setOnItemClickListener(HomeFragment.this);
@@ -116,5 +125,11 @@ public class HomeFragment extends Fragment implements HomeListener{
     public void onDeleteClick(int position) {
         Toast.makeText(getContext(), "Image Deleted" + position, Toast.LENGTH_SHORT).show();
         Log.d("delete", "image deleted");
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mainHostListener = null;
     }
 }

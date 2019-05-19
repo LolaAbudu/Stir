@@ -1,6 +1,5 @@
 package org.pursuit.stir;
 
-import org.pursuit.stir.models.FoursquareJSON;
 import org.pursuit.stir.models.FoursquareJSON.FoursquareResponse.FoursquareGroup.FoursquareResults.FoursquareVenue;
 
 public interface MainHostListener {
@@ -14,4 +13,6 @@ public interface MainHostListener {
     void replaceWithImageUploadFragment();
 
     void moveToMap(FoursquareVenue foursquareVenue);
+
+    void moveToDetailFragment();
 }

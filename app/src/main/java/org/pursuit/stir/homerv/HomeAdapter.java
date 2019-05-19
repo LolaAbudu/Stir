@@ -6,7 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
-import org.pursuit.stir.HomeListener;
+import org.pursuit.stir.MainHostListener;
 import org.pursuit.stir.R;
 import org.pursuit.stir.models.ImageUpload;
 
@@ -16,13 +16,12 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeViewHolder> {
 
     private Context context;
     private List<ImageUpload> imageList;
+    private MainHostListener mainHostListener;
 
-    private HomeListener homeListener;
-
-
-    public HomeAdapter(Context context, List<ImageUpload> imageList) {
+    public HomeAdapter(Context context, List<ImageUpload> imageList, MainHostListener mainHostListener) {
         this.context = context;
         this.imageList = imageList;
+        this.mainHostListener = mainHostListener;
     }
 
     @NonNull
@@ -33,15 +32,11 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull HomeViewHolder homeViewHolder, int position) {
-        homeViewHolder.onBind(imageList.get(position));
+        homeViewHolder.onBind(imageList.get(position), mainHostListener);
     }
 
     @Override
     public int getItemCount() {
         return imageList.size();
-    }
-
-    public void setOnItemClickListener(HomeListener listener){
-        this.homeListener = listener;
     }
 }
