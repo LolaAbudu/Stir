@@ -5,32 +5,34 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
+import org.pursuit.stir.models.FoursquareJSON;
+
 public class MainHostActivity extends AppCompatActivity implements MainHostListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_host);
+        replaceWithHomeFragment();
 
         BottomNavigationView navigationView = findViewById(R.id.bottom_navigation);
         navigationView.setOnNavigationItemSelectedListener(menuItem -> {
             switch (menuItem.getItemId()) {
                 case R.id.navigation_home:
                     Toast.makeText(this, "home selected", Toast.LENGTH_SHORT).show();
-                    getSupportFragmentManager()
-                            .beginTransaction()
-                            .setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit)
-                            .replace(R.id.main_host_container, DetailFragment.newInstance())
-                            .commit();
+                    replaceWithHomeFragment();
                     break;
                 case R.id.navigation_profile:
                     Toast.makeText(this, "profile selected", Toast.LENGTH_SHORT).show();
+                    replaceWithProfileFragment();
                     break;
                 case R.id.navigation_shops:
                     Toast.makeText(this, "shops selected", Toast.LENGTH_SHORT).show();
+                    replaceWithShopFragment();
                     break;
                 case R.id.navigation_photo_upload:
                     Toast.makeText(this, "add photo selected", Toast.LENGTH_SHORT).show();
+                    replaceWithImageUploadFragment();
                     break;
             }
             return true;
@@ -57,11 +59,11 @@ public class MainHostActivity extends AppCompatActivity implements MainHostListe
 
     @Override
     public void replaceWithShopFragment() {
-//        getSupportFragmentManager()
-//                .beginTransaction()
-//                .setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit)
-//                .replace(R.id.main_host_container, Shop.newInstance())
-//                .commit();
+        getSupportFragmentManager()
+                .beginTransaction()
+                .setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit)
+                .replace(R.id.main_host_container, ShopFragment.newInstance())
+                .commit();
 
         }
 
@@ -72,5 +74,15 @@ public class MainHostActivity extends AppCompatActivity implements MainHostListe
                 .setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit)
                 .replace(R.id.main_host_container, ImageUploadFragment.newInstance())
                 .commit();
+    }
+
+    @Override
+    public void moveToMap(FoursquareJSON.FoursquareResponse.FoursquareGroup.FoursquareResults.FoursquareVenue foursquareVenue) {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit)
+                .replace(R.id.main_host_container, MapFragment.newInstance(foursquareVenue))
+                .commit();
+
     }
 }

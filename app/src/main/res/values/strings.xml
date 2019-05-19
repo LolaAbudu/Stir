@@ -7,4 +7,7 @@
     <string name="login_sign_up_textview">sign up</string>
     <string name="detail_posted_by_text">Posted by:</string>
 
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>

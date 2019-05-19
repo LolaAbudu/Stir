@@ -16,7 +16,7 @@ public class RetrofitSingleton {
             instance = new Retrofit.Builder()
                     .baseUrl(FOUR_SQUARE_BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create())
-                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+//                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .build();
         }
         return instance;
