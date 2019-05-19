@@ -94,5 +94,14 @@ public class MainHostActivity extends AppCompatActivity implements MainHostListe
                 .commit();
 
     }
+
+    @Override
+    public void moveToDetailFragment() {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit)
+                .replace(R.id.main_host_container, DetailFragment.newInstance())
+                .commit();
+    }
 }
 
