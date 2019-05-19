@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
+import org.pursuit.stir.HomeListener;
 import org.pursuit.stir.R;
 import org.pursuit.stir.models.ImageUpload;
 
@@ -15,6 +16,9 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeViewHolder> {
 
     private Context context;
     private List<ImageUpload> imageList;
+
+    private HomeListener homeListener;
+
 
     public HomeAdapter(Context context, List<ImageUpload> imageList) {
         this.context = context;
@@ -35,5 +39,9 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeViewHolder> {
     @Override
     public int getItemCount() {
         return imageList.size();
+    }
+
+    public void setOnItemClickListener(HomeListener listener){
+        this.homeListener = listener;
     }
 }

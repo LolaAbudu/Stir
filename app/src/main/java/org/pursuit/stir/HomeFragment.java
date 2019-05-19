@@ -7,9 +7,11 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -28,10 +30,12 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements HomeListener{
 
     private RecyclerView recyclerView;
     private HomeAdapter homeAdapter;
+
+    private ProgressBar progressCircle;
 
     private DatabaseReference databaseReference;
     private List<ImageUpload> imageList;
@@ -61,6 +65,54 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        recyclerView = view.findViewById(R.id.home_itemview_recycler_view);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
 
+        progressCircle = view.findViewById(R.id.home_itemview_progress_circle);
+
+        imageList = new ArrayList<>();
+
+        databaseReference = FirebaseDatabase.getInstance().getReference("imageUploads");
+
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for(DataSnapshot postSnapShot : dataSnapshot.getChildren()){
+                    Log.d(HomeFragment.class.getName(), "onDataChange " + postSnapShot.getValue());
+
+                    ImageUpload imageUpload = postSnapShot.getValue(ImageUpload.class);
+                    imageList.add(imageUpload);
+                }
+
+                homeAdapter = new HomeAdapter(getContext(), imageList);
+                recyclerView.setAdapter(homeAdapter);
+
+                homeAdapter.setOnItemClickListener(HomeFragment.this);
+                //homeAdapter.notifyDataSetChanged();
+
+                progressCircle.setVisibility(View.INVISIBLE);
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(getContext(), databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+
+                progressCircle.setVisibility(View.INVISIBLE);
+            }
+        });
+
+    }
+
+    @Override
+    public void onItemClick(int position) {
+        //do nothing
+    }
+
+    @Override
+    public void onDeleteClick(int position) {
+        Toast.makeText(getContext(), "Image Deleted" + position, Toast.LENGTH_SHORT).show();
+        Log.d("delete", "image deleted");
     }
 }
