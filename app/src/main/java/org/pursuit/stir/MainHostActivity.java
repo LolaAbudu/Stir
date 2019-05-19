@@ -3,6 +3,8 @@ package org.pursuit.stir;
 import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.widget.Toast;
 
 import org.pursuit.stir.models.FoursquareJSON;
@@ -37,6 +39,13 @@ public class MainHostActivity extends AppCompatActivity implements MainHostListe
             }
             return true;
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_settings, menu);
+        return true;
     }
 
     @Override
