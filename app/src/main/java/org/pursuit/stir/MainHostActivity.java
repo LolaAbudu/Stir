@@ -9,8 +9,6 @@ import android.widget.Toast;
 
 public class MainHostActivity extends AppCompatActivity implements MainHostListener {
 
-    private MainHostListener mainHostListener;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
