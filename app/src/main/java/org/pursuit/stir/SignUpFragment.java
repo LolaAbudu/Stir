@@ -5,11 +5,13 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -36,10 +38,15 @@ public class SignUpFragment extends Fragment {
     EditText passwordEditText;
     @BindView(R.id.sign_up_confirm_editText)
     EditText confirmEditText;
-    @BindView(R.id.sign_up_birth_editText)
-    EditText dateOfBirthEditText;
+    @BindView(R.id.sign_up_checkbox)
+    CheckBox acknowledgeCheckbox;
     @BindView(R.id.sign_up_continue_button)
     Button continueButton;
+
+    private String username;
+    private String email;
+    private String password;
+    private String confirm;
 
     public SignUpFragment() {
     }
@@ -76,7 +83,8 @@ public class SignUpFragment extends Fragment {
         continueButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                signUpNewUsers();
+                signUpNewUsers(email, password);
+                signUpListener.replaceWithCoffeePrefFragment();
             }
         });
     }
@@ -88,13 +96,49 @@ public class SignUpFragment extends Fragment {
 
     }
 
-    public void signUpNewUsers() {
-        //TODO: check for user's confirm password logic
-        String email = emailEditText.getText().toString();
-        String password = passwordEditText.getText().toString();
-        String confirmPW = confirmEditText.getText().toString();
-        if (email != null && password != null) {
-            if (password.equals(confirmPW)) {
+    private boolean validateUserInput() {
+        boolean valid = true;
+        username = usernameEditText.getText().toString();
+        email = emailEditText.getText().toString();
+        password = passwordEditText.getText().toString();
+        confirm = confirmEditText.getText().toString();
+        if (TextUtils.isEmpty(username)) {
+            usernameEditText.setError("Required.");
+            valid = false;
+        } else {
+            usernameEditText.setError(null);
+        }
+        if (TextUtils.isEmpty(email)) {
+            emailEditText.setError("Required.");
+            valid = false;
+        } else {
+            emailEditText.setError(null);
+        }
+        if (TextUtils.isEmpty(password)) {
+            passwordEditText.setError("Required.");
+            valid = false;
+        } else {
+            passwordEditText.setError(null);
+        }
+        if (TextUtils.isEmpty(confirm)) {
+            confirmEditText.setError("Required.");
+            valid = false;
+        } else {
+            confirmEditText.setError(null);
+        }
+        if (!acknowledgeCheckbox.isChecked()) {
+            acknowledgeCheckbox.setError("Required.");
+            valid = false;
+        } else {
+            acknowledgeCheckbox.setError(null);
+        }
+        return valid;
+    }
+
+    public void signUpNewUsers(String email, String password) {
+        if (!validateUserInput()) {
+            return;
+        }
                 firebaseAuth.createUserWithEmailAndPassword(email, password)
                         .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
                             @Override
@@ -102,7 +146,6 @@ public class SignUpFragment extends Fragment {
                                 if (task.isSuccessful()) {
                                     // Sign in success, update UI with the signed-in user's information
                                     Log.d(TAG, "createUserWithEmail:success");
-                                    signUpListener.replaceWithCoffeePrefFragment();
                                 } else {
                                     // If sign in fails, display a message to the user.
                                     Log.w(TAG, "createUserWithEmail:failure", task.getException());
@@ -111,9 +154,5 @@ public class SignUpFragment extends Fragment {
                                 }
                             }
                         });
-            }else {
-                Toast.makeText(getContext(), "Oops! Password and Confirm Password do not match.",Toast.LENGTH_SHORT).show();
-            }
-        }
     }
 }

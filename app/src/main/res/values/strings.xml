@@ -6,5 +6,6 @@
     <string name="login_button_text">LOGIN</string>
     <string name="login_sign_up_textview">sign up</string>
     <string name="detail_posted_by_text">Posted by:</string>
+    <string name="sign_up_checkbox_acknowledgement">I acknowledge I am 18 years or older.</string>
 
 </resources>

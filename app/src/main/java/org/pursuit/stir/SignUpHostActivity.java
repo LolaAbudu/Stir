@@ -2,24 +2,17 @@ package org.pursuit.stir;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Menu;
-import android.view.MenuInflater;
 
 public class SignUpHostActivity extends AppCompatActivity implements SignUpListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setTheme(R.style.LoginTheme);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up_host);
         replaceWithSignUpFragment();
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_settings, menu);
-        return true;
-    }
 
     @Override
     public void replaceWithSignUpFragment(){
