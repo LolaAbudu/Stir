@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".CoffeePrefFragment" >
+    tools:context=".CoffeePrefFragment">
 
     <TextView
         android:id="@+id/coff_pref_quest_one"
@@ -106,4 +106,5 @@
         android:id="@+id/coff_pref_continue_button"
         style="@style/AppButton"
         android:text="continue"/>
+
 </LinearLayout>

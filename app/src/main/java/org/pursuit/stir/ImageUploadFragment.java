@@ -59,7 +59,7 @@ public class ImageUploadFragment extends Fragment {
 
     private StorageTask uploadStorageTask;
 
-    private HomeListener homeListener;
+    private MainHostListener homeListener;
 
 
     public ImageUploadFragment() {
@@ -79,7 +79,7 @@ public class ImageUploadFragment extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         if (context instanceof SignUpListener) {
-            homeListener = (HomeListener) context;
+            homeListener = (MainHostListener) context;
         }
     }
 

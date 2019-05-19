@@ -2,7 +2,7 @@ package org.pursuit.stir;
 
 public interface HomeListener {
 
-    void replaceWithHomeFragment();
+    void onItemClick(int position);
 
-    void replaceWithImageUploadFragment();
+    void onDeleteClick(int position);
 }
