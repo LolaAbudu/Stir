@@ -1,6 +1,5 @@
 package org.pursuit.stir;
 
-
 import android.annotation.SuppressLint;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -36,10 +35,6 @@ import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
-
-/**
- * A simple {@link Fragment} subclass.
- */
 public class ShopFragment extends Fragment
         implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
@@ -56,7 +51,7 @@ public class ShopFragment extends Fragment
         // Required empty public constructor
     }
 
-    public static ShopFragment newInstance(){
+    public static ShopFragment newInstance() {
         ShopFragment fragment = new ShopFragment();
         return fragment;
     }
@@ -101,7 +96,6 @@ public class ShopFragment extends Fragment
                             if (location != null) {
                                 String userLastLocation = location.getLatitude() + "," + location.getLongitude();
                                 double userLocationAccuracy = location.getAccuracy();
-
                                 RetrofitSingleton.getInstance()
                                         .create(FoursquareService.class)
                                         .searchCoffee(
@@ -125,21 +119,16 @@ public class ShopFragment extends Fragment
                                     FoursquareJSON.FoursquareResponse.FoursquareGroup.FoursquareResults.FoursquareVenue venue = foursquareResultsList.get(i).getVenue();
                                     final String venueId = venue.getId();
                                 }
-
                                 Observable.fromIterable(foursquareResultsList);
 //                                        .flatMap();
-
-//
 //                            } else {
 //                                Toast.makeText(getContext(), "Oops, Stir can't determine your current location", Toast.LENGTH_SHORT).show();
 //                                getActivity().finish();
 //                            }
-
                             }
                         }
                     });
         }
-
     }
 
     @Override
