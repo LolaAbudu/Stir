@@ -78,6 +78,8 @@ public class HomeFragment extends Fragment implements HomeListener{
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                imageList.clear();
+
                 for(DataSnapshot postSnapShot : dataSnapshot.getChildren()){
                     Log.d(HomeFragment.class.getName(), "onDataChange " + postSnapShot.getValue());
 
@@ -88,8 +90,8 @@ public class HomeFragment extends Fragment implements HomeListener{
                 homeAdapter = new HomeAdapter(getContext(), imageList);
                 recyclerView.setAdapter(homeAdapter);
 
-                homeAdapter.setOnItemClickListener(HomeFragment.this);
-                //homeAdapter.notifyDataSetChanged();
+                //homeAdapter.setOnItemClickListener(HomeFragment.this);
+                homeAdapter.notifyDataSetChanged();
 
                 progressCircle.setVisibility(View.INVISIBLE);
 

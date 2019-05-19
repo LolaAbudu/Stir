@@ -24,6 +24,7 @@ import android.widget.Toast;
 import com.google.android.gms.auth.api.signin.internal.Storage;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -185,8 +186,12 @@ public class ImageUploadFragment extends Fragment {
                                 }
                             }, 500);
 
+                            Task<Uri> urlTask = taskSnapshot.getStorage().getDownloadUrl();
+                            while(!urlTask.isSuccessful());
+                            Uri downloadUrl = urlTask.getResult();
+
                             Toast.makeText(getContext(), "Image Upload Successful", Toast.LENGTH_SHORT).show();
-                            ImageUpload imageUpload = new ImageUpload(imageNameEditText.getText().toString().trim(), taskSnapshot.getUploadSessionUri().toString());
+                            ImageUpload imageUpload = new ImageUpload(imageNameEditText.getText().toString().trim(), downloadUrl.toString());
                             String uploadId = databaseReference.push().getKey();
                             databaseReference.child(uploadId).setValue(imageUpload);
                         }
