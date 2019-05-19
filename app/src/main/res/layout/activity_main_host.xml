@@ -15,7 +15,7 @@
         app:itemBackground="@color/colorPrimary"
         app:itemIconSize="36dp"
         android:scrollIndicators="start"
-        app:itemIconTint="#fff"
+        app:itemIconTint="@drawable/bottom_nav_bar_icon_selector"
         app:menu="@menu/bottom_nav_bar" />
 
 </RelativeLayout>

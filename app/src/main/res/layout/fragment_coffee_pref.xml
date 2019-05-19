@@ -3,7 +3,108 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CoffeePrefFragment"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".CoffeePrefFragment">
 
+    <TextView
+        android:id="@+id/coff_pref_quest_one"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="question one"
+        android:textSize="22sp"
+        android:fontFamily="sans-serif"/>
+
+    <RadioGroup
+        android:id="@+id/radio_group_one"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+    <RadioButton
+        android:id="@+id/quest_one_ans_one"
+        style="@style/CoffeePrefCheckBox"
+        android:text="answer one "/>
+
+    <RadioButton
+        android:id="@+id/quest_one_ans_two"
+        style="@style/CoffeePrefCheckBox" />
+    <RadioButton
+        android:id="@+id/quest_one_ans_three"
+        style="@style/CoffeePrefCheckBox" />
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/coff_pref_quest_two"
+        style="@style/CoffeePrefTextView"
+        android:text="question two"/>
+
+    <RadioGroup
+        android:id="@+id/radio_group_two"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+    <RadioButton
+        android:id="@+id/quest_two_ans_one"
+        style="@style/CoffeePrefCheckBox" />
+
+    <RadioButton
+        android:id="@+id/quest_two_ans_two"
+        style="@style/CoffeePrefCheckBox" />
+
+    <RadioButton
+        android:id="@+id/quest_two_ans_three"
+        style="@style/CoffeePrefCheckBox" />
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/coff_pref_quest_three"
+        style="@style/CoffeePrefTextView"
+        android:text="question three"/>
+
+    <RadioGroup
+        android:id="@+id/radio_group_three"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+    <RadioButton
+        android:id="@+id/quest_three_ans_one"
+        style="@style/CoffeePrefCheckBox" />
+
+    <RadioButton
+        android:id="@+id/quest_three_ans_two"
+        style="@style/CoffeePrefCheckBox" />
+
+    <RadioButton
+        android:id="@+id/quest_three_ans_three"
+        style="@style/CoffeePrefCheckBox" />
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/coff_pref_quest_four"
+        style="@style/CoffeePrefTextView"
+        android:text="question three"/>
+
+    <RadioGroup
+        android:id="@+id/radio_group_four"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+    <RadioButton
+        android:id="@+id/quest_four_ans_one"
+        style="@style/CoffeePrefCheckBox" />
+
+    <RadioButton
+        android:id="@+id/quest_four_ans_two"
+        style="@style/CoffeePrefCheckBox" />
+
+    <RadioButton
+        android:id="@+id/quest_four_ans_three"
+        style="@style/CoffeePrefCheckBox" />
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/coff_pref_continue_button"
+        style="@style/AppButton"
+        android:text="continue"/>
+  
 </LinearLayout>
