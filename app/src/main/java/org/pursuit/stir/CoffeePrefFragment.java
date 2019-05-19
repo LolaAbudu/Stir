@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.RadioGroup;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -17,6 +18,14 @@ public class CoffeePrefFragment extends Fragment {
 
     @BindView(R.id.coff_pref_continue_button)
     Button continueButton;
+    @BindView(R.id.radio_group_one)
+    RadioGroup groupOne;
+    @BindView(R.id.radio_group_two)
+    RadioGroup groupTwo;
+    @BindView(R.id.radio_group_three)
+    RadioGroup groupThree;
+    @BindView(R.id.radio_group_four)
+    RadioGroup groupFour;
 
     public CoffeePrefFragment() {
     }
