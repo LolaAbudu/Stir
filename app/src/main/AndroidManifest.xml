@@ -16,7 +16,7 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyBSTWYZlvzqE12cSDQu2lyUAwoStKeJBq0" />
+            android:value="@string/GoogleMapsApiKey" />
         <activity android:name=".SignUpHostActivity"></activity>
         <activity android:name=".MainHostActivity"></activity>
         <activity android:name=".LoginActivity"></activity>

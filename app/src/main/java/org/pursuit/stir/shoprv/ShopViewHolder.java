@@ -53,16 +53,11 @@ public class ShopViewHolder extends RecyclerView.ViewHolder {
 
 //        String photoUrlString = photo.getResponse().getPhotos().getItems().get(0).getPrefix() + "100x100" +
 //                photo.getResponse().getPhotos().getItems().get(0).getSuffix();
-//        photoCall(foursquareResults.getVenue().getId());
+        photoCall(foursquareResults.getVenue().getId());
 
         shopName.setText(foursquareResults.getVenue().getName());
-        Log.d("evelyn", "onBind: " + foursquareResults.getVenue().getName());
+        Log.d("evelyn", "onBind: " + photoUrl);
 //        distance.setText(foursquareResults.getVenue().getLocation().getDistance());
-
-        Picasso.get()
-                .load(photoUrl)
-                .placeholder(R.mipmap.ic_launcher)
-                .into(shopImage);
 
         venue = foursquareResults.getVenue();
         Log.d("evelyn", "onBind: " + venue.getLocation().getAddress());
@@ -89,6 +84,10 @@ public class ShopViewHolder extends RecyclerView.ViewHolder {
                         photoUrl = response.body().getResponse().getPhotos().getItems().get(0).getPrefix() +
                                 "100x100" +
                                 response.body().getResponse().getPhotos().getItems().get(0).getSuffix();
+                        Picasso.get()
+                                .load(photoUrl)
+                                .placeholder(R.mipmap.ic_launcher)
+                                .into(shopImage);
                     }
 
                     @Override
@@ -96,6 +95,7 @@ public class ShopViewHolder extends RecyclerView.ViewHolder {
 
                     }
                 });
+        Log.d("evelynphoto", "photoCall: " + photoUrl);
     }
 
 }
