@@ -13,6 +13,10 @@
         android:roundIcon="@mipmap/stir_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyBSTWYZlvzqE12cSDQu2lyUAwoStKeJBq0" />
         <activity android:name=".SignUpHostActivity"></activity>
         <activity android:name=".MainHostActivity"></activity>
         <activity android:name=".LoginActivity"></activity>

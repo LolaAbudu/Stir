@@ -18,6 +18,7 @@ android {
 
     buildTypes {
         debug {
+            manifestPlaceholders = [ GoogleMapsApiKey: "GoogleMapsApiKey"]
             buildConfigField 'String', "GoogleMapsApiKey", GoogleMapsApiKey
             buildConfigField 'String', "FoursquareClientID", FoursquareClientID
             buildConfigField 'String', "FoursquareClientSecret", FoursquareClientSecret
