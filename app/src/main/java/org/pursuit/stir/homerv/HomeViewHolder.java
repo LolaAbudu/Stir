@@ -44,7 +44,7 @@ public class HomeViewHolder extends RecyclerView.ViewHolder implements
         imageview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mainHostListener.moveToDetailFragment();
+                mainHostListener.moveToDetailFragment("lola");
             }
         });
     }

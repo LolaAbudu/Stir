@@ -63,6 +63,7 @@ public class MainHostActivity extends AppCompatActivity implements MainHostListe
                 .beginTransaction()
                 .setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit)
                 .replace(R.id.main_host_container, ProfileFragment.newInstance())
+                .addToBackStack(null)
                 .commit();
     }
 
@@ -72,6 +73,7 @@ public class MainHostActivity extends AppCompatActivity implements MainHostListe
                 .beginTransaction()
                 .setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit)
                 .replace(R.id.main_host_container, ShopFragment.newInstance())
+                .addToBackStack(null)
                 .commit();
 
         }
@@ -82,6 +84,7 @@ public class MainHostActivity extends AppCompatActivity implements MainHostListe
                 .beginTransaction()
                 .setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit)
                 .replace(R.id.main_host_container, ImageUploadFragment.newInstance())
+                .addToBackStack(null)
                 .commit();
     }
 
@@ -91,6 +94,7 @@ public class MainHostActivity extends AppCompatActivity implements MainHostListe
                 .beginTransaction()
                 .setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit)
                 .replace(R.id.main_host_container, MapFragment.newInstance(foursquareVenue))
+                .addToBackStack(null)
                 .commit();
 
     }
@@ -101,6 +105,7 @@ public class MainHostActivity extends AppCompatActivity implements MainHostListe
                 .beginTransaction()
                 .setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit)
                 .replace(R.id.main_host_container, DetailFragment.newInstance())
+                .addToBackStack(null)
                 .commit();
     }
 }
