@@ -11,6 +11,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -47,7 +48,7 @@ public class ShopFragment extends Fragment
 
     private GoogleApiClient googleApiClient;
     private RecyclerView recyclerView;
-    private LinearLayoutManager linearLayoutManager;
+    private GridLayoutManager gridLayoutManager;
     private ShopAdapter adapter;
     private static final int PERMISSION_ACCESS_FINE_LOCATION = 1;
 
@@ -90,8 +91,8 @@ public class ShopFragment extends Fragment
         }
         recyclerView = view.findViewById(R.id.shop_recyclerview);
         recyclerView.setHasFixedSize(true);
-        linearLayoutManager = new LinearLayoutManager(view.getContext());
-        recyclerView.setLayoutManager(linearLayoutManager);
+        gridLayoutManager = new GridLayoutManager(view.getContext(), 2);
+        recyclerView.setLayoutManager(gridLayoutManager);
 
         googleApiClient = new GoogleApiClient.Builder(view.getContext())
                 .addConnectionCallbacks(this)

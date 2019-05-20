@@ -53,10 +53,9 @@ public class ShopViewHolder extends RecyclerView.ViewHolder {
 
 //        String photoUrlString = photo.getResponse().getPhotos().getItems().get(0).getPrefix() + "100x100" +
 //                photo.getResponse().getPhotos().getItems().get(0).getSuffix();
-        photoCall(foursquareResults.getVenue().getId());
+//        photoCall(foursquareResults.getVenue().getId());
 
         shopName.setText(foursquareResults.getVenue().getName());
-        Log.d("evelyn", "onBind: " + photoUrl);
 //        distance.setText(foursquareResults.getVenue().getLocation().getDistance());
 
         venue = foursquareResults.getVenue();
@@ -65,7 +64,6 @@ public class ShopViewHolder extends RecyclerView.ViewHolder {
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO: pass model to maps fragment through interface
                 listener.moveToMap(venue);
             }
         });
@@ -82,7 +80,7 @@ public class ShopViewHolder extends RecyclerView.ViewHolder {
                     public void onResponse(Call<FourSquareVenuePhoto> call, Response<FourSquareVenuePhoto> response) {
                         Log.d("evelyn", "onResponse: " + response.body().getResponse().getPhotos().getItems().get(0).getPrefix());
                         photoUrl = response.body().getResponse().getPhotos().getItems().get(0).getPrefix() +
-                                "100x100" +
+                                "200x200" +
                                 response.body().getResponse().getPhotos().getItems().get(0).getSuffix();
                         Picasso.get()
                                 .load(photoUrl)

@@ -10,7 +10,8 @@
         android:id="@+id/fragment_shop_itemview_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:src="@mipmap/ic_launcher"/>
+        android:src="@mipmap/ic_shops"
+        android:background="@android:color/holo_blue_dark"/>
     <TextView
         android:id="@+id/fragment_shop_textview"
         android:layout_width="wrap_content"
