@@ -91,6 +91,7 @@ public class MainHostActivity extends AppCompatActivity implements MainHostListe
                 .beginTransaction()
                 .setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit)
                 .replace(R.id.main_host_container, MapFragment.newInstance(foursquareVenue))
+                .addToBackStack(null)
                 .commit();
 
     }
