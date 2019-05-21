@@ -18,6 +18,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -60,6 +61,9 @@ public class ShopFragment extends Fragment
 
     private MainHostListener mainHostListener;
 
+    private ProgressBar progressCircle;
+
+
     public ShopFragment() {
         // Required empty public constructor
     }
@@ -89,6 +93,8 @@ public class ShopFragment extends Fragment
         if (ContextCompat.checkSelfPermission(view.getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(getActivity(), new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSION_ACCESS_FINE_LOCATION);
         }
+        progressCircle = view.findViewById(R.id.shop_progress_circle);
+
         recyclerView = view.findViewById(R.id.shop_recyclerview);
         recyclerView.setHasFixedSize(true);
         gridLayoutManager = new GridLayoutManager(view.getContext(), 2);
@@ -143,11 +149,15 @@ public class ShopFragment extends Fragment
                                         // Displays the results in the RecyclerView
                                         adapter = new ShopAdapter(frs, mainHostListener);
                                         recyclerView.setAdapter(adapter);
+
+                                        progressCircle.setVisibility(View.INVISIBLE);
                                     }
 
                                     @Override
                                     public void onFailure(Call<FoursquareJSON> call, Throwable t) {
                                         Log.d(TAG, "onFailure: " + t.toString());
+
+                                        progressCircle.setVisibility(View.INVISIBLE);
                                     }
                                 });
 
