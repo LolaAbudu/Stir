@@ -40,7 +40,6 @@ public class MainHostActivity extends AppCompatActivity implements MainHostListe
             return true;
         });
     }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
