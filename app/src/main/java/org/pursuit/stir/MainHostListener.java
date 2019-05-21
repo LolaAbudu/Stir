@@ -14,5 +14,5 @@ public interface MainHostListener {
 
     void moveToMap(FoursquareVenue foursquareVenue);
 
-    void moveToDetailFragment();
+    void moveToDetailFragment(String imageName, String imageUrl);
 }

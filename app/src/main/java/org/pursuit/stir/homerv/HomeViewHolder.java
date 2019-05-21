@@ -2,6 +2,7 @@ package org.pursuit.stir.homerv;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -33,7 +34,9 @@ public class HomeViewHolder extends RecyclerView.ViewHolder {
         imageview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mainHostListener.moveToDetailFragment();
+                mainHostListener.moveToDetailFragment(imageUpload.getImageName(), imageUpload.getImageUrl());
+
+                Log.d("det", imageUpload.getImageName() + " " + imageUpload.getImageUrl());
             }
         });
     }
