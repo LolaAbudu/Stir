@@ -93,7 +93,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         }
         MapsInitializer.initialize(getContext());
         googleMap.getUiSettings().setMapToolbarEnabled(true);
-
         googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         googleMap.addMarker(new MarkerOptions()
                 .position(new LatLng(lat, lon))
