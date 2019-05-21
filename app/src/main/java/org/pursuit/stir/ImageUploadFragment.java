@@ -208,4 +208,10 @@ public class ImageUploadFragment extends Fragment {
     private void openHomeFragment() {
         mainHostListener.replaceWithHomeFragment();
     }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mainHostListener = null;
+    }
 }
