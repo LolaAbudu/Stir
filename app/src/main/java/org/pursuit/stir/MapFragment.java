@@ -92,6 +92,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             throw new NullPointerException();
         }
         MapsInitializer.initialize(getContext());
+        googleMap.getUiSettings().setMapToolbarEnabled(true);
+
         googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         googleMap.addMarker(new MarkerOptions()
                 .position(new LatLng(lat, lon))
@@ -101,6 +103,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         CameraPosition cameraPosition = new CameraPosition.Builder().target(new LatLng(lat, lon)).zoom(16.0f).build();
         CameraUpdate cameraUpdate = CameraUpdateFactory.newCameraPosition(cameraPosition);
         googleMap.moveCamera(cameraUpdate);
+
 
         if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             googleMap.setMyLocationEnabled(true);
