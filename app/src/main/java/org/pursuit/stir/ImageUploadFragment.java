@@ -18,10 +18,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.auth.api.signin.internal.Storage;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -48,7 +46,6 @@ public class ImageUploadFragment extends Fragment {
 
     private Button selectImageButton;
     private Button uploadImageButton;
-    private TextView homeTextView;
     private EditText imageNameEditText;
     private ImageView userImageImageView;
 
@@ -60,7 +57,7 @@ public class ImageUploadFragment extends Fragment {
 
     private StorageTask uploadStorageTask;
 
-    private MainHostListener homeListener;
+    private MainHostListener mainHostListener;
 
 
     public ImageUploadFragment() {
@@ -80,17 +77,17 @@ public class ImageUploadFragment extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         if (context instanceof SignUpListener) {
-            homeListener = (MainHostListener) context;
+            mainHostListener = (MainHostListener) context;
         }
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        if (getArguments() != null) {
-//            mParam1 = getArguments().getString(ARG_PARAM1);
+        if (getArguments() != null) {
+            mParam1 = getArguments().getString(ARG_PARAM1);
 //            mParam2 = getArguments().getString(ARG_PARAM2);
-//        }
+        }
     }
 
     @Override
@@ -99,7 +96,6 @@ public class ImageUploadFragment extends Fragment {
 
         selectImageButton = view.findViewById(R.id.select_image_button);
         uploadImageButton = view.findViewById(R.id.upload_button);
-        homeTextView = view.findViewById(R.id.home_textView);
         imageNameEditText = view.findViewById(R.id.image_name_editText);
         userImageImageView = view.findViewById(R.id.user_image_imageView);
         progressBar = view.findViewById(R.id.progress_bar);
@@ -133,13 +129,6 @@ public class ImageUploadFragment extends Fragment {
                 } else {
                     uploadImage();
                 }
-            }
-        });
-
-        homeTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openHomeFragment();
             }
         });
     }
@@ -191,7 +180,9 @@ public class ImageUploadFragment extends Fragment {
                             Uri downloadUrl = urlTask.getResult();
 
                             Toast.makeText(getContext(), "Image Upload Successful", Toast.LENGTH_SHORT).show();
-                            ImageUpload imageUpload = new ImageUpload(imageNameEditText.getText().toString().trim(), downloadUrl.toString());
+
+                            String imageName = imageNameEditText.getText().toString().trim();
+                            ImageUpload imageUpload = new ImageUpload(imageName, downloadUrl.toString());
                             String uploadId = databaseReference.push().getKey();
                             databaseReference.child(uploadId).setValue(imageUpload);
                         }
@@ -215,6 +206,6 @@ public class ImageUploadFragment extends Fragment {
     }
 
     private void openHomeFragment() {
-        homeListener.replaceWithHomeFragment();
+        mainHostListener.replaceWithHomeFragment();
     }
 }
