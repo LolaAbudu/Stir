@@ -14,12 +14,10 @@ import java.util.List;
 
 public class HomeAdapter extends RecyclerView.Adapter<HomeViewHolder> {
 
-    private Context context;
     private List<ImageUpload> imageList;
     private MainHostListener mainHostListener;
 
-    public HomeAdapter(Context context, List<ImageUpload> imageList, MainHostListener mainHostListener) {
-        this.context = context;
+    public HomeAdapter(List<ImageUpload> imageList, MainHostListener mainHostListener) {
         this.imageList = imageList;
         this.mainHostListener = mainHostListener;
     }
