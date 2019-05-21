@@ -2,7 +2,9 @@ package org.pursuit.stir;
 
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -20,6 +22,7 @@ import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.pursuit.stir.models.FoursquareJSON;
@@ -40,6 +43,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private double lat;
     private double lon;
     private String name;
+    private String venueId;
     public MapFragment() {
         // Required empty public constructor
     }
@@ -60,6 +64,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             lat = foursquareVenue.getLocation().getLat();
             lon = foursquareVenue.getLocation().getLng();
             name = foursquareVenue.getName();
+            venueId = foursquareVenue.getId();
         }
     }
 
@@ -88,7 +93,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         }
         MapsInitializer.initialize(getContext());
         googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-        googleMap.addMarker(new MarkerOptions().position(new LatLng(lat, lon)).title(name)).showInfoWindow();
+        googleMap.addMarker(new MarkerOptions()
+                .position(new LatLng(lat, lon))
+                .title(name)
+                .snippet("View on Foursquare"))
+                .showInfoWindow();
         CameraPosition cameraPosition = new CameraPosition.Builder().target(new LatLng(lat, lon)).zoom(16.0f).build();
         CameraUpdate cameraUpdate = CameraUpdateFactory.newCameraPosition(cameraPosition);
         googleMap.moveCamera(cameraUpdate);
@@ -96,5 +105,13 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             googleMap.setMyLocationEnabled(true);
         }
+
+        googleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+            @Override
+            public void onInfoWindowClick(Marker marker) {
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://foursquare.com/v/" + venueId));
+                startActivity(intent);
+            }
+        });
     }
 }

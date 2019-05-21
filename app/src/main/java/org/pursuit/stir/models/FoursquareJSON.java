@@ -63,7 +63,7 @@ public class FoursquareJSON implements Serializable {
                         return location;
                     }
 
-                    public class FoursquareLocation {
+                    public class FoursquareLocation implements Serializable {
 
                         // The address of the location.
                         private String address;
