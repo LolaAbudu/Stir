@@ -27,11 +27,7 @@ import org.pursuit.stir.models.ImageUpload;
 import java.util.ArrayList;
 import java.util.List;
 
-
-/**
- * A simple {@link Fragment} subclass.
- */
-public class HomeFragment extends Fragment implements HomeListener{
+public class HomeFragment extends Fragment{
 
     private RecyclerView recyclerView;
     private HomeAdapter homeAdapter;
@@ -42,15 +38,11 @@ public class HomeFragment extends Fragment implements HomeListener{
     private List<ImageUpload> imageList;
     private MainHostListener mainHostListener;
 
-    public HomeFragment() {
-        // Required empty public constructor
-    }
+    public HomeFragment() { }
 
     public static HomeFragment newInstance() {
         HomeFragment fragment = new HomeFragment();
         Bundle args = new Bundle();
-//        args.putString(ARG_PARAM1, param1);
-//        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -66,7 +58,6 @@ public class HomeFragment extends Fragment implements HomeListener{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_home, container, false);
     }
 
@@ -96,14 +87,12 @@ public class HomeFragment extends Fragment implements HomeListener{
                     imageList.add(imageUpload);
                 }
 
-                homeAdapter = new HomeAdapter(getContext(), imageList, mainHostListener);
+                homeAdapter = new HomeAdapter(imageList, mainHostListener);
                 recyclerView.setAdapter(homeAdapter);
 
-                //homeAdapter.setOnItemClickListener(HomeFragment.this);
                 homeAdapter.notifyDataSetChanged();
 
                 progressCircle.setVisibility(View.INVISIBLE);
-
             }
 
             @Override
@@ -113,18 +102,6 @@ public class HomeFragment extends Fragment implements HomeListener{
                 progressCircle.setVisibility(View.INVISIBLE);
             }
         });
-
-    }
-
-    @Override
-    public void onItemClick(int position) {
-        //do nothing
-    }
-
-    @Override
-    public void onDeleteClick(int position) {
-        Toast.makeText(getContext(), "Image Deleted" + position, Toast.LENGTH_SHORT).show();
-        Log.d("delete", "image deleted");
     }
 
     @Override
