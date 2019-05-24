@@ -15,6 +15,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +28,7 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
 
+import org.pursuit.stir.models.FourSquareVenuePhoto;
 import org.pursuit.stir.models.FoursquareJSON;
 import org.pursuit.stir.models.FoursquareJSON.FoursquareResponse.FoursquareGroup.FoursquareResults;
 import org.pursuit.stir.models.FoursquareJSON.FoursquareResponse.FoursquareGroup.FoursquareResults.FoursquareVenue;
@@ -34,8 +36,13 @@ import org.pursuit.stir.network.FoursquareService;
 import org.pursuit.stir.network.RetrofitSingleton;
 import org.pursuit.stir.shoprv.ShopAdapter;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -53,15 +60,16 @@ public class ShopFragment extends Fragment
     private ShopAdapter adapter;
     private static final int PERMISSION_ACCESS_FINE_LOCATION = 1;
 
-
-    private String foursquareClientID;
-    private String foursquareClientSecret;
-    private List<FoursquareResults> foursquareResultsList;
     private static final String TAG = "evelyn";
 
     private MainHostListener mainHostListener;
 
     private ProgressBar progressCircle;
+
+    //used to keep track of Rx call
+    private CompositeDisposable disposable = new CompositeDisposable();
+
+    private FourSquareRepository fourSquareRepository = new FourSquareRepository();
 
 
     public ShopFragment() {
@@ -107,8 +115,30 @@ public class ShopFragment extends Fragment
                 .build();
         Log.d(TAG, "onViewCreated: " + googleApiClient.isConnected());
 
-        foursquareClientID = BuildConfig.FoursquareClientID;
-        foursquareClientSecret = BuildConfig.FoursquareClientSecret;
+
+    }
+
+    //TODO make it take the list of result and photos (PAIRS)
+    public void updateUI(List<FoursquareResults> fourSquareResult) {
+        // Displays the results in the RecyclerView
+        adapter = new ShopAdapter(fourSquareResult, mainHostListener);
+        recyclerView.setAdapter(adapter);
+
+        progressCircle.setVisibility(View.INVISIBLE);
+    }
+
+    public void updateUIOnFailure(List<FoursquareResults> fourSquareResult) {
+        Log.d("failed", "Call failed");
+
+        progressCircle.setVisibility(View.INVISIBLE);
+    }
+
+    public List<FoursquareResults> transformPairToResult(List<Pair<FoursquareResults, FourSquareVenuePhoto>> fourSquareResult) {
+        List<FoursquareResults> results = new ArrayList<>();
+        for (int i = 0; i < fourSquareResult.size(); i++) {
+            results.add(fourSquareResult.get(i).first);
+        }
+        return results;
     }
 
     @Override
@@ -119,91 +149,16 @@ public class ShopFragment extends Fragment
             FusedLocationProviderClient fusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity());
 
             fusedLocationClient.getLastLocation()
-                    .addOnSuccessListener(getActivity(), new OnSuccessListener<Location>() {
-                        @SuppressLint("CheckResult")
-                        @Override
-                        public void onSuccess(Location location) {
-                            if (location != null) {
-                                String userLastLocation = location.getLatitude() + "," + location.getLongitude();
+                    .addOnSuccessListener(getActivity(), location -> {
+                        if (location != null) {
+                            disposable.add(fourSquareRepository.fourSquareResult(location.getLatitude(),
+                                    location.getLongitude(), location.getAccuracy()).subscribe(pairs -> {
 
-                                double userLocationAccuracy = location.getAccuracy();
-
-                                FoursquareService foursquareService = RetrofitSingleton.getInstance()
-                                        .create(FoursquareService.class);
-
-                                Call<FoursquareJSON> coffeeCall = foursquareService.searchCoffee(
-                                        foursquareClientID,
-                                        foursquareClientSecret,
-                                        userLastLocation,
-                                        userLocationAccuracy);
-                                coffeeCall.enqueue(new Callback<FoursquareJSON>() {
-                                    @Override
-                                    public void onResponse(Call<FoursquareJSON> call, Response<FoursquareJSON> response) {
-
-                                        // Gets the venue object from the JSON response
-                                        FoursquareJSON fjson = response.body();
-                                        FoursquareJSON.FoursquareResponse fr = fjson.getResponse();
-                                        FoursquareJSON.FoursquareResponse.FoursquareGroup fg = fr.getGroup();
-                                        List<FoursquareJSON.FoursquareResponse.FoursquareGroup.FoursquareResults> frs = fg.getResults();
-
-                                        // Displays the results in the RecyclerView
-                                        adapter = new ShopAdapter(frs, mainHostListener);
-                                        recyclerView.setAdapter(adapter);
-
-                                        progressCircle.setVisibility(View.INVISIBLE);
-                                    }
-
-                                    @Override
-                                    public void onFailure(Call<FoursquareJSON> call, Throwable t) {
-                                        Log.d(TAG, "onFailure: " + t.toString());
-
-                                        progressCircle.setVisibility(View.INVISIBLE);
-                                    }
-                                });
-
-
-//                                foursquareService
-//                                        .searchCoffee(
-//                                                foursquareClientID,
-//                                                foursquareClientSecret,
-//                                                userLastLocation,
-//                                                userLocationAccuracy)
-//                                        .flatMapIterable(foursquareJSON -> foursquareJSON.getResponse().getGroup().getResults())
-//                                        .flatMap(result -> foursquareService.getCoffeeVenuePhoto(result.getVenue().getId(), foursquareClientID, foursquareClientSecret),
-//                                                (results, photo) -> {
-//                                                    Log.d(TAG, "onSuccess: " + results.getVenue().getName() + photo.getResponse().getPhotos().getItems().get(0).getSuffix());
-//                                                    return new Pair(results, photo);
-//                                                }
-//                                        )
-//                                        .toList()
-//                                        .subscribeOn(Schedulers.io())
-//                                        .observeOn(AndroidSchedulers.mainThread())
-//                                        .subscribe(new Consumer<List<Pair>>() {
-//                                            @Override
-//                                            public void accept(List<Pair> pairList) throws Exception {
-//                                                adapter = new ShopAdapter(pairList);
-//                                                recyclerView.setAdapter(adapter);
-//                                            }
-//                                        }, new Consumer<Throwable>() {
-//                                            @Override
-//                                            public void accept(Throwable throwable) throws Exception {
-//                                                Toast.makeText(getContext(), "Oops, Stir can't connect to Foursquare's servers", Toast.LENGTH_SHORT).show();
-//                                                Log.d(TAG, "accept: " + throwable.toString());
-//                                            }
-//                                        });
-////                                getActivity().finish();
-//
-//                            } else {
-//                                Toast.makeText(getContext(), "Oops, Stir can't determine your current location", Toast.LENGTH_SHORT).show();
-////                                getActivity().finish();
-//                            }
-//                        }
-//                    });
-                            } else {
-                                Toast.makeText(getContext(), "There was an error with this request", Toast.LENGTH_SHORT).show();
-                                Log.d("evelyn", "onConnected: error with request");
-                            }
-
+                                updateUI(transformPairToResult(pairs));
+                            }));
+                        } else {
+                            Toast.makeText(getContext(), "There was an error with this request", Toast.LENGTH_SHORT).show();
+                            Log.d("evelyn", "onConnected: error with request");
                         }
                     });
         }
@@ -236,4 +191,14 @@ public class ShopFragment extends Fragment
         super.onDetach();
         mainHostListener = null;
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        //cleas up the call result
+        disposable.clear();
+    }
 }
+//TODO implement onError for Rx Call
+
