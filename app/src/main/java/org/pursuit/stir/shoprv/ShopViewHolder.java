@@ -69,31 +69,31 @@ public class ShopViewHolder extends RecyclerView.ViewHolder {
         });
     }
 
-    public void photoCall(String photoId) {
-        RetrofitSingleton.getInstance()
-                .create(FoursquareService.class)
-                .getCoffeeVenuePhoto(photoId,
-                        BuildConfig.FoursquareClientID,
-                        BuildConfig.FoursquareClientSecret)
-                .enqueue(new Callback<FourSquareVenuePhoto>() {
-                    @Override
-                    public void onResponse(Call<FourSquareVenuePhoto> call, Response<FourSquareVenuePhoto> response) {
-                        Log.d("evelyn", "onResponse: " + response.body().getResponse().getPhotos().getItems().get(0).getPrefix());
-                        photoUrl = response.body().getResponse().getPhotos().getItems().get(0).getPrefix() +
-                                "200x200" +
-                                response.body().getResponse().getPhotos().getItems().get(0).getSuffix();
-                        Picasso.get()
-                                .load(photoUrl)
-                                .placeholder(R.mipmap.ic_launcher)
-                                .into(shopImage);
-                    }
-
-                    @Override
-                    public void onFailure(Call<FourSquareVenuePhoto> call, Throwable t) {
-
-                    }
-                });
-        Log.d("evelynphoto", "photoCall: " + photoUrl);
-    }
+//    public void photoCall(String photoId) {
+//        RetrofitSingleton.getInstance()
+//                .create(FoursquareService.class)
+//                .getCoffeeVenuePhoto(photoId,
+//                        BuildConfig.FoursquareClientID,
+//                        BuildConfig.FoursquareClientSecret)
+//                .enqueue(new Callback<FourSquareVenuePhoto>() {
+//                    @Override
+//                    public void onResponse(Call<FourSquareVenuePhoto> call, Response<FourSquareVenuePhoto> response) {
+//                        Log.d("evelyn", "onResponse: " + response.body().getResponse().getPhotos().getItems().get(0).getPrefix());
+//                        photoUrl = response.body().getResponse().getPhotos().getItems().get(0).getPrefix() +
+//                                "200x200" +
+//                                response.body().getResponse().getPhotos().getItems().get(0).getSuffix();
+//                        Picasso.get()
+//                                .load(photoUrl)
+//                                .placeholder(R.mipmap.ic_launcher)
+//                                .into(shopImage);
+//                    }
+//
+//                    @Override
+//                    public void onFailure(Call<FourSquareVenuePhoto> call, Throwable t) {
+//
+//                    }
+//                });
+//        Log.d("evelynphoto", "photoCall: " + photoUrl);
+//    }
 
 }
