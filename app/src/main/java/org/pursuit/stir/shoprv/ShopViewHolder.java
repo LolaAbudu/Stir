@@ -3,6 +3,7 @@ package org.pursuit.stir.shoprv;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.util.Pair;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -14,6 +15,7 @@ import org.pursuit.stir.MainHostListener;
 import org.pursuit.stir.R;
 import org.pursuit.stir.models.FourSquareVenuePhoto;
 import org.pursuit.stir.models.FoursquareJSON;
+import org.pursuit.stir.models.FoursquareJSON.FoursquareResponse.FoursquareGroup.FoursquareResults;
 import org.pursuit.stir.models.FoursquareJSON.FoursquareResponse.FoursquareGroup.FoursquareResults.FoursquareVenue;
 import org.pursuit.stir.network.FoursquareService;
 import org.pursuit.stir.network.RetrofitSingleton;
@@ -46,7 +48,7 @@ public class ShopViewHolder extends RecyclerView.ViewHolder {
         ButterKnife.bind(this, itemView);
     }
 
-    public void onBind(final FoursquareJSON.FoursquareResponse.FoursquareGroup.FoursquareResults foursquareResults,
+    public void onBind(final Pair<FoursquareResults, FourSquareVenuePhoto> results,
                        final MainHostListener listener) {
 //        FoursquareVenue venue = pair.first;
 //        FourSquareVenuePhoto photo = pair.second;
@@ -55,11 +57,18 @@ public class ShopViewHolder extends RecyclerView.ViewHolder {
 //                photo.getResponse().getPhotos().getItems().get(0).getSuffix();
 //        photoCall(foursquareResults.getVenue().getId());
 
-        shopName.setText(foursquareResults.getVenue().getName());
+        shopName.setText(results.first.getVenue().getName());
+//        shopName.setText(foursquareResults.getVenue().getName());
 //        distance.setText(foursquareResults.getVenue().getLocation().getDistance());
 
-        venue = foursquareResults.getVenue();
-        Log.d("evelyn", "onBind: " + venue.getLocation().getAddress());
+        FourSquareVenuePhoto photo = results.second;
+        String photoUrl = photo.getResponse().getPhotos().getItems().get(0).getPrefix() + "200x200" +
+                photo.getResponse().getPhotos().getItems().get(0).getSuffix();
+
+        Picasso.get()
+                .load(photoUrl)
+                .placeholder(R.mipmap.ic_launcher)
+                .into(shopImage);
 
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override

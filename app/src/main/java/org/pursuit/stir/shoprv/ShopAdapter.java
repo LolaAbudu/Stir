@@ -2,23 +2,25 @@ package org.pursuit.stir.shoprv;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import org.pursuit.stir.MainHostListener;
 import org.pursuit.stir.R;
+import org.pursuit.stir.models.FourSquareVenuePhoto;
 import org.pursuit.stir.models.FoursquareJSON.FoursquareResponse.FoursquareGroup.FoursquareResults;
 
 import java.util.List;
 
 public class ShopAdapter extends RecyclerView.Adapter<ShopViewHolder> {
 
-    private List<FoursquareResults> resultsList;
+    private List<Pair<FoursquareResults, FourSquareVenuePhoto>> resultsList;
     private MainHostListener listener;
 
-    public ShopAdapter(final List<FoursquareResults> resultsList, final MainHostListener listener) {
-        this.resultsList = resultsList;
+    public ShopAdapter(final List<Pair<FoursquareResults, FourSquareVenuePhoto>> pairResults, final MainHostListener listener) {
+        this.resultsList = pairResults;
         this.listener = listener;
     }
     @NonNull
