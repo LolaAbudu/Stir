@@ -152,10 +152,9 @@ public class ShopFragment extends Fragment
                     .addOnSuccessListener(getActivity(), location -> {
                         if (location != null) {
                             disposable.add(fourSquareRepository.fourSquareResult(location.getLatitude(),
-                                    location.getLongitude(), location.getAccuracy()).subscribe(pairs -> {
-
-                                updateUI(pairs);
-                            }));
+                                    location.getLongitude(), location.getAccuracy())
+                                    .subscribe(pairs -> updateUI(pairs)
+                                            , throwable -> Log.d(TAG, "onConnected: " + throwable.getMessage())));
                         } else {
                             Toast.makeText(getContext(), "There was an error with this request", Toast.LENGTH_SHORT).show();
                             Log.d("evelyn", "onConnected: error with request");
