@@ -60,7 +60,7 @@ public class ShopViewHolder extends RecyclerView.ViewHolder {
         shopName.setText(results.first.getVenue().getName());
 //        shopName.setText(foursquareResults.getVenue().getName());
 //        distance.setText(foursquareResults.getVenue().getLocation().getDistance());
-
+        venue = results.first.getVenue();
         FourSquareVenuePhoto photo = results.second;
         String photoUrl = photo.getResponse().getPhotos().getItems().get(0).getPrefix() + "200x200" +
                 photo.getResponse().getPhotos().getItems().get(0).getSuffix();

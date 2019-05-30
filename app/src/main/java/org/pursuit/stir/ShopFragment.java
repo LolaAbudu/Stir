@@ -153,14 +153,20 @@ public class ShopFragment extends Fragment
                         if (location != null) {
                             disposable.add(fourSquareRepository.fourSquareResult(location.getLatitude(),
                                     location.getLongitude(), location.getAccuracy())
-                                    .subscribe(pairs -> updateUI(pairs)
-                                            , throwable -> Log.d(TAG, "onConnected: " + throwable.getMessage())));
+                                    .subscribe(this::updateUI
+                                            , this::showError));
                         } else {
                             Toast.makeText(getContext(), "There was an error with this request", Toast.LENGTH_SHORT).show();
                             Log.d("evelyn", "onConnected: error with request");
                         }
                     });
         }
+    }
+
+    private void showError(Throwable throwable) {
+        progressCircle.setVisibility(View.INVISIBLE);
+        Log.d(TAG, "onConnected: " + throwable.getMessage());
+        Toast.makeText(getContext(), "Oops, network error. Please try again!", Toast.LENGTH_SHORT).show();
     }
 
     @Override
