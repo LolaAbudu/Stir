@@ -31,13 +31,12 @@ public class HomeViewHolder extends RecyclerView.ViewHolder {
                 .centerCrop()
                 .into(imageview);
 
-        imageview.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mainHostListener.moveToDetailFragment(imageUpload.getImageName(), imageUpload.getImageUrl());
+        imageview.setOnClickListener(v -> {
+            mainHostListener.moveToDetailFragment(imageUpload.getImageName(), imageUpload.getImageUrl());
 
-                Log.d("det", imageUpload.getImageName() + " " + imageUpload.getImageUrl());
-            }
+            Log.d("det", imageUpload.getImageName() + " " + imageUpload.getImageUrl());
         });
+
+
     }
 }

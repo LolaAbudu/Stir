@@ -1,6 +1,5 @@
 package org.pursuit.stir.homerv;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -31,6 +30,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull HomeViewHolder homeViewHolder, int position) {
         homeViewHolder.onBind(imageList.get(position), mainHostListener);
+//         final String key = getRef(position).getKey();
     }
 
     @Override

@@ -1,12 +1,24 @@
 package org.pursuit.stir.models;
 
+import com.google.firebase.database.Exclude;
+
 public class ImageUpload {
 
     private String imageName;
     private String imageUrl;
 
+    public User user;
+
+    @Exclude
+    public int likes = 0;
+
+    @Exclude
+    public boolean hasLiked = false;
+
+    @Exclude
+    public String userLike;
+
     public ImageUpload() {
-        //empty constructor needed
     }
 
     public ImageUpload(String imageName, String imageUrl) {
@@ -32,5 +44,21 @@ public class ImageUpload {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public void addLike() {
+        this.likes++;
+    }
+
+    public void removeLike() {
+        this.likes--;
     }
 }
