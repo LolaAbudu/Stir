@@ -20,7 +20,7 @@ public interface FoursquareService {
                                                          @Query("llAcc") double llAcc);
 
     // A request for an image of a FourSquareVenue by its ID
-    @GET("venues/{venue_id}/photos?&v=20190515&&group=venue&limit=1")
+    @GET("venues/{venue_id}/photos?&v=20190515&&group=venue")
     Observable<FourSquareVenuePhoto> getCoffeeVenuePhoto(@Path("venue_id") String venue_id,
                                                      @Query("client_id") String clientID,
                                                      @Query("client_secret") String clientSecret);

@@ -69,6 +69,8 @@ dependencies {
     implementation 'com.jakewharton.rxbinding3:rxbinding:3.0.0-alpha2'
     //circular image
     implementation 'de.hdodenhof:circleimageview:3.0.0'
+    //okhttp logging interceptor
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.14.2'
 
 }
 
