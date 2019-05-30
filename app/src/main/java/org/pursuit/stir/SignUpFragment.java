@@ -83,6 +83,7 @@ public class SignUpFragment extends Fragment {
         continueButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                validateUserInput();
                 signUpNewUsers(email, password);
                 signUpListener.replaceWithCoffeePrefFragment();
             }
@@ -139,20 +140,20 @@ public class SignUpFragment extends Fragment {
         if (!validateUserInput()) {
             return;
         }
-                firebaseAuth.createUserWithEmailAndPassword(email, password)
-                        .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (task.isSuccessful()) {
-                                    // Sign in success, update UI with the signed-in user's information
-                                    Log.d(TAG, "createUserWithEmail:success");
-                                } else {
-                                    // If sign in fails, display a message to the user.
-                                    Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                                    Toast.makeText(getContext(), "Oops! Something went wrong. Please try again.",
-                                            Toast.LENGTH_SHORT).show();
-                                }
+            firebaseAuth.createUserWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                // Sign in success, update UI with the signed-in user's information
+                                Log.d(TAG, "createUserWithEmail:success");
+                            } else {
+                                // If sign in fails, display a message to the user.
+                                Log.w(TAG, "createUserWithEmail:failure", task.getException());
+                                Toast.makeText(getActivity(), "Oops! Something went wrong. Please try again.",
+                                        Toast.LENGTH_SHORT).show();
                             }
-                        });
-    }
+                        }
+                    });
+        }
 }

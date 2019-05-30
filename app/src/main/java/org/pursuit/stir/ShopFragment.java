@@ -119,9 +119,9 @@ public class ShopFragment extends Fragment
     }
 
     //TODO make it take the list of result and photos (PAIRS)
-    public void updateUI(List<FoursquareResults> fourSquareResult) {
+    public void updateUI(List<Pair<FoursquareResults, FourSquareVenuePhoto>> pairResults) {
         // Displays the results in the RecyclerView
-        adapter = new ShopAdapter(fourSquareResult, mainHostListener);
+        adapter = new ShopAdapter(pairResults, mainHostListener);
         recyclerView.setAdapter(adapter);
 
         progressCircle.setVisibility(View.INVISIBLE);
@@ -152,16 +152,21 @@ public class ShopFragment extends Fragment
                     .addOnSuccessListener(getActivity(), location -> {
                         if (location != null) {
                             disposable.add(fourSquareRepository.fourSquareResult(location.getLatitude(),
-                                    location.getLongitude(), location.getAccuracy()).subscribe(pairs -> {
-
-                                updateUI(transformPairToResult(pairs));
-                            }));
+                                    location.getLongitude(), location.getAccuracy())
+                                    .subscribe(this::updateUI
+                                            , this::showError));
                         } else {
                             Toast.makeText(getContext(), "There was an error with this request", Toast.LENGTH_SHORT).show();
                             Log.d("evelyn", "onConnected: error with request");
                         }
                     });
         }
+    }
+
+    private void showError(Throwable throwable) {
+        progressCircle.setVisibility(View.INVISIBLE);
+        Log.d(TAG, "onConnected: " + throwable.getMessage());
+        Toast.makeText(getContext(), "Oops, network error. Please try again!", Toast.LENGTH_SHORT).show();
     }
 
     @Override
