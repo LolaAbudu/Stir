@@ -2,11 +2,9 @@ package org.pursuit.stir;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -15,9 +13,6 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
 import butterknife.BindView;
@@ -81,46 +76,30 @@ public class LoginActivity extends AppCompatActivity {
         if (!validateUserInput()) {
             return;
         }
-//        showProgressDialog();
         firebaseAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d(TAG, "signInWithEmail:success");
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            Log.w(TAG, "signInWithEmail:failure", task.getException());
-                            Toast.makeText(LoginActivity.this, R.string.authorization_failed_message,
-                                    Toast.LENGTH_SHORT).show();
-                        }
-                        if (!task.isSuccessful()) {
-                            //msg
-                        }
-//                        hideProgressDialog();
+                .addOnCompleteListener(this, task -> {
+                    if (task.isSuccessful()) {
+                        Log.d(TAG, "signInWithEmail:success");
+                    } else {
+                        Log.w(TAG, "signInWithEmail:failure", task.getException());
+                        Toast.makeText(LoginActivity.this, R.string.authorization_failed_message,
+                                Toast.LENGTH_SHORT).show();
                     }
                 });
     }
 
     private void userLogin() {
-        loginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                signInExistingUser(emailEditText.getText().toString(), passwordEditText.getText().toString());
-                Intent intent = new Intent(LoginActivity.this, MainHostActivity.class);
-                startActivity(intent);
-            }
+        loginButton.setOnClickListener(v -> {
+            signInExistingUser(emailEditText.getText().toString(), passwordEditText.getText().toString());
+            Intent intent = new Intent(LoginActivity.this, MainHostActivity.class);
+            startActivity(intent);
         });
     }
 
     private void userRegistration() {
-        signUpLink.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(LoginActivity.this, SignUpHostActivity.class);
-                startActivity(intent);
-            }
+        signUpLink.setOnClickListener(v -> {
+            Intent intent = new Intent(LoginActivity.this, SignUpHostActivity.class);
+            startActivity(intent);
         });
     }
 

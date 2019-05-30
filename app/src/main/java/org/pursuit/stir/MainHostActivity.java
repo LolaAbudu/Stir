@@ -7,9 +7,15 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+
 import org.pursuit.stir.models.FoursquareJSON;
 
 public class MainHostActivity extends AppCompatActivity implements MainHostListener {
+
+    FirebaseUser firebaseUser;
+    DatabaseReference databaseReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +81,7 @@ public class MainHostActivity extends AppCompatActivity implements MainHostListe
                 .addToBackStack(null)
                 .commit();
 
-        }
+    }
 
     @Override
     public void replaceWithImageUploadFragment() {
@@ -107,5 +113,26 @@ public class MainHostActivity extends AppCompatActivity implements MainHostListe
                 .addToBackStack(null)
                 .commit();
     }
+
+//    @Override
+//    public void setBeanLike() {
+//        ImageUpload image = new ImageUpload();
+//        if (!image.hasLiked) {
+//            // add new Like
+//            image.hasLiked = true;
+//            Bean like = new Bean(image.getImageName(), firebaseUser.getUid());
+//            String key = databaseReference.child("likes").push().getKey();
+//            databaseReference.child("likes").child(key).setValue(like);
+//            image.userLike = key;
+//            image.addLike();
+//        } else {
+//            // remove Like
+//            image.hasLiked = false;
+//            if (image.userLike != null) {
+//                databaseReference.child("likes").child(image.userLike).removeValue();
+//                image.removeLike();
+//            }
+//        }
+//    }
 }
 

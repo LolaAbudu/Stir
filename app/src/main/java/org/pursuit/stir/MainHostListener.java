@@ -14,5 +14,7 @@ public interface MainHostListener {
 
     void moveToMap(FoursquareVenue foursquareVenue);
 
-    void moveToDetailFragment(String imageName, String imageUrl);
+    void moveToDetailFragment(String image, String imageURl);
+
+//    void setBeanLike();
 }

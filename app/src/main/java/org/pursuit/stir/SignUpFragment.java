@@ -15,10 +15,9 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -29,6 +28,8 @@ public class SignUpFragment extends Fragment {
 
     private SignUpListener signUpListener;
     private FirebaseAuth firebaseAuth;
+    private FirebaseDatabase firebaseDatabase;
+    private DatabaseReference databaseReference;
 
     @BindView(R.id.sign_up_username_editText)
     EditText usernameEditText;
@@ -47,6 +48,7 @@ public class SignUpFragment extends Fragment {
     private String email;
     private String password;
     private String confirm;
+    private String userID;
 
     public SignUpFragment() {
     }
@@ -68,6 +70,10 @@ public class SignUpFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         firebaseAuth = FirebaseAuth.getInstance();
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        databaseReference = firebaseDatabase.getReference();
+//        FirebaseUser user = firebaseAuth.getCurrentUser();
+//        userID = user.getUid();
     }
 
     @Override
@@ -80,13 +86,17 @@ public class SignUpFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
-        continueButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                validateUserInput();
+        continueButton.setOnClickListener(v -> {
+            //TODO user authentication
+            if (!username.equals("") && !email.equals("") && !password.equals("") && !confirm.equals("")) {
+//                User user = new User(username);
+//                databaseReference.child("users").child(userID).setValue(user);
+                Toast.makeText(getContext(), "New Information has been saved.",
+                        Toast.LENGTH_SHORT).show();
                 signUpNewUsers(email, password);
-                signUpListener.replaceWithCoffeePrefFragment();
             }
+            signUpListener.replaceWithCoffeePrefFragment();
+
         });
     }
 
@@ -121,8 +131,8 @@ public class SignUpFragment extends Fragment {
         } else {
             passwordEditText.setError(null);
         }
-        if (TextUtils.isEmpty(confirm)) {
-            confirmEditText.setError("Required.");
+        if (TextUtils.isEmpty(confirm) || !confirm.equals(password)) {
+            confirmEditText.setError("Required. Must match password");
             valid = false;
         } else {
             confirmEditText.setError(null);
@@ -140,20 +150,17 @@ public class SignUpFragment extends Fragment {
         if (!validateUserInput()) {
             return;
         }
-            firebaseAuth.createUserWithEmailAndPassword(email, password)
-                    .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()) {
-                                // Sign in success, update UI with the signed-in user's information
-                                Log.d(TAG, "createUserWithEmail:success");
-                            } else {
-                                // If sign in fails, display a message to the user.
-                                Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                                Toast.makeText(getActivity(), "Oops! Something went wrong. Please try again.",
-                                        Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    });
-        }
+        firebaseAuth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(getActivity(), task -> {
+                    if (task.isSuccessful()) {
+                        // Sign in success, update UI with the signed-in user's information
+                        Log.d(TAG, "createUserWithEmail:success");
+                    } else {
+                        // If sign in fails, display a message to the user.
+                        Log.w(TAG, "createUserWithEmail:failure", task.getException());
+                        Toast.makeText(getContext(), "Oops! Something went wrong. Please try again.",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
 }
