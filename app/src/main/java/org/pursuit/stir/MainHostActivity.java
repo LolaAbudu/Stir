@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 
@@ -114,7 +115,7 @@ public class MainHostActivity extends AppCompatActivity implements MainHostListe
                 .commit();
     }
 
-//    @Override
+    //    @Override
 //    public void setBeanLike() {
 //        ImageUpload image = new ImageUpload();
 //        if (!image.hasLiked) {
