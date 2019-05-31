@@ -26,7 +26,7 @@ public class HomeViewHolder extends RecyclerView.ViewHolder {
 
         Picasso.get()
                 .load(imageUpload.getImageUrl())
-                .placeholder(R.mipmap.ic_launcher)
+                .placeholder(R.drawable.stir_logo_color)
                 .fit()
                 .centerCrop()
                 .into(imageview);

@@ -25,6 +25,7 @@ import org.pursuit.stir.homerv.HomeAdapter;
 import org.pursuit.stir.models.ImageUpload;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class HomeFragment extends Fragment{
@@ -87,6 +88,7 @@ public class HomeFragment extends Fragment{
                     imageList.add(imageUpload);
                 }
 
+                Collections.reverse(imageList);
                 homeAdapter = new HomeAdapter(imageList, mainHostListener);
                 recyclerView.setAdapter(homeAdapter);
 
