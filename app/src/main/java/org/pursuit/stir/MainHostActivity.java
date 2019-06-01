@@ -1,12 +1,15 @@
 package org.pursuit.stir;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 
@@ -114,7 +117,7 @@ public class MainHostActivity extends AppCompatActivity implements MainHostListe
                 .commit();
     }
 
-//    @Override
+    //    @Override
 //    public void setBeanLike() {
 //        ImageUpload image = new ImageUpload();
 //        if (!image.hasLiked) {
@@ -134,5 +137,18 @@ public class MainHostActivity extends AppCompatActivity implements MainHostListe
 //            }
 //        }
 //    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.sign_out:
+                FirebaseAuth.getInstance().signOut();
+                Intent intent = new Intent(this, LoginActivity.class);
+                startActivity(intent);
+                return true;
+                default:
+                    return super.onOptionsItemSelected(item);
+        }
+    }
 }
 
