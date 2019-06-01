@@ -98,7 +98,7 @@ public class ImageUploadFragment extends Fragment {
         uploadImageButton = view.findViewById(R.id.upload_button);
         imageNameEditText = view.findViewById(R.id.image_name_editText);
         userImageImageView = view.findViewById(R.id.user_image_imageView);
-        progressBar = view.findViewById(R.id.progress_bar);
+//        progressBar = view.findViewById(R.id.progress_bar);
 
         storageReference = FirebaseStorage.getInstance().getReference("imageUploads");
         databaseReference = FirebaseDatabase.getInstance().getReference("imageUploads");
