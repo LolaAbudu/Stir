@@ -1,10 +1,10 @@
 <resources>
     <string name="app_name">Stir</string>
     <string name="authorization_failed_message">Oops! Something went wrong. Please try again.</string>
-    <string name="login_email_hint">email</string>
-    <string name="login_password_hint">password</string>
+    <string name="login_email_hint">Email</string>
+    <string name="login_password_hint">Password</string>
     <string name="login_button_text">LOGIN</string>
-    <string name="login_sign_up_textview">sign up</string>
+    <string name="login_sign_up_textview">SIGN UP</string>
     <string name="detail_posted_by_text">Posted by:</string>
     <string name="sign_up_checkbox_acknowledgement">I acknowledge I am 18 years or older.</string>
     <string name="profile_coffee_bean_count">144</string>
