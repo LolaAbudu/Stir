@@ -13,8 +13,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -39,6 +42,10 @@ public class HomeFragment extends Fragment{
     private List<ImageUpload> imageList;
     private MainHostListener mainHostListener;
 
+    private FirebaseAuth mAuth;
+    private FirebaseUser currentUser;
+    private TextView profileName;
+
     public HomeFragment() { }
 
     public static HomeFragment newInstance() {
@@ -54,6 +61,17 @@ public class HomeFragment extends Fragment{
         if (context instanceof MainHostListener){
             mainHostListener = (MainHostListener) context;
         }
+
+//        mAuth = FirebaseAuth.getInstance();
+//        currentUser = mAuth.getCurrentUser();
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        mAuth = FirebaseAuth.getInstance();
+        currentUser = mAuth.getCurrentUser();
     }
 
     @Override
@@ -66,7 +84,17 @@ public class HomeFragment extends Fragment{
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        profileName = view.findViewById(R.id.username_text_view);
+        if (currentUser != null) {
+            profileName.setText(currentUser.getDisplayName());
+            Log.d("TAG", "onViewCreated: " + currentUser.getDisplayName());
+        } else {
+            profileName.setText("");
+            Log.d("TAG", "onViewCreated: currentuser = null");
+        }
+
         recyclerView = view.findViewById(R.id.home_itemview_recycler_view);
+        profileName = view.findViewById(R.id.username_text_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
 
@@ -75,6 +103,14 @@ public class HomeFragment extends Fragment{
         imageList = new ArrayList<>();
 
         databaseReference = FirebaseDatabase.getInstance().getReference("imageUploads");
+
+
+//        if (currentUser != null) {
+//            profileName.setText(currentUser.getDisplayName());
+//            Log.d("TAG", "onViewCreated: " + currentUser.getDisplayName());
+//        } else {
+//            Log.d("TAG", "onViewCreated: currentuser = null");
+//        }
 
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -96,6 +132,8 @@ public class HomeFragment extends Fragment{
 
                 progressCircle.setVisibility(View.INVISIBLE);
             }
+
+
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
