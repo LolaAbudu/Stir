@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.animation.Animation;
+import android.view.animation.RotateAnimation;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -24,6 +26,8 @@ public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
     private SignUpListener signUpListener;
 
+    @BindView(R.id.login_logo_imageView)
+    ImageView imageView;
     @BindView(R.id.login_email_editText)
     EditText emailEditText;
     @BindView(R.id.login_password_editText)
@@ -41,16 +45,30 @@ public class LoginActivity extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
         ButterKnife.bind(this);
         createRoundLogoImage();
+
         userLogin();
         userRegistration();
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        logoRotationAnimation();
+    }
+
     private void createRoundLogoImage() {
-        ImageView imageView = findViewById(R.id.login_logo_imageView);
         Glide.with(getApplicationContext())
                 .load(R.mipmap.stir_name_logo)
                 .apply(RequestOptions.circleCropTransform())
                 .into(imageView);
+    }
+
+    public void logoRotationAnimation(){
+        RotateAnimation animation = new RotateAnimation(0, -360,
+                Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        animation.setDuration(1500);
+        imageView.setAnimation(animation);
+        imageView.startAnimation(animation);
     }
 
     private boolean validateUserInput() {

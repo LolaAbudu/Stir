@@ -2,29 +2,22 @@ package org.pursuit.stir.shoprv;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.util.Pair;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 
-import org.pursuit.stir.BuildConfig;
 import org.pursuit.stir.MainHostListener;
 import org.pursuit.stir.R;
 import org.pursuit.stir.models.FourSquareVenuePhoto;
-import org.pursuit.stir.models.FoursquareJSON;
 import org.pursuit.stir.models.FoursquareJSON.FoursquareResponse.FoursquareGroup.FoursquareResults;
 import org.pursuit.stir.models.FoursquareJSON.FoursquareResponse.FoursquareGroup.FoursquareResults.FoursquareVenue;
-import org.pursuit.stir.network.FoursquareService;
-import org.pursuit.stir.network.RetrofitSingleton;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class ShopViewHolder extends RecyclerView.ViewHolder {
 
@@ -32,8 +25,8 @@ public class ShopViewHolder extends RecyclerView.ViewHolder {
     TextView shopName;
     @BindView(R.id.fragment_shop_itemview_image)
     ImageView shopImage;
-    @BindView(R.id.fragment_shop_distance_textview)
-    TextView distance;
+//    @BindView(R.id.fragment_shop_distance_textview)
+//    TextView distance;
 
     private MainHostListener listener;
     private FoursquareVenue venue;
@@ -65,9 +58,10 @@ public class ShopViewHolder extends RecyclerView.ViewHolder {
         String photoUrl = photo.getResponse().getPhotos().getItems().get(0).getPrefix() + "200x200" +
                 photo.getResponse().getPhotos().getItems().get(0).getSuffix();
 
-        Picasso.get()
+        Glide.with(itemView.getContext())
                 .load(photoUrl)
-                .placeholder(R.mipmap.ic_launcher)
+                .apply(RequestOptions.circleCropTransform())
+                .placeholder(R.mipmap.ic_logo_placeholder)
                 .into(shopImage);
 
         itemView.setOnClickListener(new View.OnClickListener() {
