@@ -167,13 +167,13 @@ public class ImageUploadFragment extends Fragment {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                             //below delays the progress bar for about 5 seconds so that the user can see the progress bar or else it could download so fast and the user doesn't see anything
-                            Handler handler = new Handler();
-                            handler.postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    progressBar.setProgress(0);
-                                }
-                            }, 500);
+//                            Handler handler = new Handler();
+//                            handler.postDelayed(new Runnable() {
+//                                @Override
+//                                public void run() {
+//                                    progressBar.setProgress(0);
+//                                }
+//                            }, 500);
 
                             Task<Uri> urlTask = taskSnapshot.getStorage().getDownloadUrl();
                             while(!urlTask.isSuccessful());
@@ -196,8 +196,8 @@ public class ImageUploadFragment extends Fragment {
                     .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-                            double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount());
-                            progressBar.setProgress((int) progress);
+                         //   double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount());
+                       //     progressBar.setProgress((int) progress);
                         }
                     });
         } else {
