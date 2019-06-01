@@ -13,7 +13,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:background="@color/colorPrimary"
-        app:itemBackground="@color/colorPrimary"
         app:itemIconSize="36dp"
         android:scrollIndicators="start"
         app:itemIconTint="@drawable/bottom_nav_bar_icon_selector"

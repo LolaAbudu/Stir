@@ -16,6 +16,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -88,6 +90,7 @@ public class SignUpFragment extends Fragment {
         ButterKnife.bind(this, view);
         continueButton.setOnClickListener(v -> {
             //TODO user authentication
+            validateUserInput();
             if (!username.equals("") && !email.equals("") && !password.equals("") && !confirm.equals("")) {
 //                User user = new User(username);
 //                databaseReference.child("users").child(userID).setValue(user);
@@ -154,7 +157,14 @@ public class SignUpFragment extends Fragment {
                 .addOnCompleteListener(getActivity(), task -> {
                     if (task.isSuccessful()) {
                         // Sign in success, update UI with the signed-in user's information
-                        Log.d(TAG, "createUserWithEmail:success");
+                        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+                        username = usernameEditText.getText().toString();
+                        UserProfileChangeRequest request = new UserProfileChangeRequest.Builder()
+                                .setDisplayName(username)
+                                .build();
+                        currentUser.updateProfile(request);
+                        Log.d(TAG, "signUpNewUsers: " + username);
+                        Log.d(TAG, "createUserWithEmail:success" + currentUser.getDisplayName());
                     } else {
                         // If sign in fails, display a message to the user.
                         Log.w(TAG, "createUserWithEmail:failure", task.getException());
