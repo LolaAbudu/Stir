@@ -45,7 +45,6 @@
             android:text="Username"
             android:textColor="@color/colorPrimary"
             android:textSize="20sp"
-            android:textStyle="bold"
             android:fontFamily="sans-serif"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -106,52 +105,65 @@
 
     </android.support.v7.widget.CardView>
 
-    <TextView
-        android:id="@+id/detail_coffee_shop_name"
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:text="The Dark Bean Shop"
-        android:textColor="@color/colorBlackText"
-        android:textSize="32sp"
-        android:textStyle="bold"
-        android:fontFamily="sans-serif"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/detail_user_photo" />
+        android:layout_marginTop="16dp"
+        android:clickable="true"
+        android:foreground="?attr/selectableItemBackground">
 
-    <LinearLayout
-        android:layout_width="350dp"
-        android:layout_height="70dp"
-        android:layout_gravity="center"
-        android:orientation="horizontal">
-
-        <android.support.design.widget.FloatingActionButton
+        <TextView
+            android:id="@+id/detail_coffee_shop_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="18dp"
-            android:layout_gravity="center"
-            android:padding="10dp"
-            android:clickable="true"
-            android:foreground="?attr/selectableItemBackground"
-            android:src="@drawable/ic_place_marker" />
-    <TextView
-        android:id="@+id/detail_coffee_shop_address"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:text="2100 West Coffee Street \nNew York, NY 10031  "
-        android:textSize="20sp"
-        android:fontFamily="sans-serif"
-        android:clickable="true"
-        android:foreground="?attr/selectableItemBackground"/>
+            android:layout_marginEnd="168dp"
+            android:fontFamily="sans-serif"
+            android:gravity="start"
+            android:text="The Dark Bean Shop"
+            android:textColor="@color/colorBlackText"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.231"/>
+
+        <ImageView
+            android:layout_width="96dp"
+            android:layout_height="77dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:src="@drawable/directions"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/detail_coffee_shop_name"
+            app:layout_constraintTop_toTopOf="parent"
+           />
+
+        <TextView
+            android:id="@+id/detail_coffee_shop_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="48dp"
+            android:layout_marginEnd="8dp"
+            android:fontFamily="sans-serif"
+            android:gravity="start"
+            android:text="2100 West Coffee Street \nNew York, NY 10031  "
+            android:textSize="20sp"
+            android:textColor="@color/colorPrimary"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.006"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </android.support.constraint.ConstraintLayout>
+
+
         <!--android:textColor="#3F51B5"-->
-    </LinearLayout>
 
 
 </LinearLayout>
