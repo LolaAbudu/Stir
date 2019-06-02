@@ -32,7 +32,8 @@ public class HomeViewHolder extends RecyclerView.ViewHolder {
                 .into(imageview);
 
         imageview.setOnClickListener(v -> {
-            mainHostListener.moveToDetailFragment(imageUpload.getImageName(), imageUpload.getImageUrl());
+            mainHostListener.moveToDetailFragment(imageUpload.getImageName(),
+                    imageUpload.getImageUrl());
 
             Log.d("det", imageUpload.getImageName() + " " + imageUpload.getImageUrl());
         });

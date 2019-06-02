@@ -10,8 +10,8 @@
         android:title=""/>
 
     <item
-        android:id="@+id/navigation_profile"
-        android:icon="@drawable/ic_user_profile"
+        android:id="@+id/navigation_photo_upload"
+        android:icon="@drawable/ic_add_a_photo"
         android:enabled="true"
         app:showAsAction="always"
         android:title=""/>
@@ -24,10 +24,9 @@
         android:title=""/>
 
     <item
-        android:id="@+id/navigation_photo_upload"
-        android:icon="@drawable/ic_add_a_photo"
+        android:id="@+id/navigation_profile"
+        android:icon="@drawable/ic_user_profile"
         android:enabled="true"
         app:showAsAction="always"
         android:title=""/>
-
 </menu>
