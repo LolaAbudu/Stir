@@ -6,6 +6,7 @@ public class ImageUpload {
 
     private String imageName;
     private String imageUrl;
+//    private int beanCount;
 
     public User user;
 
@@ -23,11 +24,12 @@ public class ImageUpload {
 
     public ImageUpload(String imageName, String imageUrl) {
 
-        if(imageName.trim().equals("")){
+        if (imageName.trim().equals("")) {
             imageName = "No Image Description";
         }
         this.imageName = imageName;
         this.imageUrl = imageUrl;
+//        this.beanCount = beanCount;
     }
 
     public String getImageName() {
@@ -45,6 +47,14 @@ public class ImageUpload {
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
+
+//    public int getBeanCount() {
+//        return beanCount;
+//    }
+//
+//    public void setBeanCount(int beanCount) {
+//        this.beanCount = beanCount;
+//    }
 
     public User getUser() {
         return user;

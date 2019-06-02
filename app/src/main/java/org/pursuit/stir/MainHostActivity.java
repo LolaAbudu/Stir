@@ -117,7 +117,7 @@ public class MainHostActivity extends AppCompatActivity implements MainHostListe
                 .commit();
     }
 
-    //    @Override
+//        @Override
 //    public void setBeanLike() {
 //        ImageUpload image = new ImageUpload();
 //        if (!image.hasLiked) {
