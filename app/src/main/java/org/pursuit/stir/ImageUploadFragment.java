@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -48,6 +49,7 @@ public class ImageUploadFragment extends Fragment {
     private Button uploadImageButton;
     private EditText imageNameEditText;
     private ImageView userImageImageView;
+    private SearchView searchView;
 
     private ProgressBar progressBar;
     private Uri imageUri;
@@ -76,7 +78,7 @@ public class ImageUploadFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof SignUpListener) {
+        if (context instanceof MainHostListener) {
             mainHostListener = (MainHostListener) context;
         }
     }
@@ -98,6 +100,7 @@ public class ImageUploadFragment extends Fragment {
         uploadImageButton = view.findViewById(R.id.upload_button);
         imageNameEditText = view.findViewById(R.id.image_name_editText);
         userImageImageView = view.findViewById(R.id.user_image_imageView);
+        searchView = view.findViewById(R.id.image_upload_coffee_shop_searchView);
 //        progressBar = view.findViewById(R.id.progress_bar);
 
         storageReference = FirebaseStorage.getInstance().getReference("imageUploads");
@@ -185,6 +188,7 @@ public class ImageUploadFragment extends Fragment {
                             ImageUpload imageUpload = new ImageUpload(imageName, downloadUrl.toString());
                             String uploadId = databaseReference.push().getKey();
                             databaseReference.child(uploadId).setValue(imageUpload);
+                            openHomeFragment();
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
@@ -213,5 +217,9 @@ public class ImageUploadFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mainHostListener = null;
+    }
+
+    public void searchViewMethod() {
+
     }
 }
