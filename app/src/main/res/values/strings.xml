@@ -13,5 +13,10 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="coffee_pref_hey_coffee_lover">Hey, coffee lover!</string>
+    <string name="coffee_pref_question_one">What is your favorite coffee roast?</string>
+    <string name="coffee_pref_question_three">How many cups of coffee do you drink per day?</string>
+    <string name="coffee_pref_question_two">What is your favorite coffee drink?</string>
+    <string name="coffee_pref_question_four">What time of day do you usually drink coffee?</string>
 
 </resources>
