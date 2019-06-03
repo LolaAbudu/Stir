@@ -45,6 +45,10 @@ public class MainHostActivity extends AppCompatActivity implements MainHostListe
                     Toast.makeText(this, "add photo selected", Toast.LENGTH_SHORT).show();
                     replaceWithImageUploadFragment();
                     break;
+                case R.id.navigation_find_coffee_lover:
+                    Toast.makeText(this, "find coffee lovers selected", Toast.LENGTH_SHORT).show();
+                    replaceWithCoffeeLoversFragment();
+                    break;
             }
             return true;
         });
@@ -92,6 +96,16 @@ public class MainHostActivity extends AppCompatActivity implements MainHostListe
                 .beginTransaction()
                 .setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit)
                 .replace(R.id.main_host_container, ImageUploadFragment.newInstance())
+                .addToBackStack(null)
+                .commit();
+    }
+
+    @Override
+    public void replaceWithCoffeeLoversFragment() {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit)
+                .replace(R.id.main_host_container, CoffeeLoversFragment.newInstance())
                 .addToBackStack(null)
                 .commit();
     }
