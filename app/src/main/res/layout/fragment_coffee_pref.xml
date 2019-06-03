@@ -6,105 +6,166 @@
     android:orientation="vertical"
     tools:context=".CoffeePrefFragment">
 
+
+    <TextView
+        android:id="@+id/coffee_pref_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="4dp"
+        android:fontFamily="sans-serif"
+        android:text="@string/coffee_pref_hey_coffee_lover"
+        android:textSize="24sp"
+        android:textStyle="italic" />
+
+
     <TextView
         android:id="@+id/coff_pref_quest_one"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="question one"
-        android:textSize="22sp"
-        android:fontFamily="sans-serif"/>
+        android:fontFamily="sans-serif"
+        style="@style/CoffeePrefTextView"
+        android:text="@string/coffee_pref_question_one"
+        android:textSize="16sp"
+        android:textStyle="bold" />
 
     <RadioGroup
         android:id="@+id/radio_group_one"
+        android:orientation="vertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
-    <RadioButton
-        android:id="@+id/quest_one_ans_one"
-        style="@style/CoffeePrefCheckBox"
-        android:text="answer one "/>
+        <RadioButton
+            android:id="@+id/quest_one_ans_one"
+            style="@style/CoffeePrefCheckBox"
+            android:text="Light" />
 
-    <RadioButton
-        android:id="@+id/quest_one_ans_two"
-        style="@style/CoffeePrefCheckBox" />
-    <RadioButton
-        android:id="@+id/quest_one_ans_three"
-        style="@style/CoffeePrefCheckBox" />
+        <RadioButton
+            android:id="@+id/quest_one_ans_two"
+            style="@style/CoffeePrefCheckBox"
+            android:text="Medium" />
+
+        <RadioButton
+            android:id="@+id/quest_one_ans_three"
+            style="@style/CoffeePrefCheckBox"
+            android:text="Medium Dark" />
+
+        <RadioButton
+            android:id="@+id/quest_one_ans_four"
+            style="@style/CoffeePrefCheckBox"
+            android:text="Dark" />
     </RadioGroup>
 
     <TextView
         android:id="@+id/coff_pref_quest_two"
         style="@style/CoffeePrefTextView"
-        android:text="question two"/>
+        android:textStyle="bold"
+        android:textSize="16sp"
+        android:text="@string/coffee_pref_question_two" />
 
     <RadioGroup
         android:id="@+id/radio_group_two"
+        android:orientation="vertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
-    <RadioButton
-        android:id="@+id/quest_two_ans_one"
-        style="@style/CoffeePrefCheckBox" />
 
-    <RadioButton
-        android:id="@+id/quest_two_ans_two"
-        style="@style/CoffeePrefCheckBox" />
+        <RadioButton
+            android:id="@+id/quest_two_ans_one"
+            style="@style/CoffeePrefCheckBox"
+            android:text="Americano" />
 
-    <RadioButton
-        android:id="@+id/quest_two_ans_three"
-        style="@style/CoffeePrefCheckBox" />
+        <RadioButton
+            android:id="@+id/quest_two_ans_two"
+            style="@style/CoffeePrefCheckBox"
+            android:text="Latte" />
+
+        <RadioButton
+            android:id="@+id/quest_two_ans_three"
+            style="@style/CoffeePrefCheckBox"
+            android:text="Cappuccino" />
+
+        <RadioButton
+            android:id="@+id/quest_two_ans_four"
+            style="@style/CoffeePrefCheckBox"
+            android:text="Mocha" />
+
+        <RadioButton
+            android:id="@+id/quest_two_ans_five"
+            style="@style/CoffeePrefCheckBox"
+            android:text="Iced Coffee" />
+
+
     </RadioGroup>
 
     <TextView
         android:id="@+id/coff_pref_quest_three"
         style="@style/CoffeePrefTextView"
-        android:text="question three"/>
+        android:textStyle="bold"
+        android:textSize="16sp"
+        android:text="@string/coffee_pref_question_three" />
 
     <RadioGroup
         android:id="@+id/radio_group_three"
+        android:orientation="vertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
-    <RadioButton
-        android:id="@+id/quest_three_ans_one"
-        style="@style/CoffeePrefCheckBox" />
 
-    <RadioButton
-        android:id="@+id/quest_three_ans_two"
-        style="@style/CoffeePrefCheckBox" />
+        <RadioButton
+            android:id="@+id/quest_three_ans_one"
+            style="@style/CoffeePrefCheckBox"
+            android:text="1-2" />
 
-    <RadioButton
-        android:id="@+id/quest_three_ans_three"
-        style="@style/CoffeePrefCheckBox" />
+        <RadioButton
+            android:id="@+id/quest_three_ans_two"
+            style="@style/CoffeePrefCheckBox"
+            android:text="3-4" />
+
+        <RadioButton
+            android:id="@+id/quest_three_ans_three"
+            style="@style/CoffeePrefCheckBox"
+            android:text="5+" />
     </RadioGroup>
 
     <TextView
         android:id="@+id/coff_pref_quest_four"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         style="@style/CoffeePrefTextView"
-        android:text="question three"/>
+        android:fontFamily="sans-serif"
+        android:textSize="16sp"
+        android:text="@string/coffee_pref_question_four"
+        android:textStyle="bold" />
 
     <RadioGroup
         android:id="@+id/radio_group_four"
+        android:orientation="vertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
-    <RadioButton
-        android:id="@+id/quest_four_ans_one"
-        style="@style/CoffeePrefCheckBox" />
 
-    <RadioButton
-        android:id="@+id/quest_four_ans_two"
-        style="@style/CoffeePrefCheckBox" />
+        <RadioButton
+            android:id="@+id/quest_four_ans_one"
+            style="@style/CoffeePrefCheckBox"
+            android:text="Morning " />
 
-    <RadioButton
-        android:id="@+id/quest_four_ans_three"
-        style="@style/CoffeePrefCheckBox" />
+        <RadioButton
+            android:id="@+id/quest_four_ans_two"
+            style="@style/CoffeePrefCheckBox"
+            android:text="Noon" />
+
+        <RadioButton
+            android:id="@+id/quest_four_ans_three"
+            style="@style/CoffeePrefCheckBox"
+            android:text="Evening" />
+
+        <RadioButton
+            android:id="@+id/quest_four_ans_four"
+            style="@style/CoffeePrefCheckBox"
+            android:text="Night" />
     </RadioGroup>
 
     <Button
         android:id="@+id/coff_pref_continue_button"
         style="@style/AppButton"
-        android:text="continue"/>
+        android:text="continue" />
 
 </LinearLayout>
