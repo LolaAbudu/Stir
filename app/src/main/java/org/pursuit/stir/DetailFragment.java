@@ -21,7 +21,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
-import org.pursuit.stir.models.Bean;
+import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -34,7 +34,6 @@ public class DetailFragment extends Fragment {
 
     private FirebaseAuth firebaseAuth;
     private DatabaseReference databaseReferenceBean;
-    private boolean processBean = false;
 
     private static final String IMAGE_NAME_KEY = "name";
     private static final String IMAGE_URL_KEY = "url";
@@ -43,8 +42,6 @@ public class DetailFragment extends Fragment {
     private String imageName;
     private String imageUrl;
     private int beanCount = 0;
-//
-//    private Bean beanTest = new Bean("me", "you");
 
     @BindView(R.id.detail_drink_name_textView)
     TextView imageNameTextView;
@@ -95,13 +92,16 @@ public class DetailFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
-        firebaseAuth = FirebaseAuth.getInstance();
-        databaseReferenceBean = FirebaseDatabase.getInstance().getReference("bean");
-
         imageNameTextView.setText(imageName);
         Picasso.get().load(imageUrl).into(imageURLImageView);
 
-        onBeanClick();
+        firebaseAuth = FirebaseAuth.getInstance();
+        databaseReferenceBean = FirebaseDatabase.getInstance().getReference("likes").child(imageName);
+
+        HashMap<String, String> hashMap = new HashMap<>();
+        hashMap.put("imageURL", imageUrl);
+        hashMap.put("beanCount", String.valueOf(onBeanClick()));
+        databaseReferenceBean.setValue(hashMap);
     }
 
     @Override
@@ -110,47 +110,62 @@ public class DetailFragment extends Fragment {
         mainHostListener = null;
     }
 
-    public void onBeanClick() {
+    public int onBeanClick() {
         coffeeBean.setOnClickListener(v -> {
-            beanCount++;
-            beanCountTextView.setText(String.valueOf(beanCount));
-            Bean bean = new Bean(imageName, beanCount);
             Log.d(TAG, "onBeanClick: click is working");
-//            databaseReferenceBean.setValue("heello, world");
-//            Bean beanTest = new Bean("cappuccino");
-//            databaseReferenceBean.child(imageUrl).child("likes").setValue(beanTest);
-                    databaseReferenceBean.child("beanCount").setValue(bean);
+            beanCount = beanCount + 1;
+            beanCountTextView.setText(String.valueOf(beanCount));
+
             databaseReferenceBean.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     Log.d(TAG, "onDataChange: data changing works");
-
-//                    ImageUpload imageUpload = (ImageUpload) dataSnapshot.getValue();
-//                    if (bean != null) {
-//                        beanCount = bean.getBeanCount();
-//                        beanCount = beanCount + 1;
-//                    }
-//                        imageList.add(imageUpload);
-//                    }
-
-
-//                    Bean bean = new Bean(imageName);
-//                    String uploadId = databaseReferenceBean.push().getKey();
-//                    databaseReferenceBean.child(uploadId).setValue(bean);
-//                    if (dataSnapshot.child(uploadId).hasChild(firebaseAuth.getCurrentUser().getUid())) {
-//                    } else {
-//                        databaseReferenceBean.child(uploadId).child(firebaseAuth.getCurrentUser().getUid()).setValue("username");
-//                    }
+                    databaseReferenceBean.child("beanCount").setValue(beanCount);
                 }
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
 
                 }
-
             });
         });
+        return beanCount;
     }
 
+//    private void onBeanClicked(DatabaseReference postRef) {
+//        postRef.runTransaction(new Transaction.Handler() {
+//            @Override
+//            public Transaction.Result doTransaction(MutableData mutableData) {
+//                ImageUpload bean = mutableData.getValue(ImageUpload.class);
+//                if (bean == null) {
+//                    return Transaction.success(mutableData);
+//                }
+//                beanCount = bean.starCount;
+//                if (bean.stars.containsKey(firebaseAuth.getUid())) {
+//                    // Unstar the post and remove self from stars
+//                    beanCount = bean.starCount - 1;
+//                    bean.stars.remove(firebaseAuth.getUid());
+//                } else {
+//                    // Star the post and add self to stars
+//                    beanCount = bean.starCount + 1;
+//                    bean.stars.put(firebaseAuth.getUid(), true);
+//                }
+//
+//                // Set value and report transaction success
+//                beanCountTextView.setText(String.valueOf(beanCount));
+//                mutableData.setValue(bean);
+//                return Transaction.success(mutableData);
+//            }
+//
+//            @Override
+//            public void onComplete(DatabaseError databaseError, boolean b,
+//                                   DataSnapshot dataSnapshot) {
+//                // Transaction completed
+//                Log.d(TAG, "postTransaction:onComplete:" + databaseError);
+//            }
+//        });
 
 }
+
+
+

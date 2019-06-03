@@ -17,6 +17,13 @@
         android:title=""/>
 
     <item
+        android:id="@+id/navigation_find_coffee_lover"
+        android:icon="@drawable/ic_coffee_lovers"
+        android:enabled="true"
+        app:showAsAction="always"
+        android:title=""/>
+
+    <item
         android:id="@+id/navigation_shops"
         android:icon="@drawable/ic_local_cafe"
         android:enabled="true"
