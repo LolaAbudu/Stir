@@ -34,7 +34,7 @@ import com.squareup.picasso.Picasso;
 
 import org.pursuit.stir.models.ImageUpload;
 
-public class ImageUploadFragment extends Fragment {
+public class ImageUploadFragment extends Fragment  {
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -218,7 +218,8 @@ public class ImageUploadFragment extends Fragment {
         mainHostListener = null;
     }
 
-    public void searchViewMethod() {
 
-    }
+    public void searchViewMethod() {}
+
+
 }
