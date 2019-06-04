@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,6 +48,7 @@ public class ImageUploadFragment extends Fragment {
     private Button uploadImageButton;
     private EditText imageNameEditText;
     private ImageView userImageImageView;
+    private SearchView searchView;
 
     private ProgressBar progressBar;
     private Uri imageUri;
@@ -75,7 +77,7 @@ public class ImageUploadFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof SignUpListener) {
+        if (context instanceof MainHostListener) {
             mainHostListener = (MainHostListener) context;
         }
     }
@@ -97,6 +99,7 @@ public class ImageUploadFragment extends Fragment {
         uploadImageButton = view.findViewById(R.id.upload_button);
         imageNameEditText = view.findViewById(R.id.image_name_editText);
         userImageImageView = view.findViewById(R.id.user_image_imageView);
+        searchView = view.findViewById(R.id.image_upload_coffee_shop_searchView);
 //        progressBar = view.findViewById(R.id.progress_bar);
 
         storageReference = FirebaseStorage.getInstance().getReference("imageUploads");
@@ -213,5 +216,9 @@ public class ImageUploadFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mainHostListener = null;
+    }
+
+    public void searchViewMethod() {
+
     }
 }
