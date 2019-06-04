@@ -41,15 +41,12 @@ public class CoffeeLoversFragment extends Fragment {
 
     private static final int SIGN_IN_REQUEST_CODE = 1;
     private static final int RESULT_OK = -1;
-//    private FirebaseRecyclerAdapter<Chat, CoffeeLoversViewHolder> adapter;
     private CoffeeLoversAdapter adapter;
     private RecyclerView listOfMessages;
     private EditText input;
     private List<Chat> chatList;
     private MainHostListener mainHostListener;
     private static final String TAG = "evelyn";
-//    private StorageReference storageReference;
-//    private DatabaseReference databaseReference;
 
     public CoffeeLoversFragment() {
         // Required empty public constructor
@@ -134,44 +131,6 @@ public class CoffeeLoversFragment extends Fragment {
 
                 }
             });
-
-//        DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
-//        Query query = reference.child("chat");
-//        FirebaseRecyclerOptions<Chat> options = new FirebaseRecyclerOptions.Builder<Chat>()
-//                .setQuery(query, Chat.class)
-//                .build();
-//        Log.d(TAG, "displayChatMessages: test");
-
-//        adapter = new FirebaseRecyclerAdapter<Chat, CoffeeLoversViewHolder>(options) {
-//            @NonNull
-//            @Override
-//            public CoffeeLoversViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-//                View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.message, viewGroup, false);
-//                return new CoffeeLoversViewHolder(view);
-//            }
-//
-//            @Override
-//            protected void onBindViewHolder(@NonNull CoffeeLoversViewHolder holder, int position, @NonNull Chat model) {
-//                holder.onBind(model);
-//                Log.d(TAG, "onBindViewHolder: " + model.getMessageText());
-//            }
-
-//            @Override
-//            protected void populateView(View v, Chat model, int position) {
-//                TextView messageText = v.findViewById(R.id.message_text);
-//                TextView messageUser = v.findViewById(R.id.message_user);
-//                TextView messageTime = v.findViewById(R.id.message_time);
-//
-//                //set their text
-//                messageText.setText(model.getMessageText());
-//                messageUser.setText(model.getMessageUser());
-//                // Format the date before showing it
-//                messageTime.setText(DateFormat.format("dd-MM-yyyy (HH:mm:ss)",
-//                        model.getMessageTime()));
-//            }
-//        };
-//        listOfMessages.setAdapter(adapter);
-//        adapter.notifyDataSetChanged();
     }
 
     @Override

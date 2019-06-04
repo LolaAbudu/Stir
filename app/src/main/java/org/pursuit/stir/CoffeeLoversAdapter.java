@@ -19,7 +19,6 @@ public class CoffeeLoversAdapter extends RecyclerView.Adapter<CoffeeLoversViewHo
         this.mainHostListener = mainHostListener;
     }
 
-
     @NonNull
     @Override
     public CoffeeLoversViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
