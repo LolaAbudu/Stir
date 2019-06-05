@@ -97,7 +97,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:layout_gravity="center"
-                    android:hint="@string/profile_coffee_bean_count"
+                    android:textColor="@color/colorBlackText"
                     android:textSize="16sp" />
             </LinearLayout>
 

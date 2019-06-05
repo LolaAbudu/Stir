@@ -12,9 +12,12 @@ public interface MainHostListener {
 
     void replaceWithImageUploadFragment();
 
+    void replaceWithCoffeeLoversFragment();
+
     void moveToMap(FoursquareVenue foursquareVenue);
 
     void moveToDetailFragment(String image, String imageURl);
 
+    void replaceWithCoffeePrefFragment();
 //    void setBeanLike();
 }

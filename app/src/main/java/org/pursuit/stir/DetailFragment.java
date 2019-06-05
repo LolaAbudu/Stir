@@ -14,11 +14,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
-import org.pursuit.stir.models.Bean;
+import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -31,24 +34,23 @@ public class DetailFragment extends Fragment {
 
     private FirebaseAuth firebaseAuth;
     private DatabaseReference databaseReferenceBean;
-    private boolean processBean = false;
 
     private static final String IMAGE_NAME_KEY = "name";
     private static final String IMAGE_URL_KEY = "url";
+    private static final String IMAGE_BEAN_COUNT_KEY = "bean";
 
     private String imageName;
     private String imageUrl;
-
-    private Bean beanTest = new Bean("me", "you");
+    private int beanCount = 0;
 
     @BindView(R.id.detail_drink_name_textView)
     TextView imageNameTextView;
     @BindView(R.id.detail_user_photo)
     ImageView imageURLImageView;
     @BindView(R.id.detail_coffee_bean_image1)
-    ImageView beanLike;
+    ImageView coffeeBean;
     @BindView(R.id.detail_coffee_count1)
-    TextView beanCount;
+    TextView beanCountTextView;
 
 
     public DetailFragment() {
@@ -90,15 +92,16 @@ public class DetailFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
-        firebaseAuth = FirebaseAuth.getInstance();
-//        databaseReferenceBean = FirebaseDatabase.getInstance().getReference().child("bean");
-        databaseReferenceBean = FirebaseDatabase.getInstance().getReference("beans");
-        databaseReferenceBean.keepSynced(true);
-
         imageNameTextView.setText(imageName);
         Picasso.get().load(imageUrl).into(imageURLImageView);
 
-        onBeanClick();
+        firebaseAuth = FirebaseAuth.getInstance();
+        databaseReferenceBean = FirebaseDatabase.getInstance().getReference("likes").child(imageName);
+
+        HashMap<String, String> hashMap = new HashMap<>();
+        hashMap.put("imageURL", imageUrl);
+        hashMap.put("beanCount", String.valueOf(onBeanClick()));
+        databaseReferenceBean.setValue(hashMap);
     }
 
     @Override
@@ -107,42 +110,62 @@ public class DetailFragment extends Fragment {
         mainHostListener = null;
     }
 
-    public void onBeanClick() {
-        beanLike.setOnClickListener(v -> {
+    public int onBeanClick() {
+        coffeeBean.setOnClickListener(v -> {
             Log.d(TAG, "onBeanClick: click is working");
-//        mainHostListener.setBeanLike();
+            beanCount = beanCount + 1;
+            beanCountTextView.setText(String.valueOf(beanCount));
 
-            databaseReferenceBean = FirebaseDatabase.getInstance().getReference("bean");
-            databaseReferenceBean.setValue("heello, world");
+            databaseReferenceBean.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    Log.d(TAG, "onDataChange: data changing works");
+                    databaseReferenceBean.child("beanCount").setValue(beanCount);
+                }
 
-            databaseReferenceBean.child("bean").child("likes").setValue(beanTest);
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
 
-//                processBean = true;
-////                if (processBean) {
-//            databaseReferenceBean.addValueEventListener(new ValueEventListener() {
-//                @Override
-//                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                    Log.d(TAG, "onDataChange: data changing works");
-//
-//                    Bean bean = new Bean();
-//                    String uploadId = databaseReferenceBean.push().getKey();
-//                    databaseReferenceBean.child(uploadId).setValue(bean);
-
-
-////
-//                    if (dataSnapshot.child("likes").hasChild(firebaseAuth.getCurrentUser().getUid())) {
-//                    } else {
-////                                Bean bean = new Bean(imageName, username);
-//                        databaseReferenceBean.child("likes").child(firebaseAuth.getCurrentUser().getUid()).setValue("username");
-//                    }
-//                }
-//
-//                @Override
-//                public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//                }
-//
-//            });
+                }
+            });
         });
+        return beanCount;
     }
+
+//    private void onBeanClicked(DatabaseReference postRef) {
+//        postRef.runTransaction(new Transaction.Handler() {
+//            @Override
+//            public Transaction.Result doTransaction(MutableData mutableData) {
+//                ImageUpload bean = mutableData.getValue(ImageUpload.class);
+//                if (bean == null) {
+//                    return Transaction.success(mutableData);
+//                }
+//                beanCount = bean.starCount;
+//                if (bean.stars.containsKey(firebaseAuth.getUid())) {
+//                    // Unstar the post and remove self from stars
+//                    beanCount = bean.starCount - 1;
+//                    bean.stars.remove(firebaseAuth.getUid());
+//                } else {
+//                    // Star the post and add self to stars
+//                    beanCount = bean.starCount + 1;
+//                    bean.stars.put(firebaseAuth.getUid(), true);
+//                }
+//
+//                // Set value and report transaction success
+//                beanCountTextView.setText(String.valueOf(beanCount));
+//                mutableData.setValue(bean);
+//                return Transaction.success(mutableData);
+//            }
+//
+//            @Override
+//            public void onComplete(DatabaseError databaseError, boolean b,
+//                                   DataSnapshot dataSnapshot) {
+//                // Transaction completed
+//                Log.d(TAG, "postTransaction:onComplete:" + databaseError);
+//            }
+//        });
+
 }
+
+
+

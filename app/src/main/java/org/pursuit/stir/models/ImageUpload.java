@@ -1,11 +1,19 @@
 package org.pursuit.stir.models;
 
 import com.google.firebase.database.Exclude;
+import com.google.firebase.database.IgnoreExtraProperties;
 
+import java.util.HashMap;
+import java.util.Map;
+
+@IgnoreExtraProperties
 public class ImageUpload {
 
     private String imageName;
     private String imageUrl;
+    public int starCount = 0;
+    public Map<String, Boolean> stars = new HashMap<>();
+//    private int beanCount;
 
     public User user;
 
@@ -23,11 +31,12 @@ public class ImageUpload {
 
     public ImageUpload(String imageName, String imageUrl) {
 
-        if(imageName.trim().equals("")){
+        if (imageName.trim().equals("")) {
             imageName = "No Image Description";
         }
         this.imageName = imageName;
         this.imageUrl = imageUrl;
+//        this.beanCount = beanCount;
     }
 
     public String getImageName() {
@@ -45,6 +54,24 @@ public class ImageUpload {
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
+
+//    @Exclude
+//    public Map<String, Object> toMap() {
+//        HashMap<String, Object> result = new HashMap<>();
+//        result.put("starCount", starCount);
+//        result.put("stars", stars);
+//
+//        return result;
+//    }
+
+
+//    public int getBeanCount() {
+//        return beanCount;
+//    }
+//
+//    public void setBeanCount(int beanCount) {
+//        this.beanCount = beanCount;
+//    }
 
     public User getUser() {
         return user;
