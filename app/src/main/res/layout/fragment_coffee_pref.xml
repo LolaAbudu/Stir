@@ -15,7 +15,7 @@
         android:layout_marginTop="4dp"
         android:fontFamily="sans-serif"
         android:text="@string/coffee_pref_hey_coffee_lover"
-        android:textSize="24sp"
+        android:textSize="28sp"
         android:textStyle="italic" />
 
 
@@ -26,7 +26,7 @@
         android:fontFamily="sans-serif"
         style="@style/CoffeePrefTextView"
         android:text="@string/coffee_pref_question_one"
-        android:textSize="16sp"
+        android:textSize="20sp"
         android:textStyle="bold" />
 
     <RadioGroup
@@ -60,7 +60,7 @@
         android:id="@+id/coff_pref_quest_two"
         style="@style/CoffeePrefTextView"
         android:textStyle="bold"
-        android:textSize="16sp"
+        android:textSize="20sp"
         android:text="@string/coffee_pref_question_two" />
 
     <RadioGroup
@@ -101,7 +101,7 @@
         android:id="@+id/coff_pref_quest_three"
         style="@style/CoffeePrefTextView"
         android:textStyle="bold"
-        android:textSize="16sp"
+        android:textSize="20sp"
         android:text="@string/coffee_pref_question_three" />
 
     <RadioGroup
@@ -126,46 +126,48 @@
             android:text="5+" />
     </RadioGroup>
 
-    <TextView
-        android:id="@+id/coff_pref_quest_four"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        style="@style/CoffeePrefTextView"
-        android:fontFamily="sans-serif"
-        android:textSize="16sp"
-        android:text="@string/coffee_pref_question_four"
-        android:textStyle="bold" />
+    <!--<TextView-->
+        <!--android:id="@+id/coff_pref_quest_four"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--style="@style/CoffeePrefTextView"-->
+        <!--android:fontFamily="sans-serif"-->
+        <!--android:textSize="16sp"-->
+        <!--android:text="@string/coffee_pref_question_four"-->
+        <!--android:textStyle="bold" />-->
 
-    <RadioGroup
-        android:id="@+id/radio_group_four"
-        android:orientation="vertical"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+    <!--<RadioGroup-->
+        <!--android:id="@+id/radio_group_four"-->
+        <!--android:orientation="vertical"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content">-->
 
-        <RadioButton
-            android:id="@+id/quest_four_ans_one"
-            style="@style/CoffeePrefCheckBox"
-            android:text="Morning " />
+        <!--<RadioButton-->
+            <!--android:id="@+id/quest_four_ans_one"-->
+            <!--style="@style/CoffeePrefCheckBox"-->
+            <!--android:text="Morning " />-->
 
-        <RadioButton
-            android:id="@+id/quest_four_ans_two"
-            style="@style/CoffeePrefCheckBox"
-            android:text="Noon" />
+        <!--<RadioButton-->
+            <!--android:id="@+id/quest_four_ans_two"-->
+            <!--style="@style/CoffeePrefCheckBox"-->
+            <!--android:text="Noon" />-->
 
-        <RadioButton
-            android:id="@+id/quest_four_ans_three"
-            style="@style/CoffeePrefCheckBox"
-            android:text="Evening" />
+        <!--<RadioButton-->
+            <!--android:id="@+id/quest_four_ans_three"-->
+            <!--style="@style/CoffeePrefCheckBox"-->
+            <!--android:text="Evening" />-->
 
-        <RadioButton
-            android:id="@+id/quest_four_ans_four"
-            style="@style/CoffeePrefCheckBox"
-            android:text="Night" />
-    </RadioGroup>
+        <!--<RadioButton-->
+            <!--android:id="@+id/quest_four_ans_four"-->
+            <!--style="@style/CoffeePrefCheckBox"-->
+            <!--android:text="Night" />-->
+    <!--</RadioGroup>-->
 
     <Button
         android:id="@+id/coff_pref_continue_button"
         style="@style/AppButton"
-        android:text="continue" />
+        android:text="SAVE"
+        android:layout_marginBottom="200dp"
+        />
 
 </LinearLayout>

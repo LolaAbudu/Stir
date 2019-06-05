@@ -13,6 +13,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 
+import org.pursuit.stir.models.CofeePref;
 import org.pursuit.stir.models.FoursquareJSON;
 
 public class MainHostActivity extends AppCompatActivity implements MainHostListener {
@@ -53,6 +54,7 @@ public class MainHostActivity extends AppCompatActivity implements MainHostListe
             return true;
         });
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -131,6 +133,18 @@ public class MainHostActivity extends AppCompatActivity implements MainHostListe
                 .commit();
     }
 
+    @Override
+    public void replaceWithCoffeePrefFragment() {
+        getSupportFragmentManager()
+                .beginTransaction()
+              //  .setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit)
+                .replace(R.id.main_host_container, CoffeePrefFragment.newInstance())
+                .addToBackStack(null)
+                .commit();
+
+    }
+
+
 //        @Override
 //    public void setBeanLike() {
 //        ImageUpload image = new ImageUpload();
@@ -160,9 +174,15 @@ public class MainHostActivity extends AppCompatActivity implements MainHostListe
                 Intent intent = new Intent(this, LoginActivity.class);
                 startActivity(intent);
                 return true;
-                default:
-                    return super.onOptionsItemSelected(item);
+//                default:
+//                    return super.onOptionsItemSelected(item);
+            case R.id.coffee_pref:
+                replaceWithCoffeePrefFragment();
+                return true;
+
         }
+        return super.onOptionsItemSelected(item);
+
     }
 }
 

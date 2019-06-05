@@ -6,16 +6,36 @@ public class User {
     private String usrID;
     private String coffeeAnswerOne;
     private String coffeeAnswerTwo;
+    private String imageName;
+    private String imageUrl;
 
     public User() {
         // Default constructor required for calls to DataSnapshot.getValue(User.class)
     }
 
-    public User(String username, String usrID, String coffeeAnswerOne, String coffeeAnswerTwo) {
+    public User(String username, String usrID, String coffeeAnswerOne, String coffeeAnswerTwo, String imageName, String imageUrl) {
         this.username = username;
         this.usrID = usrID;
         this.coffeeAnswerOne = coffeeAnswerOne;
         this.coffeeAnswerTwo = coffeeAnswerTwo;
+        this.imageName = imageName;
+        this.imageUrl = imageUrl;
+    }
+
+    public String getImageName() {
+        return imageName;
+    }
+
+    public void setImageName(String imageName) {
+        this.imageName = imageName;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     public String getCoffeeAnswerOne() {

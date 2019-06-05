@@ -18,6 +18,6 @@ public interface MainHostListener {
 
     void moveToDetailFragment(String image, String imageURl);
 
-
+    void replaceWithCoffeePrefFragment();
 //    void setBeanLike();
 }
