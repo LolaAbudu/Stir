@@ -89,6 +89,7 @@ public class CoffeeLoversFragment extends Fragment {
         listOfMessages.setLayoutManager(new LinearLayoutManager(getContext()));
         chatList = new ArrayList<>();
 
+
         fab.setOnClickListener(v -> {
 
             FirebaseDatabase.getInstance()
@@ -128,7 +129,6 @@ public class CoffeeLoversFragment extends Fragment {
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
                     Toast.makeText(getContext(), databaseError.getMessage(), Toast.LENGTH_SHORT).show();
-
                 }
             });
     }
