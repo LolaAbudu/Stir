@@ -53,8 +53,8 @@ public class CoffeePrefFragment extends Fragment {
     RadioGroup groupTwo;
     @BindView(R.id.radio_group_three)
     RadioGroup groupThree;
-    @BindView(R.id.radio_group_four)
-    RadioGroup groupFour;
+//    @BindView(R.id.radio_group_four)
+//    RadioGroup groupFour;
 
     private SignUpListener signUpListener;
     private FirebaseAuth firebaseAuth;
@@ -65,6 +65,8 @@ public class CoffeePrefFragment extends Fragment {
 
     private String groupOneAnswer;
     private String groupTwoAnswer;
+    private String imageName;
+    private String imageUrl;
 
     private RadioButton radioButtonOne;
     private RadioButton radioButtonTwo;
@@ -110,7 +112,7 @@ public class CoffeePrefFragment extends Fragment {
                 onRadioButtonGroupOneClicked(view);
                 onRadioButtonGroupTwoClicked(view);
                 User user = new User(firebaseAuth.getCurrentUser().getDisplayName(),
-                        firebaseAuth.getCurrentUser().getUid(), groupOneAnswer, groupTwoAnswer);
+                        firebaseAuth.getCurrentUser().getUid(), groupOneAnswer, groupTwoAnswer,imageName,imageUrl);
                 FirebaseDatabase.getInstance()
                         .getReference()
                         .child("users").child(firebaseAuth.getUid())

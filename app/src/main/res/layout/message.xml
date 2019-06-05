@@ -9,7 +9,8 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
         android:id="@+id/message_user"
-        android:textStyle="normal|bold" />
+        android:textStyle="normal|bold"
+      />
 
     <TextView
         android:layout_width="wrap_content"
@@ -26,6 +27,11 @@
         android:layout_marginTop="5dp"
         android:id="@+id/message_text"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textSize="18sp" />
+        android:paddingVertical="12dp"
+        android:paddingHorizontal="16dp"
+        android:elevation="2dp"
+        android:textSize="18dp"
+        android:textColor="#ffff"
+        android:background="@drawable/chat_message"/>
 
 </RelativeLayout>
