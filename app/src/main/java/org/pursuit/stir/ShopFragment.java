@@ -145,6 +145,7 @@ public class ShopFragment extends Fragment
                             Toast.makeText(getContext(), "There was an error with this request", Toast.LENGTH_SHORT).show();
                             Log.d("evelyn", "onConnected: error with request");
                             //error state call
+//                            mainHostListener.startErrorActivity();
                         }
                     });
         }

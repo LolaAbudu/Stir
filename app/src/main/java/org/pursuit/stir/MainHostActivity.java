@@ -131,6 +131,12 @@ public class MainHostActivity extends AppCompatActivity implements MainHostListe
                 .commit();
     }
 
+    @Override
+    public void startErrorActivity() {
+        Intent intent = new Intent(this, ErrorActivity.class);
+        startActivity(intent);
+    }
+
 //        @Override
 //    public void setBeanLike() {
 //        ImageUpload image = new ImageUpload();
