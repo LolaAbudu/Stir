@@ -40,4 +40,9 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopViewHolder> {
         return resultsList.size();
     }
 
+    public void setData(List<Pair<FoursquareResults, FourSquareVenuePhoto>> newPairList) {
+        this.resultsList = newPairList;
+        notifyDataSetChanged();
+    }
+
 }
