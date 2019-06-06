@@ -16,7 +16,7 @@ public interface MainHostListener {
 
     void moveToMap(FoursquareVenue foursquareVenue);
 
-    void moveToDetailFragment(String image, String imageURl);
+    void moveToDetailFragment(String image, String imageURl, String userID);
 
     void startErrorActivity();
   

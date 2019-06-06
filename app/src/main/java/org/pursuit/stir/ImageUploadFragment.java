@@ -30,6 +30,7 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -68,6 +69,7 @@ public class ImageUploadFragment extends Fragment implements SearchView.OnQueryT
 
 
     private Uri imageUri;
+    private FirebaseAuth mAuth;
     private StorageReference storageReference;
     private DatabaseReference databaseReference;
     private CompositeDisposable disposable = new CompositeDisposable();
@@ -101,6 +103,7 @@ public class ImageUploadFragment extends Fragment implements SearchView.OnQueryT
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
         }
+        mAuth = FirebaseAuth.getInstance();
     }
 
     @Override
@@ -193,7 +196,7 @@ public class ImageUploadFragment extends Fragment implements SearchView.OnQueryT
                         Toast.makeText(getContext(), "Image Upload Successful", Toast.LENGTH_SHORT).show();
 
                         String imageName = imageNameEditText.getText().toString().trim();
-                        ImageUpload imageUpload = new ImageUpload(imageName, downloadUrl.toString());
+                        ImageUpload imageUpload = new ImageUpload(imageName, downloadUrl.toString(), mAuth.getUid());
                         String uploadId = databaseReference.push().getKey();
                         databaseReference.child(uploadId).setValue(imageUpload);
                         openHomeFragment();
