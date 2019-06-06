@@ -120,7 +120,15 @@ public class DetailFragment extends Fragment {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     Log.d(TAG, "onDataChange: data changing works");
+
                     databaseReferenceBean.child("beanCount").setValue(beanCount);
+//                    for (DataSnapshot postSnapShot : dataSnapshot.getChildren()) {
+//                        Bean bean = postSnapShot.getValue(Bean.class);
+//
+//                        if (bean != null) {
+//                            beanCountTextView.setText(bean.getBeanCount());
+//                        }
+//                    }
                 }
 
                 @Override

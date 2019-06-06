@@ -44,12 +44,15 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="Coffee Shop Name" />
 
-    <!--<TextView-->
-        <!--android:id="@+id/fragment_shop_distance_textview"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--tools:text="345m"/>-->
 
         </android.support.constraint.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/fragment_shop_distance_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            tools:text="345m" />
+
     </LinearLayout>
 </LinearLayout>
