@@ -13,7 +13,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 
-import org.pursuit.stir.models.CofeePref;
 import org.pursuit.stir.models.FoursquareJSON;
 
 public class MainHostActivity extends AppCompatActivity implements MainHostListener {
@@ -124,11 +123,11 @@ public class MainHostActivity extends AppCompatActivity implements MainHostListe
     }
 
     @Override
-    public void moveToDetailFragment(String imageName, String imageUrl) {
+    public void moveToDetailFragment(String imageName, String imageUrl , String userID) {
         getSupportFragmentManager()
                 .beginTransaction()
                 .setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit)
-                .replace(R.id.main_host_container, DetailFragment.newInstance(imageName, imageUrl))
+                .replace(R.id.main_host_container, DetailFragment.newInstance(imageName, imageUrl, userID))
                 .addToBackStack(null)
                 .commit();
     }

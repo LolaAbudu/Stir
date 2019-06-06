@@ -1,11 +1,14 @@
 package org.pursuit.stir.models;
 
+import java.util.List;
+
 public class User {
 
     private String username;
     private String usrID;
     private String coffeeAnswerOne;
     private String coffeeAnswerTwo;
+    private List<ImageUpload> imageList;
     private String imageName;
     private String imageUrl;
 
@@ -13,11 +16,12 @@ public class User {
         // Default constructor required for calls to DataSnapshot.getValue(User.class)
     }
 
-    public User(String username, String usrID, String coffeeAnswerOne, String coffeeAnswerTwo, String imageName, String imageUrl) {
+    public User(String username, String usrID, String coffeeAnswerOne, String coffeeAnswerTwo, List<ImageUpload> imageList, String imageName, String imageUrl) {
         this.username = username;
         this.usrID = usrID;
         this.coffeeAnswerOne = coffeeAnswerOne;
         this.coffeeAnswerTwo = coffeeAnswerTwo;
+        this.imageList = imageList;
         this.imageName = imageName;
         this.imageUrl = imageUrl;
     }
@@ -52,6 +56,14 @@ public class User {
 
     public void setCoffeeAnswerTwo(String coffeeAnswerTwo) {
         this.coffeeAnswerTwo = coffeeAnswerTwo;
+    }
+
+    public List<ImageUpload> getImageList() {
+        return imageList;
+    }
+
+    public void setImageList(List<ImageUpload> imageList) {
+        this.imageList = imageList;
     }
 
     public String getUsername() {
