@@ -53,6 +53,7 @@ public class MainHostActivity extends AppCompatActivity implements MainHostListe
             return true;
         });
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -122,35 +123,31 @@ public class MainHostActivity extends AppCompatActivity implements MainHostListe
     }
 
     @Override
-    public void moveToDetailFragment(String imageName, String imageUrl) {
+    public void moveToDetailFragment(String imageName, String imageUrl , String userID) {
         getSupportFragmentManager()
                 .beginTransaction()
                 .setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit)
-                .replace(R.id.main_host_container, DetailFragment.newInstance(imageName, imageUrl))
+                .replace(R.id.main_host_container, DetailFragment.newInstance(imageName, imageUrl, userID))
                 .addToBackStack(null)
                 .commit();
     }
 
-//        @Override
-//    public void setBeanLike() {
-//        ImageUpload image = new ImageUpload();
-//        if (!image.hasLiked) {
-//            // add new Like
-//            image.hasLiked = true;
-//            Bean like = new Bean(image.getImageName(), firebaseUser.getUid());
-//            String key = databaseReference.child("likes").push().getKey();
-//            databaseReference.child("likes").child(key).setValue(like);
-//            image.userLike = key;
-//            image.addLike();
-//        } else {
-//            // remove Like
-//            image.hasLiked = false;
-//            if (image.userLike != null) {
-//                databaseReference.child("likes").child(image.userLike).removeValue();
-//                image.removeLike();
-//            }
-//        }
-//    }
+    @Override
+
+    public void startErrorActivity() {
+        Intent intent = new Intent(this, ErrorActivity.class);
+        startActivity(intent);
+    }
+
+    public void replaceWithCoffeePrefFragment() {
+        getSupportFragmentManager()
+                .beginTransaction()
+              //  .setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit)
+                .replace(R.id.main_host_container, CoffeePrefFragment.newInstance())
+                .addToBackStack(null)
+                .commit();
+
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -160,9 +157,15 @@ public class MainHostActivity extends AppCompatActivity implements MainHostListe
                 Intent intent = new Intent(this, LoginActivity.class);
                 startActivity(intent);
                 return true;
-                default:
-                    return super.onOptionsItemSelected(item);
+//                default:
+//                    return super.onOptionsItemSelected(item);
+            case R.id.coffee_pref:
+                replaceWithCoffeePrefFragment();
+                return true;
+
         }
+        return super.onOptionsItemSelected(item);
+
     }
 }
 

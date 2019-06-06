@@ -21,6 +21,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import org.pursuit.stir.models.User;
+
 import java.util.HashMap;
 
 import butterknife.BindView;
@@ -33,18 +35,24 @@ public class DetailFragment extends Fragment {
     private MainHostListener mainHostListener;
 
     private FirebaseAuth firebaseAuth;
-    private DatabaseReference databaseReferenceBean;
+    private DatabaseReference userDBReference;
+    private DatabaseReference databaseReference;
 
     private static final String IMAGE_NAME_KEY = "name";
     private static final String IMAGE_URL_KEY = "url";
+    private static final String IMAGE_USER_ID_KEY = "userID";
     private static final String IMAGE_BEAN_COUNT_KEY = "bean";
 
     private String imageName;
     private String imageUrl;
+    private String userID;
     private int beanCount = 0;
+    private User user;
 
     @BindView(R.id.detail_drink_name_textView)
     TextView imageNameTextView;
+    @BindView(R.id.detail_username_textView)
+    TextView userNameTextView;
     @BindView(R.id.detail_user_photo)
     ImageView imageURLImageView;
     @BindView(R.id.detail_coffee_bean_image1)
@@ -56,11 +64,12 @@ public class DetailFragment extends Fragment {
     public DetailFragment() {
     }
 
-    public static DetailFragment newInstance(String imageName, String imageUrl) {
+    public static DetailFragment newInstance(String imageName, String imageUrl, String userID) {
         DetailFragment fragment = new DetailFragment();
         Bundle args = new Bundle();
         args.putString(IMAGE_NAME_KEY, imageName);
         args.putString(IMAGE_URL_KEY, imageUrl);
+        args.putString(IMAGE_USER_ID_KEY, userID);
         fragment.setArguments(args);
         return fragment;
     }
@@ -79,6 +88,7 @@ public class DetailFragment extends Fragment {
         if (getArguments() != null) {
             imageName = getArguments().getString(IMAGE_NAME_KEY);
             imageUrl = getArguments().getString(IMAGE_URL_KEY);
+            userID = getArguments().getString(IMAGE_USER_ID_KEY);
         }
     }
 
@@ -96,12 +106,36 @@ public class DetailFragment extends Fragment {
         Picasso.get().load(imageUrl).into(imageURLImageView);
 
         firebaseAuth = FirebaseAuth.getInstance();
-        databaseReferenceBean = FirebaseDatabase.getInstance().getReference("likes").child(imageName);
+        databaseReference = FirebaseDatabase.getInstance().getReference("likes").child(imageName);
 
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("imageURL", imageUrl);
         hashMap.put("beanCount", String.valueOf(onBeanClick()));
-        databaseReferenceBean.setValue(hashMap);
+        databaseReference.setValue(hashMap);
+
+
+        userDBReference = FirebaseDatabase.getInstance().getReference("users");
+        userDBReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot postSnapShot : dataSnapshot.getChildren()) {
+                    Log.d(DetailFragment.class.getName(), "onDataChange " + postSnapShot.getValue());
+
+                    User user = postSnapShot.getValue(User.class);
+
+                    if (userID.equals(user.getUsrID())) {
+                        userNameTextView.setText(user.getUsername());
+                        break;
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
     }
 
     @Override
@@ -116,11 +150,19 @@ public class DetailFragment extends Fragment {
             beanCount = beanCount + 1;
             beanCountTextView.setText(String.valueOf(beanCount));
 
-            databaseReferenceBean.addValueEventListener(new ValueEventListener() {
+            databaseReference.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     Log.d(TAG, "onDataChange: data changing works");
-                    databaseReferenceBean.child("beanCount").setValue(beanCount);
+
+                    databaseReference.child("beanCount").setValue(beanCount);
+//                    for (DataSnapshot postSnapShot : dataSnapshot.getChildren()) {
+//                        Bean bean = postSnapShot.getValue(Bean.class);
+//
+//                        if (bean != null) {
+//                            beanCountTextView.setText(bean.getBeanCount());
+//                        }
+//                    }
                 }
 
                 @Override

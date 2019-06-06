@@ -1,23 +1,13 @@
 package org.pursuit.stir;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.location.Location;
 import android.util.Log;
 import android.util.Pair;
-import android.view.View;
-import android.widget.Toast;
-
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.tasks.OnSuccessListener;
 
 import org.pursuit.stir.models.FourSquareVenuePhoto;
 import org.pursuit.stir.models.FoursquareJSON;
 import org.pursuit.stir.models.FoursquareJSON.FoursquareResponse.FoursquareGroup.FoursquareResults;
 import org.pursuit.stir.network.FoursquareService;
 import org.pursuit.stir.network.RetrofitSingleton;
-import org.pursuit.stir.shoprv.ShopAdapter;
 
 import java.util.List;
 
@@ -25,9 +15,6 @@ import io.reactivex.Observable;
 import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class FourSquareRepository {
 
@@ -64,6 +51,19 @@ public class FourSquareRepository {
                         .toList()
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread());
+    }
+
+
+    public Observable<FoursquareJSON> getCoffeeShop(Double latitude,
+                                                    Double longitude,
+                                                    Float userLocationAccuracy) {
+        String latLong = latitude + "," + longitude;
+        FoursquareService foursquareService = RetrofitSingleton.getInstance()
+                .create(FoursquareService.class);
+
+       return foursquareService.searchCoffee(foursquareClientID, foursquareClientSecret, latLong, userLocationAccuracy)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 }
 
