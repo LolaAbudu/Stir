@@ -11,13 +11,9 @@ public class ImageUpload {
 
     private String imageName;
     private String imageUrl;
-<<<<<<< Updated upstream
     public int starCount = 0;
     public Map<String, Boolean> stars = new HashMap<>();
 //    private int beanCount;
-=======
-    private int beanCounter;
->>>>>>> Stashed changes
 
     public User user;
 
@@ -40,11 +36,7 @@ public class ImageUpload {
         }
         this.imageName = imageName;
         this.imageUrl = imageUrl;
-<<<<<<< Updated upstream
 //        this.beanCount = beanCount;
-=======
-        this.beanCounter = beanCounter;
->>>>>>> Stashed changes
     }
 
     public String getImageName() {
@@ -63,7 +55,6 @@ public class ImageUpload {
         this.imageUrl = imageUrl;
     }
 
-<<<<<<< Updated upstream
 //    @Exclude
 //    public Map<String, Object> toMap() {
 //        HashMap<String, Object> result = new HashMap<>();
@@ -81,15 +72,6 @@ public class ImageUpload {
 //    public void setBeanCount(int beanCount) {
 //        this.beanCount = beanCount;
 //    }
-=======
-    public int getBeanCounter() {
-        return beanCounter;
-    }
-
-    public void setBeanCounter(int beanCounter) {
-        this.beanCounter = beanCounter;
-    }
->>>>>>> Stashed changes
 
     public User getUser() {
         return user;
