@@ -19,7 +19,7 @@ public interface MainHostListener {
     void moveToDetailFragment(String image, String imageURl);
 
     void startErrorActivity();
+  
+    void replaceWithCoffeePrefFragment();
 
-
-//    void setBeanLike();
 }

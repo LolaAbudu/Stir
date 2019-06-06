@@ -2,6 +2,7 @@ package org.pursuit.stir;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -17,14 +18,29 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.StorageTask;
+import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
+
+import org.pursuit.stir.models.Chat;
+import org.pursuit.stir.models.CofeePref;
+import org.pursuit.stir.models.ImageUpload;
+import org.pursuit.stir.models.User;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 import static android.support.constraint.Constraints.TAG;
 
@@ -37,22 +53,23 @@ public class CoffeePrefFragment extends Fragment {
     RadioGroup groupTwo;
     @BindView(R.id.radio_group_three)
     RadioGroup groupThree;
-    @BindView(R.id.radio_group_four)
-    RadioGroup groupFour;
+//    @BindView(R.id.radio_group_four)
+//    RadioGroup groupFour;
 
     private SignUpListener signUpListener;
     private FirebaseAuth firebaseAuth;
     private FirebaseDatabase firebaseDatabase;
-    private DatabaseReference databaseReference;
+    private DatabaseReference databaseReference, databaseReferenceTwo;
+
+    private StorageReference storageReference;
 
     private String groupOneAnswer;
     private String groupTwoAnswer;
-    private String groupThreeAnswer;
-    private String groupFourAnswer;
+    private String imageName;
+    private String imageUrl;
+
     private RadioButton radioButtonOne;
     private RadioButton radioButtonTwo;
-    private RadioButton radioButtonThree;
-    private RadioButton radioButtonFour;
 
 
     public CoffeePrefFragment() {
@@ -76,7 +93,6 @@ public class CoffeePrefFragment extends Fragment {
         super.onCreate(savedInstanceState);
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseDatabase = FirebaseDatabase.getInstance();
-        databaseReference = firebaseDatabase.getReference();
     }
 
     @Override
@@ -89,20 +105,32 @@ public class CoffeePrefFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
-        onRadioButtonGroupOneClicked(view);
-        onRadioButtonGroupTwoClicked(view);
-        onRadioButtonGroupThreeClicked(view);
-        onRadioButtonGroupFourClicked(view);
 
         continueButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //coffeePrefNewUsers(x and y);
+                onRadioButtonGroupOneClicked(view);
+                onRadioButtonGroupTwoClicked(view);
+                User user = new User(firebaseAuth.getCurrentUser().getDisplayName(),
+                        firebaseAuth.getCurrentUser().getUid(), groupOneAnswer, groupTwoAnswer,imageName,imageUrl);
+                FirebaseDatabase.getInstance()
+                        .getReference()
+                        .child("users").child(firebaseAuth.getUid())
+                        .setValue(user);
+
                 Intent intent = new Intent(getContext(), MainHostActivity.class);
                 startActivity(intent);
+
             }
         });
     }
+
+//    @OnClick(R.id.coff_pref_continue_button)
+//    public void dostuff(){
+//        Intent intent = new Intent(getContext(), MainHostActivity.class);
+//        startActivity(intent);
+//    }
+
 
     @Override
     public void onDetach() {
@@ -116,6 +144,8 @@ public class CoffeePrefFragment extends Fragment {
             Toast.makeText(getContext(), "Please select your answer", Toast.LENGTH_SHORT).show();
         } else {
             radioButtonOne = view.findViewById(id);
+            groupOneAnswer = radioButtonOne.getText().toString();
+
         }
     }
 
@@ -125,61 +155,9 @@ public class CoffeePrefFragment extends Fragment {
             Toast.makeText(getContext(), "Please select your answer", Toast.LENGTH_SHORT).show();
         } else {
             radioButtonTwo = view.findViewById(id);
+            groupTwoAnswer = radioButtonTwo.getText().toString();
+            Log.d(TAG, "grouptwoanswer:" + groupTwoAnswer);
         }
     }
 
-    public void onRadioButtonGroupThreeClicked(View view) {
-        int id = groupThree.getCheckedRadioButtonId();
-        if (id == -1) {
-            Toast.makeText(getContext(), "Please select your answer", Toast.LENGTH_SHORT).show();
-        } else {
-            radioButtonThree = view.findViewById(id);
-        }
-    }
-
-    public void onRadioButtonGroupFourClicked(View view) {
-        int id = groupFour.getCheckedRadioButtonId();
-        if (id == -1) {
-            Toast.makeText(getContext(), "Please select your answer", Toast.LENGTH_SHORT).show();
-        } else {
-            radioButtonFour = view.findViewById(id);
-        }
-    }
-
-    public void coffeePrefNewUsers(String email, String password) {
-        firebaseAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(getActivity(), task -> {
-                    if (task.isSuccessful()) {
-                        // Sign in success, update UI with the signed-in user's information
-                        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
-                        groupOneAnswer = radioButtonOne.getText().toString();
-                        groupTwoAnswer = radioButtonTwo.getText().toString();
-                        groupThreeAnswer = radioButtonThree.getText().toString();
-                        groupFourAnswer = radioButtonFour.getText().toString();
-                        UserProfileChangeRequest requestOne = new UserProfileChangeRequest.Builder()
-                                .setDisplayName(groupOneAnswer)
-                                .build();
-                        UserProfileChangeRequest requestTwo = new UserProfileChangeRequest.Builder()
-                                .setDisplayName(groupTwoAnswer)
-                                .build();
-                        UserProfileChangeRequest requestThree = new UserProfileChangeRequest.Builder()
-                                .setDisplayName(groupThreeAnswer)
-                                .build();
-                        UserProfileChangeRequest requestFour = new UserProfileChangeRequest.Builder()
-                                .setDisplayName(groupFourAnswer)
-                                .build();
-                        currentUser.updateProfile(requestOne);
-                        currentUser.updateProfile(requestTwo);
-                        currentUser.updateProfile(requestThree);
-                        currentUser.updateProfile(requestFour);
-                        Log.d(TAG, "coffeePrefNewUsers: " + groupOneAnswer);
-                        Log.d(TAG, "createUserWithEmail:success" + currentUser.getDisplayName());
-                    } else {
-                        // If sign in fails, display a message to the user.
-                        Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                        Toast.makeText(getContext(), "Oops! Something went wrong. Please try again.",
-                                Toast.LENGTH_SHORT).show();
-                    }
-                });
-    }
 }

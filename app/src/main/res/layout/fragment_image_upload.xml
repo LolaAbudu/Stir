@@ -58,12 +58,14 @@
 
     <ImageView
         android:id="@+id/user_image_imageView"
+        android:src="@drawable/photo_add"
         android:layout_width="match_parent"
         android:layout_height="225dp"
         android:layout_centerInParent="true"
         android:layout_margin="5dp"
         android:adjustViewBounds="true"
         android:scaleType="centerCrop" />
+
 
     <EditText
         android:id="@+id/image_name_editText"
