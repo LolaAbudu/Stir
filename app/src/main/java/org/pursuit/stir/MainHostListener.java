@@ -12,7 +12,7 @@ public interface MainHostListener {
 
     void replaceWithImageUploadFragment();
 
-    void replaceWithCoffeeLoversFragment();
+    void replaceWithCoffeeLoversFragment(String chatKey);
 
     void moveToMap(FoursquareVenue foursquareVenue);
 

@@ -47,7 +47,7 @@ public class MainHostActivity extends AppCompatActivity implements MainHostListe
                     break;
                 case R.id.navigation_find_coffee_lover:
                     Toast.makeText(this, "find coffee lovers selected", Toast.LENGTH_SHORT).show();
-                    replaceWithCoffeeLoversFragment();
+                    //replaceWithCoffeeLoversFragment("random");
                     break;
             }
             return true;
@@ -102,11 +102,11 @@ public class MainHostActivity extends AppCompatActivity implements MainHostListe
     }
 
     @Override
-    public void replaceWithCoffeeLoversFragment() {
+    public void replaceWithCoffeeLoversFragment(String chatKey) {
         getSupportFragmentManager()
                 .beginTransaction()
                 .setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit)
-                .replace(R.id.main_host_container, CoffeeLoversFragment.newInstance())
+                .replace(R.id.main_host_container, CoffeeLoversFragment.newInstance(chatKey))
                 .addToBackStack(null)
                 .commit();
     }

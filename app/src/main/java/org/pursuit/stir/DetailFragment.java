@@ -10,8 +10,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -21,6 +23,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import org.pursuit.stir.models.Chat;
 import org.pursuit.stir.models.User;
 
 import java.util.HashMap;
@@ -46,6 +49,9 @@ public class DetailFragment extends Fragment {
     private String imageName;
     private String imageUrl;
     private String userID;
+    private String chatKey;
+    private String mychatID;
+    private String otherChatID;
     private int beanCount = 0;
     private User user;
 
@@ -59,6 +65,8 @@ public class DetailFragment extends Fragment {
     ImageView coffeeBean;
     @BindView(R.id.detail_coffee_count1)
     TextView beanCountTextView;
+    @BindView(R.id.chat_with_me_button)
+    Button chatButton;
 
 
     public DetailFragment() {
@@ -122,17 +130,34 @@ public class DetailFragment extends Fragment {
                     Log.d(DetailFragment.class.getName(), "onDataChange " + postSnapShot.getValue());
 
                     User user = postSnapShot.getValue(User.class);
-
                     if (userID.equals(user.getUsrID())) {
                         userNameTextView.setText(user.getUsername());
+                        mychatID = firebaseAuth.getCurrentUser().getUid().substring(22);
+                        otherChatID = user.getUsrID().substring(22);
+                        Log.d(TAG, "onDataChange: " + mychatID);
+                        Log.d(TAG, "onDataChange: " + otherChatID);
                         break;
                     }
+
+//                    obtainChatKey(postSnapShot, mychatID, otherChatID);
+
+
                 }
             }
+
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
+            }
+        });
+
+        chatButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Toast.makeText(v.getContext(), "CHAT SELECTED", Toast.LENGTH_SHORT).show();
+                mainHostListener.replaceWithCoffeeLoversFragment(checkChatKey(mychatID, otherChatID));
             }
         });
 
@@ -172,6 +197,39 @@ public class DetailFragment extends Fragment {
             });
         });
         return beanCount;
+    }
+
+    public String checkChatKey(String myChatId, String otherChatId) {
+        if (myChatId.charAt(0) < otherChatId.charAt(0)) {
+            chatKey = myChatId + "_" + otherChatId;
+        } else {
+            chatKey = otherChatId + "_" + myChatId;
+        }
+        Log.d(TAG, "checkChatKey: " + chatKey);
+        return chatKey;
+    }
+
+    private void obtainChatKey(DataSnapshot postsnapShot, String myChatId, String otherChatId) {
+        chatKey = "";
+        DatabaseReference fbChatKey = databaseReference.child("chat").child(checkChatKey(myChatId, otherChatId));
+
+
+//        for (DataSnapshot postDataChat : dataSnapshot.getChildren()) {
+//            Chat chat = postDataChat.getValue(Chat.class);
+        if (fbChatKey != null) {
+            //PASS IT ALONG to chat
+            mainHostListener.replaceWithCoffeeLoversFragment(chatKey);
+        } else {
+            //CREATE IT, THEn go to chat
+        }
+//
+//
+//            if (myChatId.charAt(0) > otherChatId.charAt(0)) {
+//                chatKey = myChatId + "_" + otherChatId;
+//            } else {
+//                chatKey = otherChatId + "_" + myChatId;
+//            }
+
     }
 
 }
