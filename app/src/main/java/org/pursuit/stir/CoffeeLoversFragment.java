@@ -9,28 +9,19 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.firebase.ui.database.FirebaseListAdapter;
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 
 import org.pursuit.stir.models.Chat;
 
@@ -47,7 +38,7 @@ public class CoffeeLoversFragment extends Fragment {
     private List<Chat> chatList;
     private MainHostListener mainHostListener;
     private static final String CHAT_KEY = "chat_key";
-    private String chatString;
+    private String chatKey;
     private static final String TAG = "evelyn";
 
     public CoffeeLoversFragment() {
@@ -67,6 +58,15 @@ public class CoffeeLoversFragment extends Fragment {
         super.onAttach(context);
         if (context instanceof MainHostListener) {
             mainHostListener = (MainHostListener) context;
+        }
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            chatKey = getArguments().getString(CHAT_KEY);
+            Log.d(TAG, "onCreate: " + chatKey);
         }
     }
 
@@ -98,7 +98,7 @@ public class CoffeeLoversFragment extends Fragment {
             FirebaseDatabase.getInstance()
                     .getReference()
                     .child("chat")
-//                    .child(chatKey)
+                    .child(chatKey)
                     .push()
                     .setValue(new Chat(input.getText().toString(),
                             FirebaseAuth.getInstance()
@@ -112,7 +112,7 @@ public class CoffeeLoversFragment extends Fragment {
     }
 
     private void displayChatMessages() {
-            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("chat").child(chatString);
+            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("chat").child(chatKey);
 
             databaseReference.addValueEventListener(new ValueEventListener() {
                 @Override
@@ -159,11 +159,5 @@ public class CoffeeLoversFragment extends Fragment {
         }
     }
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            chatString = getArguments().getString(CHAT_KEY);
-        }
-    }
+
 }

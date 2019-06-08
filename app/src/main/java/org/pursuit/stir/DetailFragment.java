@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -49,6 +50,8 @@ public class DetailFragment extends Fragment {
     private String imageUrl;
     private String userID;
     private String chatKey;
+    private String mychatID;
+    private String otherChatID;
     private int beanCount = 0;
     private User user;
 
@@ -129,38 +132,32 @@ public class DetailFragment extends Fragment {
                     User user = postSnapShot.getValue(User.class);
                     if (userID.equals(user.getUsrID())) {
                         userNameTextView.setText(user.getUsername());
-                        break;
-                    }
-                    String mychatID = firebaseAuth.getCurrentUser().getUid().substring(22);
-                    String otherChatID = user.getUsrID().substring(22);
-                    obtainChatKey(postSnapShot, mychatID, otherChatID);
-
-
-                    chatButton.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-
-                        }
-                    });
-
-                    databaseReference.child("chat").child("chatkey");
-
-                    for (DataSnapshot postDataChat : dataSnapshot.getChildren()) {
-                        Log.d(DetailFragment.class.getName(), "onDataChange " + postSnapShot.getValue());
-
-                        Chat chat = postDataChat.getValue(Chat.class);
-
+                        mychatID = firebaseAuth.getCurrentUser().getUid().substring(22);
+                        otherChatID = user.getUsrID().substring(22);
                         Log.d(TAG, "onDataChange: " + mychatID);
                         Log.d(TAG, "onDataChange: " + otherChatID);
-
-
+                        break;
                     }
+
+//                    obtainChatKey(postSnapShot, mychatID, otherChatID);
+
+
                 }
             }
+
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
+            }
+        });
+
+        chatButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Toast.makeText(v.getContext(), "CHAT SELECTED", Toast.LENGTH_SHORT).show();
+                mainHostListener.replaceWithCoffeeLoversFragment(checkChatKey(mychatID, otherChatID));
             }
         });
 
@@ -202,26 +199,29 @@ public class DetailFragment extends Fragment {
         return beanCount;
     }
 
-    public String checkChatKey(String myChatId, String otherChatId){
-        if (myChatId.charAt(0) > otherChatId.charAt(0)) {
+    public String checkChatKey(String myChatId, String otherChatId) {
+        if (myChatId.charAt(0) < otherChatId.charAt(0)) {
             chatKey = myChatId + "_" + otherChatId;
         } else {
             chatKey = otherChatId + "_" + myChatId;
         }
+        Log.d(TAG, "checkChatKey: " + chatKey);
         return chatKey;
     }
 
-    private void obtainChatKey(DataSnapshot dataSnapshot, String myChatId, String otherChatId) {
+    private void obtainChatKey(DataSnapshot postsnapShot, String myChatId, String otherChatId) {
         chatKey = "";
-       DatabaseReference fbChatKey =  databaseReference.child("chat").child(chatKey);
+        DatabaseReference fbChatKey = databaseReference.child("chat").child(checkChatKey(myChatId, otherChatId));
+
 
 //        for (DataSnapshot postDataChat : dataSnapshot.getChildren()) {
 //            Chat chat = postDataChat.getValue(Chat.class);
-            if (checkChatKey(myChatId, otherChatId).equals(fbChatKey)){
-                //PASS IT ALONG to chat
-            } else {
-                //CREATE IT, THEn go to chat
-            }
+        if (fbChatKey != null) {
+            //PASS IT ALONG to chat
+            mainHostListener.replaceWithCoffeeLoversFragment(chatKey);
+        } else {
+            //CREATE IT, THEn go to chat
+        }
 //
 //
 //            if (myChatId.charAt(0) > otherChatId.charAt(0)) {
@@ -231,7 +231,6 @@ public class DetailFragment extends Fragment {
 //            }
 
     }
-
 
 
 }
