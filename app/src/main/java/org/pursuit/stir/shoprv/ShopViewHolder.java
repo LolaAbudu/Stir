@@ -40,8 +40,10 @@ public class ShopViewHolder extends RecyclerView.ViewHolder {
     public void onBind(final Pair<FoursquareResults, FourSquareVenuePhoto> results,
                        final MainHostListener listener) {
         shopName.setText(results.first.getVenue().getName());
+
         double milesAway = results.first.getVenue().getLocation().getDistance() * 0.000621371;
         distance.setText(String.format( "%.2f", milesAway ) + " miles away");
+
 
         venue = results.first.getVenue();
         FourSquareVenuePhoto photo = results.second;
