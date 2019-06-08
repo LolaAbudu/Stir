@@ -46,15 +46,18 @@ public class CoffeeLoversFragment extends Fragment {
     private EditText input;
     private List<Chat> chatList;
     private MainHostListener mainHostListener;
+    private static final String CHAT_KEY = "chat_key";
+    private String chatString;
     private static final String TAG = "evelyn";
 
     public CoffeeLoversFragment() {
         // Required empty public constructor
     }
 
-    public static CoffeeLoversFragment newInstance() {
+    public static CoffeeLoversFragment newInstance(String chatKey) {
         CoffeeLoversFragment fragment = new CoffeeLoversFragment();
         Bundle args = new Bundle();
+        args.putString(CHAT_KEY, chatKey);
         fragment.setArguments(args);
         return fragment;
     }
@@ -95,6 +98,7 @@ public class CoffeeLoversFragment extends Fragment {
             FirebaseDatabase.getInstance()
                     .getReference()
                     .child("chat")
+//                    .child(chatKey)
                     .push()
                     .setValue(new Chat(input.getText().toString(),
                             FirebaseAuth.getInstance()
@@ -108,7 +112,7 @@ public class CoffeeLoversFragment extends Fragment {
     }
 
     private void displayChatMessages() {
-            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("chat");
+            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("chat").child(chatString);
 
             databaseReference.addValueEventListener(new ValueEventListener() {
                 @Override
@@ -152,6 +156,14 @@ public class CoffeeLoversFragment extends Fragment {
                 // Close the app
                 getActivity().finish();
             }
+        }
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            chatString = getArguments().getString(CHAT_KEY);
         }
     }
 }
