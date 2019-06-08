@@ -174,39 +174,6 @@ public class DetailFragment extends Fragment {
         return beanCount;
     }
 
-//    private void onBeanClicked(DatabaseReference postRef) {
-//        postRef.runTransaction(new Transaction.Handler() {
-//            @Override
-//            public Transaction.Result doTransaction(MutableData mutableData) {
-//                ImageUpload bean = mutableData.getValue(ImageUpload.class);
-//                if (bean == null) {
-//                    return Transaction.success(mutableData);
-//                }
-//                beanCount = bean.starCount;
-//                if (bean.stars.containsKey(firebaseAuth.getUid())) {
-//                    // Unstar the post and remove self from stars
-//                    beanCount = bean.starCount - 1;
-//                    bean.stars.remove(firebaseAuth.getUid());
-//                } else {
-//                    // Star the post and add self to stars
-//                    beanCount = bean.starCount + 1;
-//                    bean.stars.put(firebaseAuth.getUid(), true);
-//                }
-//
-//                // Set value and report transaction success
-//                beanCountTextView.setText(String.valueOf(beanCount));
-//                mutableData.setValue(bean);
-//                return Transaction.success(mutableData);
-//            }
-//
-//            @Override
-//            public void onComplete(DatabaseError databaseError, boolean b,
-//                                   DataSnapshot dataSnapshot) {
-//                // Transaction completed
-//                Log.d(TAG, "postTransaction:onComplete:" + databaseError);
-//            }
-//        });
-
 }
 
 

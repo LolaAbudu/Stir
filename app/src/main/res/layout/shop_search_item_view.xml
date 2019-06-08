@@ -14,8 +14,9 @@
         android:id="@+id/search_shop_itemView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:textSize="36sp"
+        android:textSize="24sp"
         android:fontFamily="sans-serif"
-        android:textAlignment="center"/>
+        android:textAlignment="center"
+        android:foreground="?attr/selectableItemBackground"/>
 
 </android.support.v7.widget.CardView>
