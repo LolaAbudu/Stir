@@ -29,7 +29,7 @@ public class CoffeeLoversViewHolder extends RecyclerView.ViewHolder {
     public void onBind(final Chat chat, MainHostListener mainHostListener) {
         userTextView.setText(chat.getMessageUser());
         textTextView.setText(chat.getMessageText());
-        timeTextView.setText(DateFormat.format("MM-dd-yyyy (HH:mm:ss)",
+        timeTextView.setText(DateFormat.format("MM-dd-yyyy (hh:mm)",
                 chat.getMessageTime()));
     }
 }
