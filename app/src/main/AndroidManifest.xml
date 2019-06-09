@@ -13,7 +13,8 @@
         android:roundIcon="@mipmap/stir_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ChatActivity"></activity>
+        <activity android:name=".ErrorActivity"></activity>
+        <activity android:name=".ChatActivity" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
