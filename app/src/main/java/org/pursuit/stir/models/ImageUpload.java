@@ -12,7 +12,7 @@ public class ImageUpload {
     public ImageUpload() {
     }
 
-    public ImageUpload(String imageName, String imageUrl, String userID) {
+    public ImageUpload(String imageName, String imageUrl, int beanCounter) {
 
         if (imageName.trim().equals("")) {
             imageName = "No Image Description";
