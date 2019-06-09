@@ -291,6 +291,6 @@ public class ImageUploadFragment extends Fragment implements SearchView.OnQueryT
     public void searchViewMethod() {
     }
 
-  
+
 }
 
