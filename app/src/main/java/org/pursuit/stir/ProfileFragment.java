@@ -56,6 +56,7 @@ public class ProfileFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         profileName = view.findViewById(R.id.profile_username_textView);
         profileCoffeePref = view.findViewById(R.id.profile_coffee_pref_textView);
+        Log.d("LOOKHERE profilefrag", "onViewCreated: " + currentUser.getDisplayName());
 
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("users");
         databaseReference.child(mAuth.getUid()).addValueEventListener(new ValueEventListener() {

@@ -195,7 +195,7 @@ public class ImageUploadFragment extends Fragment implements SearchView.OnQueryT
                         Toast.makeText(getContext(), "Image Upload Successful", Toast.LENGTH_SHORT).show();
 
                             String imageName = imageNameEditText.getText().toString().trim();
-                            ImageUpload imageUpload = new ImageUpload(imageName, downloadUrl.toString(), 0);
+                            ImageUpload imageUpload = new ImageUpload(imageName, downloadUrl.toString(), mAuth.getUid());
                             String uploadId = databaseReference.push().getKey();
                             databaseReference.child(uploadId).setValue(imageUpload);
                             openHomeFragment();

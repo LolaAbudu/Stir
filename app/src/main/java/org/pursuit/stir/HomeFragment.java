@@ -92,9 +92,7 @@ public class HomeFragment extends Fragment{
             profileName.setText("");
             Log.d("TAG", "onViewCreated: currentuser = null");
         }
-
         recyclerView = view.findViewById(R.id.home_itemview_recycler_view);
-        profileName = view.findViewById(R.id.username_text_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
 
