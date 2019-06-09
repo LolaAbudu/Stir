@@ -42,6 +42,13 @@ public class ChatListViewHolder extends RecyclerView.ViewHolder {
     public void onBind(final String chatKeyString, MainHostListener mainHostListener) {
 
         getUsername(chatKeyString);
+        itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mainHostListener.replaceWithCoffeeLoversFragment(chatKeyString);
+            }
+        });
+
 //        String user = getUsername(chatKeyString);
 //        Log.d("jessica", "onBind: " + user);
 //        usernameTextView.setText(user);
