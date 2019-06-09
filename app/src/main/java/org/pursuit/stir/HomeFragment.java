@@ -86,10 +86,10 @@ public class HomeFragment extends Fragment{
 
         profileName = view.findViewById(R.id.username_text_view);
         if (currentUser != null) {
-            profileName.setText(currentUser.getDisplayName());
+            profileName.setText(currentUser.getDisplayName()+ "!");
             Log.d("TAG", "onViewCreated: " + currentUser.getDisplayName());
         } else {
-            profileName.setText("");
+            //profileName.setText("");
             Log.d("TAG", "onViewCreated: currentuser = null");
         }
         recyclerView = view.findViewById(R.id.home_itemview_recycler_view);
