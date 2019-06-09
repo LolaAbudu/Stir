@@ -13,7 +13,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 
-import org.pursuit.stir.models.CofeePref;
 import org.pursuit.stir.models.FoursquareJSON;
 
 public class MainHostActivity extends AppCompatActivity implements MainHostListener {
@@ -48,7 +47,9 @@ public class MainHostActivity extends AppCompatActivity implements MainHostListe
                     break;
                 case R.id.navigation_find_coffee_lover:
                     Toast.makeText(this, "find coffee lovers selected", Toast.LENGTH_SHORT).show();
-                    replaceWithCoffeeLoversFragment();
+                    //replaceWithCoffeeLoversFragment("random");
+                    replaceWithChatListFragment();
+
                     break;
             }
             return true;
@@ -103,14 +104,15 @@ public class MainHostActivity extends AppCompatActivity implements MainHostListe
     }
 
     @Override
-    public void replaceWithCoffeeLoversFragment() {
+    public void replaceWithCoffeeLoversFragment(String chatKey) {
         getSupportFragmentManager()
                 .beginTransaction()
                 .setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit)
-                .replace(R.id.main_host_container, CoffeeLoversFragment.newInstance())
+                .replace(R.id.main_host_container, CoffeeLoversFragment.newInstance(chatKey))
                 .addToBackStack(null)
                 .commit();
     }
+
 
     @Override
     public void moveToMap(FoursquareJSON.FoursquareResponse.FoursquareGroup.FoursquareResults.FoursquareVenue foursquareVenue) {
@@ -124,11 +126,11 @@ public class MainHostActivity extends AppCompatActivity implements MainHostListe
     }
 
     @Override
-    public void moveToDetailFragment(String imageName, String imageUrl) {
+    public void moveToDetailFragment(String imageName, String imageUrl , String userID) {
         getSupportFragmentManager()
                 .beginTransaction()
                 .setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit)
-                .replace(R.id.main_host_container, DetailFragment.newInstance(imageName, imageUrl))
+                .replace(R.id.main_host_container, DetailFragment.newInstance(imageName, imageUrl, userID))
                 .addToBackStack(null)
                 .commit();
     }
@@ -145,6 +147,16 @@ public class MainHostActivity extends AppCompatActivity implements MainHostListe
                 .beginTransaction()
               //  .setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit)
                 .replace(R.id.main_host_container, CoffeePrefFragment.newInstance())
+                .addToBackStack(null)
+                .commit();
+
+    }
+
+    @Override
+    public void replaceWithChatListFragment() {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.main_host_container, ChatListFragment.newInstance())
                 .addToBackStack(null)
                 .commit();
 

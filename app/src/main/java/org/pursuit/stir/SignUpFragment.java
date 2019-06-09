@@ -72,6 +72,7 @@ public class SignUpFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         firebaseAuth = FirebaseAuth.getInstance();
+
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference();
 //        FirebaseUser user = firebaseAuth.getCurrentUser();
@@ -153,6 +154,7 @@ public class SignUpFragment extends Fragment {
         if (!validateUserInput()) {
             return;
         }
+
         firebaseAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(getActivity(), task -> {
                     if (task.isSuccessful()) {

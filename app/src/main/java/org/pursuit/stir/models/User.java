@@ -1,25 +1,31 @@
 package org.pursuit.stir.models;
 
+import java.util.List;
+
 public class User {
 
     private String username;
     private String usrID;
     private String coffeeAnswerOne;
     private String coffeeAnswerTwo;
+    private List<ImageUpload> imageList;
     private String imageName;
     private String imageUrl;
+    private String chatId;
 
     public User() {
         // Default constructor required for calls to DataSnapshot.getValue(User.class)
     }
 
-    public User(String username, String usrID, String coffeeAnswerOne, String coffeeAnswerTwo, String imageName, String imageUrl) {
+    public User(String username, String usrID, String coffeeAnswerOne, String coffeeAnswerTwo, List<ImageUpload> imageList, String imageName, String imageUrl) {
         this.username = username;
         this.usrID = usrID;
         this.coffeeAnswerOne = coffeeAnswerOne;
         this.coffeeAnswerTwo = coffeeAnswerTwo;
+        this.imageList = imageList;
         this.imageName = imageName;
         this.imageUrl = imageUrl;
+//        this.chatId = chatId;
     }
 
     public String getImageName() {
@@ -54,6 +60,14 @@ public class User {
         this.coffeeAnswerTwo = coffeeAnswerTwo;
     }
 
+    public List<ImageUpload> getImageList() {
+        return imageList;
+    }
+
+    public void setImageList(List<ImageUpload> imageList) {
+        this.imageList = imageList;
+    }
+
     public String getUsername() {
         return username;
     }
@@ -68,5 +82,13 @@ public class User {
 
     public void setUsrID(String usrID) {
         this.usrID = usrID;
+    }
+
+    public String getChatId() {
+        return getUsrID().substring(22);
+    }
+
+    public void setChatId(String chatId) {
+        this.chatId = chatId;
     }
 }

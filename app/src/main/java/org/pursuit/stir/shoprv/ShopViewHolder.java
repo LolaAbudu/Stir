@@ -1,7 +1,9 @@
 package org.pursuit.stir.shoprv;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.util.Pair;
 import android.view.View;
 import android.widget.ImageView;
@@ -38,7 +40,10 @@ public class ShopViewHolder extends RecyclerView.ViewHolder {
     public void onBind(final Pair<FoursquareResults, FourSquareVenuePhoto> results,
                        final MainHostListener listener) {
         shopName.setText(results.first.getVenue().getName());
-        distance.setText(results.first.getVenue().getLocation().getDistance());
+
+        double milesAway = results.first.getVenue().getLocation().getDistance() * 0.000621371;
+        distance.setText(String.format( "%.2f", milesAway ) + " miles away");
+
 
         venue = results.first.getVenue();
         FourSquareVenuePhoto photo = results.second;
