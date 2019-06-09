@@ -48,6 +48,8 @@ public class MainHostActivity extends AppCompatActivity implements MainHostListe
                 case R.id.navigation_find_coffee_lover:
                     Toast.makeText(this, "find coffee lovers selected", Toast.LENGTH_SHORT).show();
                     //replaceWithCoffeeLoversFragment("random");
+                    replaceWithChatListFragment();
+
                     break;
             }
             return true;
@@ -111,6 +113,7 @@ public class MainHostActivity extends AppCompatActivity implements MainHostListe
                 .commit();
     }
 
+
     @Override
     public void moveToMap(FoursquareJSON.FoursquareResponse.FoursquareGroup.FoursquareResults.FoursquareVenue foursquareVenue) {
         getSupportFragmentManager()
@@ -144,6 +147,16 @@ public class MainHostActivity extends AppCompatActivity implements MainHostListe
                 .beginTransaction()
               //  .setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit)
                 .replace(R.id.main_host_container, CoffeePrefFragment.newInstance())
+                .addToBackStack(null)
+                .commit();
+
+    }
+
+    @Override
+    public void replaceWithChatListFragment() {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.main_host_container, ChatListFragment.newInstance())
                 .addToBackStack(null)
                 .commit();
 
