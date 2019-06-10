@@ -12,7 +12,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
@@ -20,6 +19,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.MimeTypeMap;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -65,8 +66,11 @@ public class ImageUploadFragment extends Fragment implements SearchView.OnQueryT
     private ProgressBar progressBar;
     private RecyclerView recyclerView;
     private ShopSearchAdapter adapter;
-    private List<FoursquareJSON.FoursquareResponse.FoursquareGroup.FoursquareResults> foursquareResponseList = new ArrayList<>();
+    private List<FoursquareJSON.FoursquareResponse.FoursquareGroup.FoursquareResults> foursquareResponseList;
+    private ArrayAdapter<FoursquareJSON.FoursquareResponse.FoursquareGroup.FoursquareResults> arrayAdapter;
+//    private ArrayAdapter<String> arrayAdapter;
     private SearchView searchView;
+    private AutoCompleteTextView autoCompleteTextView;
 
 
     private Uri imageUri;
@@ -124,8 +128,8 @@ public class ImageUploadFragment extends Fragment implements SearchView.OnQueryT
 
         onClickListener();
 
-        recyclerView = view.findViewById(R.id.search_recyclerView);
-        recyclerView.setHasFixedSize(true);
+//        recyclerView = view.findViewById(R.id.search_recyclerView);
+//        recyclerView.setHasFixedSize(true);
         getSearchCoffeeCall(view);
     }
 
@@ -194,11 +198,11 @@ public class ImageUploadFragment extends Fragment implements SearchView.OnQueryT
 
                         Toast.makeText(getContext(), "Image Upload Successful", Toast.LENGTH_SHORT).show();
 
-                            String imageName = imageNameEditText.getText().toString().trim();
-                            ImageUpload imageUpload = new ImageUpload(imageName, downloadUrl.toString(), mAuth.getUid());
-                            String uploadId = databaseReference.push().getKey();
-                            databaseReference.child(uploadId).setValue(imageUpload);
-                            openHomeFragment();
+                        String imageName = imageNameEditText.getText().toString().trim();
+                        ImageUpload imageUpload = new ImageUpload(imageName, downloadUrl.toString(), mAuth.getUid());
+                        String uploadId = databaseReference.push().getKey();
+                        databaseReference.child(uploadId).setValue(imageUpload);
+                        openHomeFragment();
                     })
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
@@ -238,9 +242,8 @@ public class ImageUploadFragment extends Fragment implements SearchView.OnQueryT
                                                 for (int i = 0; i < foursquareResponseList.size(); i++) {
                                                     Log.d("ImageUploadFragment", " Shop : " + foursquareResponseList.get(i).getVenue().getName());
                                                 }
-                                                adapter = new ShopSearchAdapter(foursquareResponseList);
-                                                recyclerView.setAdapter(adapter);
-                                                recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+//                                                adapter = new ShopSearchAdapter(foursquareResponseList);
+//                                                recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
                                             }, throwable -> {
                                                 Log.d("ImageUploadFragment", "failed: " + throwable.getLocalizedMessage());
                                             }
@@ -253,8 +256,13 @@ public class ImageUploadFragment extends Fragment implements SearchView.OnQueryT
                         }
                     });
         }
-        searchView = view.findViewById(R.id.image_upload_coffee_shop_searchView);
-        searchView.setOnQueryTextListener(this);
+        String[] fruits = {"Apple", "Banana", "Cherry", "Date", "Grape", "Kiwi", "Mango", "Pear"};
+        arrayAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, foursquareResponseList);
+        autoCompleteTextView = view.findViewById(R.id.image_upload_coffee_shop_searchView);
+        autoCompleteTextView.setThreshold(1);
+        autoCompleteTextView.setAdapter(arrayAdapter);
+//        searchView = view.findViewById(R.id.image_upload_coffee_shop_searchView);
+//        searchView.setOnQueryTextListener(this);
     }
 
 
@@ -275,7 +283,7 @@ public class ImageUploadFragment extends Fragment implements SearchView.OnQueryT
         return false;
     }
 
-    public void setSearchViewSetQuery(String s){
+    public void setSearchViewSetQuery(String s) {
 //        for (int i = 0; i < foursquareResponseList.size(); i++) {
         searchView.setQuery(s, false);
 //        }
