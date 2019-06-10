@@ -254,6 +254,7 @@ public class ImageUploadFragment extends Fragment implements SearchView.OnQueryT
                     });
         }
         searchView = view.findViewById(R.id.image_upload_coffee_shop_searchView);
+
         searchView.setOnQueryTextListener(this);
     }
 
