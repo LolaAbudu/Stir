@@ -51,8 +51,8 @@ import io.reactivex.disposables.CompositeDisposable;
 public class ImageUploadFragment extends Fragment {
 
     private static final String ARG_PARAM1 = "param1";
-    private static final int SELECT_IMAGE_REQUEST = 1;
-    private static final int PERMISSION_ACCESS_FINE_LOCATION = 1;
+    private static final int SELECT_IMAGE_REQUEST = 254;
+    private static final int PERMISSION_ACCESS_FINE_LOCATION = 345;
 
     private String mParam1;
     private Button selectImageButton;
@@ -101,6 +101,7 @@ public class ImageUploadFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
         }
         mAuth = FirebaseAuth.getInstance();
+        Log.d("LOOKHERE", "onCreate: " + mAuth.getCurrentUser().getDisplayName());
     }
 
     @Override
@@ -118,7 +119,7 @@ public class ImageUploadFragment extends Fragment {
         storageReference = FirebaseStorage.getInstance().getReference("imageUploads");
         databaseReference = FirebaseDatabase.getInstance().getReference("imageUploads");
 
-        onClickListener(view);
+        onClickListener();
 
 //        recyclerView = view.findViewById(R.id.search_recyclerView);
 //        recyclerView.setHasFixedSize(true);
@@ -132,23 +133,10 @@ public class ImageUploadFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_image_upload, container, false);
     }
 
-    private void onClickListener(View view) {
-        selectImageButton.setOnClickListener(v -> {
-            if (autoCompleteTextView.getText().toString().isEmpty()) {
-                Snackbar snackbar = Snackbar.make(view, "Please enter of coffee shop!", Snackbar.LENGTH_LONG);
-                snackbar.show();
-            } else {
-                openImageSelector();
-            }
-        });
-
+    private void onClickListener() {
+        selectImageButton.setOnClickListener(v -> openImageSelector());
 
         uploadImageButton.setOnClickListener(v -> {
-            if ( imageNameEditText.getText().toString().isEmpty()){
-                Snackbar snackbar = Snackbar.make(view, "Please enter name of drink!", Snackbar.LENGTH_LONG);
-                snackbar.show();
-            }
-
             if (uploadStorageTask != null && uploadStorageTask.isInProgress()) {
                 Toast.makeText(getContext(), "Image upload in progress", Toast.LENGTH_SHORT).show();
             } else {
@@ -160,10 +148,10 @@ public class ImageUploadFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
+        Log.d("ImageUploadFragment", "onActivityResult: requestCode=" + requestCode + " resultCode=" + resultCode);
         if (requestCode == SELECT_IMAGE_REQUEST && resultCode == -1 && data != null && data.getData() != null) {
             imageUri = data.getData();
-
+            Log.d("ImageUploadFragment", "onActivityResult: "+ imageUri.toString());
             Picasso.get().load(imageUri).into(userImageImageView);
         }
     }

@@ -24,7 +24,6 @@ public class CoffeeLoversReceivedMessageHolder extends RecyclerView.ViewHolder {
     TextView textTextView;
     @BindView(R.id.message_time_rec)
     TextView timeTextView;
-    private MainHostListener mainHostListener;
 
     public CoffeeLoversReceivedMessageHolder(@NonNull View itemView) {
         super(itemView);
