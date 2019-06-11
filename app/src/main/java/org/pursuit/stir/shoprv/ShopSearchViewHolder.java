@@ -22,7 +22,7 @@ public class ShopSearchViewHolder extends RecyclerView.ViewHolder {
     public void onBind(FoursquareJSON.FoursquareResponse.FoursquareGroup.FoursquareResults foursquareResults) {
         searchShopView.setText(foursquareResults.getVenue().getName());
         searchShopView.setOnClickListener(v -> {
-
+            imageUploadFragment.setSearchViewSetQuery(foursquareResults.getVenue().getName());
         });
     }
 }
