@@ -26,10 +26,10 @@ public class CoffeeLoversSentMessageHolder extends RecyclerView.ViewHolder {
         ButterKnife.bind(this, itemView);
     }
 
-    public void onBind(final Chat chat, MainHostListener mainHostListener) {
+    public void onBind(final Chat chat) {
        // userTextView.setText(chat.getMessageUser());
         textTextView.setText(chat.getMessageText());
-        timeTextView.setText(DateFormat.format("MM-dd-yyyy (HH:mm:ss)",
+        timeTextView.setText(DateFormat.format("MMMM dd yyyy (hh:mm aa)",
                 chat.getMessageTime()));
     }
 }

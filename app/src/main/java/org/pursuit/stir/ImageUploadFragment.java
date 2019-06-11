@@ -137,10 +137,11 @@ public class ImageUploadFragment extends Fragment {
             if (autoCompleteTextView.getText().toString().isEmpty()) {
                 Snackbar snackbar = Snackbar.make(view, "Please enter of coffee shop!", Snackbar.LENGTH_LONG);
                 snackbar.show();
-            }else {
+            } else {
                 openImageSelector();
             }
         });
+
 
         uploadImageButton.setOnClickListener(v -> {
             if ( imageNameEditText.getText().toString().isEmpty()){

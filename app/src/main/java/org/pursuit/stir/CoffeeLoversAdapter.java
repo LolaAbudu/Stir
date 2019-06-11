@@ -2,6 +2,7 @@ package org.pursuit.stir;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,8 +18,8 @@ import java.util.List;
 public class CoffeeLoversAdapter extends RecyclerView.Adapter {
     private List<Chat> chatList;
     private MainHostListener mainHostListener;
-    CoffeeLoversReceivedMessageHolder coffeeLoversReceivedMessageHolder;
-    CoffeeLoversSentMessageHolder coffeeLoversSentMessageHolder;
+    private CoffeeLoversReceivedMessageHolder coffeeLoversReceivedMessageHolder;
+    private CoffeeLoversSentMessageHolder coffeeLoversSentMessageHolder;
     FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
     private static final int VIEW_TYPE_MESSAGE_SENT = 1;
@@ -65,14 +66,15 @@ public class CoffeeLoversAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
+        Chat chat = chatList.get(i);
+        Log.d("LOOKHERE", "onBindViewHolder " + viewHolder.getItemViewType());
         switch (viewHolder.getItemViewType()) {
             case VIEW_TYPE_MESSAGE_SENT:
-                coffeeLoversSentMessageHolder.onBind(chatList.get(i), mainHostListener);
+                ((CoffeeLoversSentMessageHolder) viewHolder).onBind(chat);
                 break;
             case VIEW_TYPE_MESSAGE_RECEIVED:
-                coffeeLoversReceivedMessageHolder.onBind(chatList.get(i), mainHostListener);
+                ((CoffeeLoversReceivedMessageHolder) viewHolder).onBind(chat);
         }
-
     }
     //coffeeLoversViewHolder.onBind(chatList.get(i), mainHostListener);
 

@@ -154,7 +154,7 @@ public class DetailFragment extends Fragment {
         chatButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mychatID.equals(user.getChatId())) {
+                if (mychatID.equals(userID)) {
                     Snackbar snackbar = Snackbar.make(v, "Oops, you can't chat with yourself!", Snackbar.LENGTH_LONG);
                     snackbar.show();
                 } else {
