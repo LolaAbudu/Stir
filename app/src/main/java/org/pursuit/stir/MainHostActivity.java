@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -17,14 +18,16 @@ import org.pursuit.stir.models.FoursquareJSON;
 
 public class MainHostActivity extends AppCompatActivity implements MainHostListener {
 
-    FirebaseUser firebaseUser;
-    DatabaseReference databaseReference;
+
+    private FirebaseAuth firebaseAuth;
+    private DatabaseReference databaseReference;
+    private static final String TAG = "germ";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_host);
-        replaceWithHomeFragment();
+        firebaseAuth = FirebaseAuth.getInstance();
 
         BottomNavigationView navigationView = findViewById(R.id.bottom_navigation);
         navigationView.setOnNavigationItemSelectedListener(menuItem -> {
@@ -193,6 +196,20 @@ public class MainHostActivity extends AppCompatActivity implements MainHostListe
         }
         return super.onOptionsItemSelected(item);
 
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+        if (currentUser != null) {
+            replaceWithHomeFragment();
+            Log.d(TAG, "onStart: " + currentUser.getDisplayName());
+        } else {
+            Log.d(TAG, "onStart: error, currentUser is null");
+            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+            startActivity(intent);
+        }
     }
 }
 

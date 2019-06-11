@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,6 +18,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -92,20 +94,23 @@ public class CoffeeLoversFragment extends Fragment {
         listOfMessages.setLayoutManager(new LinearLayoutManager(getContext()));
         chatList = new ArrayList<>();
 
-
         fab.setOnClickListener(v -> {
-
-            FirebaseDatabase.getInstance()
-                    .getReference()
-                    .child("chat")
-                    .child(chatKey)
-                    .push()
-                    .setValue(new Chat(input.getText().toString(),
-                            FirebaseAuth.getInstance()
-                                    .getCurrentUser()
-                                    .getDisplayName()));
-            //clear the input
-            input.setText("");
+            if(input.getText().toString().trim().length() <= 0) {
+                Snackbar snackbar = Snackbar.make(view, "Please enter a message!", Snackbar.LENGTH_LONG);
+                snackbar.show();
+            }else {
+                FirebaseDatabase.getInstance()
+                        .getReference()
+                        .child("chat")
+                        .child(chatKey)
+                        .push()
+                        .setValue(new Chat(input.getText().toString(),
+                                FirebaseAuth.getInstance()
+                                        .getCurrentUser()
+                                        .getDisplayName()));
+                //clear the input
+                input.setText("");
+            }
         });
         // added line below because msgs weren't showing in app
         displayChatMessages();

@@ -12,14 +12,13 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.MimeTypeMap;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -42,15 +41,13 @@ import com.squareup.picasso.Picasso;
 
 import org.pursuit.stir.models.FoursquareJSON;
 import org.pursuit.stir.models.ImageUpload;
-import org.pursuit.stir.shoprv.ShopSearchAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import io.reactivex.disposables.CompositeDisposable;
 
-public class ImageUploadFragment extends Fragment implements SearchView.OnQueryTextListener {
+public class ImageUploadFragment extends Fragment {
 
     private static final String ARG_PARAM1 = "param1";
     private static final int SELECT_IMAGE_REQUEST = 1;
@@ -63,11 +60,9 @@ public class ImageUploadFragment extends Fragment implements SearchView.OnQueryT
     private ImageView userImageImageView;
 
     private ProgressBar progressBar;
-    private RecyclerView recyclerView;
-    private ShopSearchAdapter adapter;
-    private List<FoursquareJSON.FoursquareResponse.FoursquareGroup.FoursquareResults> foursquareResponseList = new ArrayList<>();
-    private SearchView searchView;
-
+    private List<FoursquareJSON.FoursquareResponse.FoursquareGroup.FoursquareResults> foursquareResponseList;
+    private ArrayAdapter<String> arrayAdapter;
+    private AutoCompleteTextView autoCompleteTextView;
 
     private Uri imageUri;
     private FirebaseAuth mAuth;
@@ -124,8 +119,8 @@ public class ImageUploadFragment extends Fragment implements SearchView.OnQueryT
 
         onClickListener();
 
-        recyclerView = view.findViewById(R.id.search_recyclerView);
-        recyclerView.setHasFixedSize(true);
+//        recyclerView = view.findViewById(R.id.search_recyclerView);
+//        recyclerView.setHasFixedSize(true);
         getSearchCoffeeCall(view);
     }
 
@@ -194,11 +189,11 @@ public class ImageUploadFragment extends Fragment implements SearchView.OnQueryT
 
                         Toast.makeText(getContext(), "Image Upload Successful", Toast.LENGTH_SHORT).show();
 
-                            String imageName = imageNameEditText.getText().toString().trim();
-                            ImageUpload imageUpload = new ImageUpload(imageName, downloadUrl.toString(), mAuth.getUid());
-                            String uploadId = databaseReference.push().getKey();
-                            databaseReference.child(uploadId).setValue(imageUpload);
-                            openHomeFragment();
+                        String imageName = imageNameEditText.getText().toString().trim();
+                        ImageUpload imageUpload = new ImageUpload(imageName, downloadUrl.toString(), mAuth.getUid());
+                        String uploadId = databaseReference.push().getKey();
+                        databaseReference.child(uploadId).setValue(imageUpload);
+                        openHomeFragment();
                     })
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
@@ -234,13 +229,16 @@ public class ImageUploadFragment extends Fragment implements SearchView.OnQueryT
                                     .getCoffeeShop(location.getLatitude(), location.getLongitude(), location.getAccuracy())
                                     .subscribe(foursquareJSON -> {
                                                 foursquareResponseList = foursquareJSON.getResponse().getGroup().getResults();
+                                                List<String> newList = new ArrayList<>();
                                                 Log.d("ImageUploadFragment", "getRetrofitCall: " + foursquareResponseList.size());
                                                 for (int i = 0; i < foursquareResponseList.size(); i++) {
-                                                    Log.d("ImageUploadFragment", " Shop : " + foursquareResponseList.get(i).getVenue().getName());
+                                                    Log.d("ImageUploadFragment", " Shop : " + foursquareResponseList.get(i).getVenue().getLocation().getAddress());
                                                 }
-                                                adapter = new ShopSearchAdapter(foursquareResponseList);
-                                                recyclerView.setAdapter(adapter);
-                                                recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                                                for (FoursquareJSON.FoursquareResponse.FoursquareGroup.FoursquareResults f : foursquareResponseList) {
+                                                    newList.add(f.getVenue().getName());
+                                                }
+                                                arrayAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, newList);
+                                                autoCompleteTextView.setAdapter(arrayAdapter);
                                             }, throwable -> {
                                                 Log.d("ImageUploadFragment", "failed: " + throwable.getLocalizedMessage());
                                             }
@@ -253,32 +251,8 @@ public class ImageUploadFragment extends Fragment implements SearchView.OnQueryT
                         }
                     });
         }
-        searchView = view.findViewById(R.id.image_upload_coffee_shop_searchView);
-        searchView.setOnQueryTextListener(this);
-    }
-
-
-    @Override
-    public boolean onQueryTextSubmit(String s) {
-        setSearchViewSetQuery(s);
-        return false;
-    }
-
-    @Override
-    public boolean onQueryTextChange(String s) {
-        List<FoursquareJSON.FoursquareResponse.FoursquareGroup.FoursquareResults> newList = new ArrayList<>();
-        for (FoursquareJSON.FoursquareResponse.FoursquareGroup.FoursquareResults results : foursquareResponseList) {
-            if (results.getVenue().getName().toLowerCase(Locale.getDefault()).contains(s.toLowerCase(Locale.getDefault())))
-                newList.add(results);
-        }
-        adapter.setData(newList);
-        return false;
-    }
-
-    public void setSearchViewSetQuery(String s){
-//        for (int i = 0; i < foursquareResponseList.size(); i++) {
-        searchView.setQuery(s, false);
-//        }
+        autoCompleteTextView = view.findViewById(R.id.image_upload_coffee_shop_searchView);
+        autoCompleteTextView.setThreshold(1);
     }
 
     @Override
@@ -286,11 +260,6 @@ public class ImageUploadFragment extends Fragment implements SearchView.OnQueryT
         super.onDetach();
         mainHostListener = null;
     }
-
-
-    public void searchViewMethod() {
-    }
-
 
 }
 
