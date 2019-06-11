@@ -129,7 +129,7 @@ public class MainHostActivity extends AppCompatActivity implements MainHostListe
     }
 
     @Override
-    public void moveToDetailFragment(String imageName, String imageUrl , String userID) {
+    public void moveToDetailFragment(String imageName, String imageUrl, String userID) {
         getSupportFragmentManager()
                 .beginTransaction()
                 .setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit)
@@ -138,6 +138,7 @@ public class MainHostActivity extends AppCompatActivity implements MainHostListe
                 .commit();
     }
 
+
     @Override
 
     public void startErrorActivity() {
@@ -145,10 +146,11 @@ public class MainHostActivity extends AppCompatActivity implements MainHostListe
         startActivity(intent);
     }
 
+
     public void replaceWithCoffeePrefFragment() {
         getSupportFragmentManager()
                 .beginTransaction()
-              //  .setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit)
+                //  .setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit)
                 .replace(R.id.main_host_container, CoffeePrefFragment.newInstance())
                 .addToBackStack(null)
                 .commit();
@@ -166,6 +168,15 @@ public class MainHostActivity extends AppCompatActivity implements MainHostListe
     }
 
     @Override
+    public void replaceWithProfilePhotoFragment() {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.main_host_container, ProfilePhotoFragment.newInstance())
+                .addToBackStack(null)
+                .commit();
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.sign_out:
@@ -177,6 +188,9 @@ public class MainHostActivity extends AppCompatActivity implements MainHostListe
 //                    return super.onOptionsItemSelected(item);
             case R.id.coffee_pref:
                 replaceWithCoffeePrefFragment();
+                return true;
+            case R.id.edit_profile_photo:
+                replaceWithProfilePhotoFragment();
                 return true;
 
         }
