@@ -10,7 +10,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,7 +22,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
-import org.pursuit.stir.models.Chat;
 import org.pursuit.stir.models.User;
 
 import java.util.HashMap;
@@ -66,7 +64,7 @@ public class DetailFragment extends Fragment {
     @BindView(R.id.detail_coffee_count1)
     TextView beanCountTextView;
     @BindView(R.id.chat_with_me_button)
-    Button chatButton;
+    TextView chatButton;
 
 
     public DetailFragment() {
