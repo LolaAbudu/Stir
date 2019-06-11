@@ -18,6 +18,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:clickable="true"
+            android:focusable="true"
+            app:elevation="0dp"
             android:src="@drawable/ic_send_black_24dp"
             android:id="@+id/fab"
             android:tint="@android:color/white"
