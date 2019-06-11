@@ -37,19 +37,23 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
+        <TextView
             android:id="@+id/chat_with_me_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="100dp"
+            android:layout_height="35dp"
             android:layout_marginEnd="32dp"
+            android:padding="2dp"
             android:background="@drawable/round_button"
             android:backgroundTint="@color/colorAccent"
             android:fontFamily="@font/berkshireswash_regular"
-            android:text="Stir Chat"
+            android:textAlignment="center"
+            android:gravity="center"
+            android:text="stir chat"
             android:textColor="@color/colorWhiteText"
-            android:textSize="12sp"
+            android:textSize="24sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:foreground="?attr/selectableItemBackground"/>
 
         <TextView
             android:id="@+id/detail_username_textView"
