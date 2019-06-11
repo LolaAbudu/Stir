@@ -46,6 +46,7 @@ import org.pursuit.stir.models.ImageUpload;
 import org.pursuit.stir.shoprv.ShopSearchAdapter;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
@@ -68,7 +69,7 @@ public class ImageUploadFragment extends Fragment implements SearchView.OnQueryT
     private ShopSearchAdapter adapter;
     private List<FoursquareJSON.FoursquareResponse.FoursquareGroup.FoursquareResults> foursquareResponseList;
     private ArrayAdapter<FoursquareJSON.FoursquareResponse.FoursquareGroup.FoursquareResults> arrayAdapter;
-//    private ArrayAdapter<String> arrayAdapter;
+    //    private ArrayAdapter<String> arrayAdapter;
     private SearchView searchView;
     private AutoCompleteTextView autoCompleteTextView;
 
@@ -242,6 +243,8 @@ public class ImageUploadFragment extends Fragment implements SearchView.OnQueryT
                                                 for (int i = 0; i < foursquareResponseList.size(); i++) {
                                                     Log.d("ImageUploadFragment", " Shop : " + foursquareResponseList.get(i).getVenue().getName());
                                                 }
+                                                Log.d("LOOKHERE", "getSearchCoffeeCall: " + Arrays.toString(foursquareResponseList.toArray()));
+                                                arrayAdapter = new ArrayAdapter<FoursquareJSON.FoursquareResponse.FoursquareGroup.FoursquareResults>(getContext(), android.R.layout.simple_list_item_1, foursquareResponseList);
 //                                                adapter = new ShopSearchAdapter(foursquareResponseList);
 //                                                recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
                                             }, throwable -> {
@@ -257,7 +260,6 @@ public class ImageUploadFragment extends Fragment implements SearchView.OnQueryT
                     });
         }
         String[] fruits = {"Apple", "Banana", "Cherry", "Date", "Grape", "Kiwi", "Mango", "Pear"};
-        arrayAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, foursquareResponseList);
         autoCompleteTextView = view.findViewById(R.id.image_upload_coffee_shop_searchView);
         autoCompleteTextView.setThreshold(1);
         autoCompleteTextView.setAdapter(arrayAdapter);

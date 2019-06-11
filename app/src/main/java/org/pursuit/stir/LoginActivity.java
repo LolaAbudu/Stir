@@ -26,6 +26,7 @@ public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "LoginActivity";
     private FirebaseAuth firebaseAuth;
     private SignUpListener signUpListener;
+    private FirebaseUser user;
 
     @BindView(R.id.login_logo_imageView)
     ImageView imageView;
@@ -98,7 +99,9 @@ public class LoginActivity extends AppCompatActivity {
         firebaseAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
-                        Log.d(TAG, "signInWithEmail:success");
+                        Log.d(TAG, "signInWithEmail:success" + firebaseAuth.getCurrentUser().getDisplayName());
+                        Intent intent = new Intent(LoginActivity.this, MainHostActivity.class);
+                        startActivity(intent);
                     } else {
                         Log.w(TAG, "signInWithEmail:failure", task.getException());
                         Toast.makeText(LoginActivity.this, R.string.authorization_failed_message,
@@ -110,8 +113,8 @@ public class LoginActivity extends AppCompatActivity {
     private void userLogin() {
         loginButton.setOnClickListener(v -> {
             signInExistingUser(emailEditText.getText().toString(), passwordEditText.getText().toString());
-            Intent intent = new Intent(LoginActivity.this, MainHostActivity.class);
-            startActivity(intent);
+//            Intent intent = new Intent(LoginActivity.this, MainHostActivity.class);
+//            startActivity(intent);
         });
     }
 
