@@ -12,12 +12,15 @@ import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import org.pursuit.stir.models.ImageUpload;
 import org.pursuit.stir.models.User;
 
 public class ProfileFragment extends Fragment {
@@ -56,6 +59,7 @@ public class ProfileFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         profileName = view.findViewById(R.id.profile_username_textView);
         profileCoffeePref = view.findViewById(R.id.profile_coffee_pref_textView);
+        Log.d("LOOKHERE profilefrag", "onViewCreated: " + currentUser.getDisplayName());
 
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("users");
         databaseReference.child(mAuth.getUid()).addValueEventListener(new ValueEventListener() {
@@ -97,6 +101,37 @@ public class ProfileFragment extends Fragment {
         } else {
             Log.d(TAG, "onViewCreated: currentuser = null");
         }
+        // finding current user's images only
+        DatabaseReference databaseReference2 = FirebaseDatabase.getInstance().getReference();
+        Query imagesQuery = databaseReference2.child("imageUploads").orderByChild("userID").equalTo(currentUser.getUid());
+        imagesQuery.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                final ImageUpload image = dataSnapshot.getValue(ImageUpload.class);
+                Log.d(TAG, "onChildAdded: " + image.getImageName() + image.getUserID());
+
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
     @Override
