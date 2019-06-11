@@ -32,6 +32,8 @@ import org.pursuit.stir.models.ProfileImage;
 import org.pursuit.stir.models.User;
 import org.pursuit.stir.profilerv.ProfileAdapter;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static android.support.constraint.Constraints.TAG;
@@ -61,7 +63,7 @@ public class ProfileFragment extends Fragment {
     private String profileCurrentUserId;
     private static final String TAG = "stuff";
     private List<ProfileImage> profileImageList;
-
+    private List<ImageUpload> imagesList = new ArrayList<>();
 
 
     public ProfileFragment() {
@@ -87,6 +89,7 @@ public class ProfileFragment extends Fragment {
         profileName = view.findViewById(R.id.profile_username_textView);
         profileCoffeePref = view.findViewById(R.id.profile_coffee_pref_textView);
         profileImageView = view.findViewById(R.id.profile_user_profile_image);
+        recyclerView = view.findViewById(R.id.profile_itemview_recycler_view);
 
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("users");
         databaseReference.child(mAuth.getUid()).addValueEventListener(new ValueEventListener() {
@@ -132,25 +135,17 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                Log.d(TAG, "Sanap"+dataSnapshot.getValue().toString());
+                Log.d(TAG, "Sanap" + dataSnapshot.getValue().toString());
 
                 for (DataSnapshot postSnapShot : dataSnapshot.getChildren()) {
-              //  dataSnapshot.getValue().toString();
-
-
                     if (postSnapShot.getKey().equals(currentUser.getUid())) {
-                        String profilePhotoUrlString =postSnapShot.getValue().toString();
-                                Picasso.get()
-        .load(profilePhotoUrlString)
-        .into(profileImageView);
+                        String profilePhotoUrlString = postSnapShot.getValue().toString();
+                        Picasso.get()
+                                .load(profilePhotoUrlString)
+                                .into(profileImageView);
                     }
                 }
-                recyclerView = view.findViewById(R.id.profile_itemview_recycler_view);
-                recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-                recyclerView.setAdapter(profileAdapter);
-
             }
-
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -159,12 +154,17 @@ public class ProfileFragment extends Fragment {
         });
 
         DatabaseReference myCoffeePhotosReference = FirebaseDatabase.getInstance().getReference();
-        Query imagesQuery = databaseReference.child("imageUploads").orderByChild("userID").equalTo(currentUser.getUid()).limitToFirst(100);
+        Query imagesQuery = myCoffeePhotosReference.child("imageUploads").orderByChild("userID").equalTo(currentUser.getUid()).limitToFirst(100);
         imagesQuery.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 final ImageUpload imageUpload = dataSnapshot.getValue(ImageUpload.class);
-
+                Log.d(TAG, "onChildAdded: " + imageUpload.getImageUrl());
+                imagesList.add(imageUpload);
+                Log.d(TAG, "onViewCreated: " + imagesList.size());
+                profileAdapter = new ProfileAdapter(imagesList);
+                recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                recyclerView.setAdapter(profileAdapter);
             }
 
             @Override
@@ -187,13 +187,6 @@ public class ProfileFragment extends Fragment {
 
             }
         });
-
-        //imageNameTextView.setText(beanCount);
-        //  Picasso.get().load(imageUrl).into(imageURLImageView);
-
-//        recyclerView = view.findViewById(R.id.profile_itemview_recycler_view);
-//        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-//        recyclerView.setAdapter(profileAdapter);
 
     }
 
