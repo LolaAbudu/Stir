@@ -8,8 +8,8 @@
 
 
     <item
-        android:id="@+id/user_profile"
-        android:title="Edit My Profile"/>
+        android:id="@+id/edit_profile_photo"
+        android:title="Edit My Profile Photo"/>
 
 
     <item

@@ -53,6 +53,7 @@ public class CoffeePrefFragment extends Fragment {
     private String groupTwoAnswer;
     private String imageName;
     private String imageUrl;
+    private String photoImageUrl;
 
     private RadioButton radioButtonOne;
     private RadioButton radioButtonTwo;
@@ -98,7 +99,7 @@ public class CoffeePrefFragment extends Fragment {
                 onRadioButtonGroupOneClicked(view);
                 onRadioButtonGroupTwoClicked(view);
                 User user = new User(firebaseAuth.getCurrentUser().getDisplayName(),
-                        firebaseAuth.getCurrentUser().getUid(), groupOneAnswer, groupTwoAnswer, new ArrayList<ImageUpload>(),imageName,imageUrl);
+                        firebaseAuth.getCurrentUser().getUid(), groupOneAnswer, groupTwoAnswer, new ArrayList<ImageUpload>(),imageName,imageUrl,photoImageUrl);
                 FirebaseDatabase.getInstance()
                         .getReference()
                         .child("users").child(firebaseAuth.getUid())
