@@ -24,4 +24,6 @@ public interface MainHostListener {
 
     void replaceWithChatListFragment();
 
+    void replaceWithProfilePhotoFragment();
+
 }

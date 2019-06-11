@@ -11,13 +11,13 @@ public class User {
     private List<ImageUpload> imageList;
     private String imageName;
     private String imageUrl;
-    private String chatId;
+    private String photoImageUrl;
 
     public User() {
         // Default constructor required for calls to DataSnapshot.getValue(User.class)
     }
 
-    public User(String username, String usrID, String coffeeAnswerOne, String coffeeAnswerTwo, List<ImageUpload> imageList, String imageName, String imageUrl) {
+    public User(String username, String usrID, String coffeeAnswerOne, String coffeeAnswerTwo, List<ImageUpload> imageList, String imageName, String imageUrl, String profilePhotoImageUrl) {
         this.username = username;
         this.usrID = usrID;
         this.coffeeAnswerOne = coffeeAnswerOne;
@@ -25,7 +25,15 @@ public class User {
         this.imageList = imageList;
         this.imageName = imageName;
         this.imageUrl = imageUrl;
-//        this.chatId = chatId;
+        this.photoImageUrl = profilePhotoImageUrl;
+    }
+
+    public String getPhotoImageUrl() {
+        return photoImageUrl;
+    }
+
+    public void setPhotoImageUrl(String photoImageUrl) {
+        this.photoImageUrl = photoImageUrl;
     }
 
     public String getImageName() {
@@ -75,6 +83,9 @@ public class User {
     public void setUsername(String username) {
         this.username = username;
     }
+    public String getChatId() {
+        return getUsrID().substring(22);
+    }
 
     public String getUsrID() {
         return usrID;
@@ -82,13 +93,5 @@ public class User {
 
     public void setUsrID(String usrID) {
         this.usrID = usrID;
-    }
-
-    public String getChatId() {
-        return getUsrID().substring(22);
-    }
-
-    public void setChatId(String chatId) {
-        this.chatId = chatId;
     }
 }
