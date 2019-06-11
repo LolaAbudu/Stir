@@ -29,6 +29,7 @@ public class MainHostActivity extends AppCompatActivity implements MainHostListe
         setContentView(R.layout.activity_main_host);
         firebaseAuth = FirebaseAuth.getInstance();
 
+        userCheck();
         BottomNavigationView navigationView = findViewById(R.id.bottom_navigation);
         navigationView.setOnNavigationItemSelectedListener(menuItem -> {
             switch (menuItem.getItemId()) {
@@ -154,7 +155,6 @@ public class MainHostActivity extends AppCompatActivity implements MainHostListe
                 .replace(R.id.main_host_container, CoffeePrefFragment.newInstance())
                 .addToBackStack(null)
                 .commit();
-
     }
 
     @Override
@@ -164,7 +164,6 @@ public class MainHostActivity extends AppCompatActivity implements MainHostListe
                 .replace(R.id.main_host_container, ChatListFragment.newInstance())
                 .addToBackStack(null)
                 .commit();
-
     }
 
     @Override
@@ -198,10 +197,9 @@ public class MainHostActivity extends AppCompatActivity implements MainHostListe
 
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
+    public void userCheck() {
         FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+
         if (currentUser != null) {
             replaceWithHomeFragment();
             Log.d(TAG, "onStart: " + currentUser.getDisplayName());

@@ -137,6 +137,10 @@ public class ProfilePhotoFragment extends Fragment {
             imageUri = data.getData();
 
             Picasso.get().load(imageUri).into(profilePhotoImage);
+            Log.d("ProfilePhotoFragment", "onActivityResult: " + imageUri);
+        } else {
+            Toast.makeText(getContext(), "NO PHOTO UPLOADED", Toast.LENGTH_SHORT).show();
+            Log.d("ProfilePhotoFragment", "onActivityResult: problem with request");
         }
     }
 

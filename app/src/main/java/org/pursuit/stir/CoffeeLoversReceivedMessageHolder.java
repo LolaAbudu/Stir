@@ -24,18 +24,17 @@ public class CoffeeLoversReceivedMessageHolder extends RecyclerView.ViewHolder {
     TextView textTextView;
     @BindView(R.id.message_time_rec)
     TextView timeTextView;
-    private MainHostListener mainHostListener;
 
     public CoffeeLoversReceivedMessageHolder(@NonNull View itemView) {
         super(itemView);
         ButterKnife.bind(this, itemView);
     }
 
-    public void onBind(final Chat chat, MainHostListener mainHostListener) {
+    public void onBind(final Chat chat) {
       //  Picasso.get().load(imageUrl).into(userImageView);
         userTextView.setText(chat.getMessageUser());
         textTextView.setText(chat.getMessageText());
-        timeTextView.setText(DateFormat.format("MM-dd-yyyy (HH:mm:ss)",
+        timeTextView.setText(DateFormat.format("MMMM dd yyyy (hh:mm aa)",
                 chat.getMessageTime()));
     }
 }

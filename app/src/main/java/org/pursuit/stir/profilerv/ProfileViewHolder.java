@@ -41,12 +41,8 @@ public class ProfileViewHolder extends RecyclerView.ViewHolder {
                 .placeholder(R.drawable.stir_logo)
                 .fit()
                 .centerCrop()
-                .into(coffeeBeanImageView);
-
-//            Log.d("det", coffeeImage.getImageName() + " " + coffeeImage.getImageUrl() + " " + coffeeImage.getUserID());
-//        });
-
-
+                .into(coffeeImageView);
+        Log.d("lookhere", "onBind: " + imageList.getImageUrl());
     }
 }
 
