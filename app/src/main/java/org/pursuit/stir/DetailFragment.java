@@ -2,11 +2,13 @@ package org.pursuit.stir;
 
 
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +17,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -23,12 +27,15 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import org.pursuit.stir.models.FoursquareJSON;
 import org.pursuit.stir.models.User;
 
 import java.util.HashMap;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.disposables.CompositeDisposable;
 
 import static android.support.constraint.Constraints.TAG;
 
@@ -41,11 +48,18 @@ public class DetailFragment extends Fragment {
     private DatabaseReference databaseReference;
 
     private static final String IMAGE_NAME_KEY = "name";
+    private static final String SHOP_NAME_KEY = "name";
     private static final String IMAGE_URL_KEY = "url";
     private static final String IMAGE_USER_ID_KEY = "userID";
     private static final String IMAGE_BEAN_COUNT_KEY = "bean";
 
+
+    private CompositeDisposable disposable = new CompositeDisposable();
+    private FourSquareRepository fourSquareRepository = new FourSquareRepository();
+    private List<FoursquareJSON.FoursquareResponse.FoursquareGroup.FoursquareResults> foursquareResponseList;
+
     private String imageName;
+    private String shopName;
     private String imageUrl;
     private String userID;
     private String chatKey;
@@ -66,15 +80,20 @@ public class DetailFragment extends Fragment {
     TextView beanCountTextView;
     @BindView(R.id.chat_with_me_button)
     TextView chatButton;
+    @BindView(R.id.detail_coffee_shop_name)
+    TextView shopNameView;
+    @BindView(R.id.detail_coffee_shop_address)
+    TextView shopAddressView;
 
 
     public DetailFragment() {
     }
 
-    public static DetailFragment newInstance(String imageName, String imageUrl, String userID) {
+    public static DetailFragment newInstance(String imageName, String shopName, String imageUrl, String userID) {
         DetailFragment fragment = new DetailFragment();
         Bundle args = new Bundle();
         args.putString(IMAGE_NAME_KEY, imageName);
+        args.putString(SHOP_NAME_KEY, shopName);
         args.putString(IMAGE_URL_KEY, imageUrl);
         args.putString(IMAGE_USER_ID_KEY, userID);
         fragment.setArguments(args);
@@ -94,6 +113,7 @@ public class DetailFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             imageName = getArguments().getString(IMAGE_NAME_KEY);
+            shopName = getArguments().getString(SHOP_NAME_KEY);
             imageUrl = getArguments().getString(IMAGE_URL_KEY);
             userID = getArguments().getString(IMAGE_USER_ID_KEY);
         }
@@ -111,6 +131,7 @@ public class DetailFragment extends Fragment {
         ButterKnife.bind(this, view);
         imageNameTextView.setText(imageName);
         Picasso.get().load(imageUrl).into(imageURLImageView);
+        shopNameView.setText(shopName);
 
         firebaseAuth = FirebaseAuth.getInstance();
         databaseReference = FirebaseDatabase.getInstance().getReference("likes").child(imageName);
@@ -163,8 +184,47 @@ public class DetailFragment extends Fragment {
                 }
             }
         });
-
+        getSearchCoffeeCall(view);
     }
+
+    public void getSearchCoffeeCall(View view) {
+        if (ContextCompat.checkSelfPermission(
+                getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) ==
+                PackageManager.PERMISSION_GRANTED) {
+            FusedLocationProviderClient fusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity());
+            fusedLocationClient.getLastLocation()
+                    .addOnSuccessListener(getActivity(), location -> {
+                        if (location != null) {
+                            disposable.add(fourSquareRepository
+                                    .getCoffeeShop(location.getLatitude(), location.getLongitude(), location.getAccuracy())
+                                    .subscribe(foursquareJSON -> {
+                                                foursquareResponseList = foursquareJSON.getResponse().getGroup().getResults();
+                                                Log.d("ImageUploadFragment", "getRetrofitCall: " + foursquareResponseList.size());
+                                                for (int i = 0; i < foursquareResponseList.size(); i++) {
+                                                    Log.d("ImageUploadFragment", " Shop : " + foursquareResponseList.get(i).getVenue().getLocation().getAddress());
+
+                                                    if (shopName.equals(foursquareResponseList.get(i).getVenue().getName())) {
+                                                        String address = foursquareResponseList.get(i).getVenue().getLocation().getAddress() + "\n"
+                                                                + foursquareResponseList.get(i).getVenue().getLocation().getCity() + ", "
+                                                                + foursquareResponseList.get(i).getVenue().getLocation().getState() + ", "
+                                                                + foursquareResponseList.get(i).getVenue().getLocation().getPostalCode();
+                                                        shopAddressView.setText(address);
+                                                    }
+                                                }
+                                            }, throwable -> {
+                                                Log.d("ImageUploadFragment", "failed: " + throwable.getLocalizedMessage());
+                                            }
+                                    ));
+                        } else {
+                            Toast.makeText(getContext(), "There was an error with this request", Toast.LENGTH_SHORT).show();
+                            Log.d("evelyn", "onConnected: error with request");
+                            //error state call
+//                            mainHostListener.startErrorActivity();
+                        }
+                    });
+        }
+    }
+
 
     @Override
     public void onDetach() {
