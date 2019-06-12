@@ -67,5 +67,3 @@ public class FourSquareRepository {
     }
 }
 
-//a class that uses another class is a caller
-//TODO check if we have the call in memory, give it to me, else, make the call

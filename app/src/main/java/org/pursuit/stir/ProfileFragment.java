@@ -136,8 +136,6 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                Log.d(TAG, "Sanap" + dataSnapshot.getValue().toString());
-
                 for (DataSnapshot postSnapShot : dataSnapshot.getChildren()) {
                     if (postSnapShot.getKey().equals(currentUser.getUid())) {
                         String profilePhotoUrlString = postSnapShot.getValue().toString();

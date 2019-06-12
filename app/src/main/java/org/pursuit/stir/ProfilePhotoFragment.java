@@ -89,9 +89,6 @@ public class ProfilePhotoFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
-//            mParam2 = getArguments().getString(ARG_PARAM2);
-//            firebaseAuth = FirebaseAuth.getInstance();
-//            firebaseDatabase = FirebaseDatabase.getInstance();
         }
         mAuth = FirebaseAuth.getInstance();
     }
@@ -123,7 +120,6 @@ public class ProfilePhotoFragment extends Fragment {
                 Toast.makeText(getContext(), "Image upload in progress", Toast.LENGTH_SHORT).show();
             } else {
                 uploadImage();
-//                openProfileFragment();
             }
         });
 
@@ -135,12 +131,9 @@ public class ProfilePhotoFragment extends Fragment {
 
         if (requestCode == SELECT_IMAGE_REQUEST && resultCode == -1 && data != null && data.getData() != null) {
             imageUri = data.getData();
-
             Picasso.get().load(imageUri).into(profilePhotoImage);
-            Log.d("ProfilePhotoFragment", "onActivityResult: " + imageUri);
         } else {
             Toast.makeText(getContext(), "NO PHOTO UPLOADED", Toast.LENGTH_SHORT).show();
-            Log.d("ProfilePhotoFragment", "onActivityResult: problem with request");
         }
     }
 
@@ -160,24 +153,12 @@ public class ProfilePhotoFragment extends Fragment {
 
             uploadStorageTask = imageFieReference.putFile(imageUri)
                     .addOnSuccessListener(taskSnapshot -> {
-                        //below delays the progress bar for about 5 seconds so that the user can see the progress bar or else it could download so fast and the user doesn't see anything
-//                            Handler handler = new Handler();
-//                            handler.postDelayed(new Runnable() {
-//                                @Override
-//                                public void run() {
-//                                    progressBar.setProgress(0);
-//                                }
-//                            }, 500);
 
                         Task<Uri> urlTask = taskSnapshot.getStorage().getDownloadUrl();
                         taskSnapshot.getUploadSessionUri();
 
                         while (!urlTask.isSuccessful()) ;
                         Uri downloadUrl = urlTask.getResult();
-                        Log.d("elizabeth", "uploadImage: "+downloadUrl.toString());
-
-
-                        //   Toast.makeText(getContext(), "Image Upload Successful", Toast.LENGTH_SHORT).show();
 
                         ProfileImage profileImage = new ProfileImage(downloadUrl.toString(), mAuth.getUid());
 //                        String uploadId = databaseReference.push().getKey();
@@ -187,25 +168,6 @@ public class ProfilePhotoFragment extends Fragment {
                                 openProfileFragment();
                             }
                         });
-//
-//                        Toast.makeText(getContext(), "Image Upload Successful", Toast.LENGTH_SHORT).show();
-
-
-                        // String imageName = imageNameEditText.getText().toString().trim();
-                        // ImageUpload imageUpload = new ImageUpload(imageName, downloadUrl.toString(), mAuth.getUid());
-//                        User photoImageUpload = new User(firebaseAuth.getCurrentUser().getDisplayName(),
-//                                firebaseAuth.getCurrentUser().getUid(), groupOneAnswer, groupTwoAnswer, new ArrayList<ImageUpload>(), imageName, imageUrl, downloadUrl.toString());
-//                        String uploadId = databaseReference.push().getKey();
-//                        databaseReference.child(uploadId).setValue(photoImageUpload);
-
-//                        FirebaseDatabase.getInstance()
-//                                .getReference()
-//                                .child("profilePhoto").child(firebaseAuth.getUid())
-//                                .setValue(profileImage);
-
-//
-
-
 
                     })
                     .addOnFailureListener(new OnFailureListener() {
@@ -227,9 +189,7 @@ public class ProfilePhotoFragment extends Fragment {
     }
 
     private void openProfileFragment() {
-        {
             mainHostListener.replaceWithProfileFragment();
-        }
     }
     private String getImageFIleExtension(Uri uri) {
         ContentResolver contentResolver = getActivity().getContentResolver();
@@ -237,17 +197,13 @@ public class ProfilePhotoFragment extends Fragment {
         return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri));
     }
 
-
-
     @Override
     public void onDetach() {
         super.onDetach();
         mListener = null;
     }
 
-
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
 }

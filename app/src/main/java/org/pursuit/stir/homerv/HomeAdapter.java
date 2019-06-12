@@ -30,7 +30,6 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull HomeViewHolder homeViewHolder, int position) {
         homeViewHolder.onBind(imageList.get(position), mainHostListener);
-//         final String key = getRef(position).getKey();
     }
 
     @Override

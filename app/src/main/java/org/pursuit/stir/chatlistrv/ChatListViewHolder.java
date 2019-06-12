@@ -48,11 +48,6 @@ public class ChatListViewHolder extends RecyclerView.ViewHolder {
                 mainHostListener.replaceWithCoffeeLoversFragment(chatKeyString);
             }
         });
-
-//        String user = getUsername(chatKeyString);
-//        Log.d("jessica", "onBind: " + user);
-//        usernameTextView.setText(user);
-
     }
 
     public String getOtherChatId(String chatKey) {
@@ -62,7 +57,6 @@ public class ChatListViewHolder extends RecyclerView.ViewHolder {
         } else {
             otherChatId = chatKey.substring(7);
         }
-        Log.d("jessica", "getOtherChatId: " + otherChatId);
         return otherChatId;
     }
 
@@ -77,7 +71,6 @@ public class ChatListViewHolder extends RecyclerView.ViewHolder {
                     if (otherChatId.equals(user.getChatId())) {
                         username = user.getUsername();
                         usernameTextView.setText(username);
-                        Log.d("jessica ", "onDataChange: " + username);
                     }
                 }
             }
