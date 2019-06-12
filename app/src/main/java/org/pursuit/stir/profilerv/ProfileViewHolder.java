@@ -34,15 +34,12 @@ public class ProfileViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void onBind(ImageUpload imageList) {
-       // imageNameTextView.setText(imageName);
-
         Picasso.get()
                 .load(imageList.getImageUrl())
                 .placeholder(R.drawable.stir_logo)
                 .fit()
                 .centerCrop()
                 .into(coffeeImageView);
-        Log.d("lookhere", "onBind: " + imageList.getImageUrl());
     }
 }
 

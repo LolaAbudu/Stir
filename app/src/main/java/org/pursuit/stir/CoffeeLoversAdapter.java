@@ -62,7 +62,6 @@ public class CoffeeLoversAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
         Chat chat = chatList.get(i);
-        Log.d("LOOKHERE", "onBindViewHolder " + viewHolder.getItemViewType());
         switch (viewHolder.getItemViewType()) {
             case VIEW_TYPE_MESSAGE_SENT:
                 ((CoffeeLoversSentMessageHolder) viewHolder).onBind(chat);

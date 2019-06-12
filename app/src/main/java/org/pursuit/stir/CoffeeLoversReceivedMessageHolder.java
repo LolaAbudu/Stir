@@ -44,8 +44,6 @@ public class CoffeeLoversReceivedMessageHolder extends RecyclerView.ViewHolder {
 
     public void onBind(final Chat chat) {
         findOtherChatId(chat);
-
-        Log.d("helpme", "onBind: " + profilePhotoUrlString);
         userTextView.setText(chat.getMessageUser());
         textTextView.setText(chat.getMessageText());
         timeTextView.setText(DateFormat.format("MMMM dd yyyy (hh:mm aa)",
@@ -62,8 +60,6 @@ public class CoffeeLoversReceivedMessageHolder extends RecyclerView.ViewHolder {
                 final User user = dataSnapshot.getValue(User.class);
                 otherChatId = user.getChatId();
                 findProfilePhoto(otherChatId);
-                Log.d("helpme", "onChildAdded: " + user.getChatId());
-
             }
 
             @Override
@@ -98,9 +94,7 @@ public class CoffeeLoversReceivedMessageHolder extends RecyclerView.ViewHolder {
                         profilePhotoUrlString = postSnapShot.getValue().toString();
                         Log.d("helpme", "onDataChange: " + profilePhotoUrlString);
                         Picasso.get().load(profilePhotoUrlString).into(userImageView);
-
                     }
-
                 }
             }
 

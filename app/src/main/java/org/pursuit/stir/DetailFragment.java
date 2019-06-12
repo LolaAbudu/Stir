@@ -48,7 +48,7 @@ public class DetailFragment extends Fragment {
     private DatabaseReference databaseReference;
 
     private static final String IMAGE_NAME_KEY = "name";
-    private static final String SHOP_NAME_KEY = "name";
+    private static final String SHOP_NAME_KEY = "shop";
     private static final String IMAGE_URL_KEY = "url";
     private static final String IMAGE_USER_ID_KEY = "userID";
     private static final String IMAGE_BEAN_COUNT_KEY = "bean";
