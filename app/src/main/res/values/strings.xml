@@ -7,7 +7,7 @@
     <string name="login_sign_up_textview">SIGN UP</string>
     <string name="detail_posted_by_text">Posted by:</string>
     <string name="sign_up_checkbox_acknowledgement">I acknowledge I am 18 years or older.</string>
-    <string name="profile_coffee_bean_count">144</string>
+    <string name="profile_coffee_bean_count">14</string>
     <string name="profile_fragment_username_hint">stir_username</string>
     <string name="profile_framgnet_coffee_pref_hint">Coffee Preference</string>
 
