@@ -17,6 +17,7 @@
 
         <ImageView
             android:id="@+id/profile_imageView_itemView"
+            android:layout_gravity="center"
             android:layout_width="350dp"
             android:layout_height="180dp"
             android:layout_centerInParent="true"
