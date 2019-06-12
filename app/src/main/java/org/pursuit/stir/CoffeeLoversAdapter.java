@@ -18,8 +18,6 @@ import java.util.List;
 public class CoffeeLoversAdapter extends RecyclerView.Adapter {
     private List<Chat> chatList;
     private MainHostListener mainHostListener;
-    private CoffeeLoversReceivedMessageHolder coffeeLoversReceivedMessageHolder;
-    private CoffeeLoversSentMessageHolder coffeeLoversSentMessageHolder;
     FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
     private static final int VIEW_TYPE_MESSAGE_SENT = 1;
@@ -33,14 +31,12 @@ public class CoffeeLoversAdapter extends RecyclerView.Adapter {
     @Override
     public int getItemViewType(int position) {
         Chat message = chatList.get(position);
-        // if (message.getMessageUser().equals(firebaseDatabase.getReference().getDatabase().ge())) {
 
         if (message.getMessageUser().equals(currentUser.getDisplayName())) {
-
             // If the current user is the sender of the message
             return VIEW_TYPE_MESSAGE_SENT;
         } else {
-// If some other user sent the message
+            // If some other user sent the message
             return VIEW_TYPE_MESSAGE_RECEIVED;
         }
     }
@@ -61,7 +57,6 @@ public class CoffeeLoversAdapter extends RecyclerView.Adapter {
             return new CoffeeLoversReceivedMessageHolder(view);
         }
         return null;
-        //return new CoffeeLoversViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.message, viewGroup, false));
     }
 
     @Override
@@ -76,7 +71,6 @@ public class CoffeeLoversAdapter extends RecyclerView.Adapter {
                 ((CoffeeLoversReceivedMessageHolder) viewHolder).onBind(chat);
         }
     }
-    //coffeeLoversViewHolder.onBind(chatList.get(i), mainHostListener);
 
     @Override
     public int getItemCount() {
