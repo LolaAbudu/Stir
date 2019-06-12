@@ -154,14 +154,8 @@ public class DetailFragment extends Fragment {
                         userNameTextView.setText(user.getUsername());
                         mychatID = firebaseAuth.getCurrentUser().getUid().substring(22);
                         otherChatID = user.getUsrID().substring(22);
-                        Log.d(TAG, "onDataChange: " + mychatID);
-                        Log.d(TAG, "onDataChange: " + otherChatID);
                         break;
                     }
-
-//                    obtainChatKey(postSnapShot, mychatID, otherChatID);
-
-
                 }
             }
 
@@ -199,9 +193,7 @@ public class DetailFragment extends Fragment {
                                     .getCoffeeShop(location.getLatitude(), location.getLongitude(), location.getAccuracy())
                                     .subscribe(foursquareJSON -> {
                                                 foursquareResponseList = foursquareJSON.getResponse().getGroup().getResults();
-                                                Log.d("ImageUploadFragment", "getRetrofitCall: " + foursquareResponseList.size());
                                                 for (int i = 0; i < foursquareResponseList.size(); i++) {
-                                                    Log.d("ImageUploadFragment", " Shop : " + foursquareResponseList.get(i).getVenue().getLocation().getAddress());
 
                                                     if (shopName.equals(foursquareResponseList.get(i).getVenue().getName())) {
                                                         String address = foursquareResponseList.get(i).getVenue().getLocation().getAddress() + "\n"
@@ -217,8 +209,6 @@ public class DetailFragment extends Fragment {
                                     ));
                         } else {
                             Toast.makeText(getContext(), "There was an error with this request", Toast.LENGTH_SHORT).show();
-                            Log.d("evelyn", "onConnected: error with request");
-                            //error state call
 //                            mainHostListener.startErrorActivity();
                         }
                     });
@@ -234,23 +224,13 @@ public class DetailFragment extends Fragment {
 
     public int onBeanClick() {
         coffeeBean.setOnClickListener(v -> {
-            Log.d(TAG, "onBeanClick: click is working");
             beanCount = beanCount + 1;
             beanCountTextView.setText(String.valueOf(beanCount));
 
             databaseReference.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    Log.d(TAG, "onDataChange: data changing works");
-
                     databaseReference.child("beanCount").setValue(beanCount);
-//                    for (DataSnapshot postSnapShot : dataSnapshot.getChildren()) {
-//                        Bean bean = postSnapShot.getValue(Bean.class);
-//
-//                        if (bean != null) {
-//                            beanCountTextView.setText(bean.getBeanCount());
-//                        }
-//                    }
                 }
 
                 @Override
@@ -268,33 +248,8 @@ public class DetailFragment extends Fragment {
         } else {
             chatKey = otherChatId + "_" + myChatId;
         }
-        Log.d(TAG, "checkChatKey: " + chatKey);
         return chatKey;
     }
-
-    private void obtainChatKey(DataSnapshot postsnapShot, String myChatId, String otherChatId) {
-        chatKey = "";
-        DatabaseReference fbChatKey = databaseReference.child("chat").child(checkChatKey(myChatId, otherChatId));
-
-
-//        for (DataSnapshot postDataChat : dataSnapshot.getChildren()) {
-//            Chat chat = postDataChat.getValue(Chat.class);
-        if (fbChatKey != null) {
-            //PASS IT ALONG to chat
-            mainHostListener.replaceWithCoffeeLoversFragment(chatKey);
-        } else {
-            //CREATE IT, THEn go to chat
-        }
-//
-//
-//            if (myChatId.charAt(0) > otherChatId.charAt(0)) {
-//                chatKey = myChatId + "_" + otherChatId;
-//            } else {
-//                chatKey = otherChatId + "_" + myChatId;
-//            }
-
-    }
-
 }
 
 

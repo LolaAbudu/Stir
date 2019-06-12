@@ -92,7 +92,6 @@ public class CoffeeLoversReceivedMessageHolder extends RecyclerView.ViewHolder {
                 for (DataSnapshot postSnapShot : dataSnapshot.getChildren()) {
                     if (postSnapShot.getKey().contains(otherChatId)) {
                         profilePhotoUrlString = postSnapShot.getValue().toString();
-                        Log.d("helpme", "onDataChange: " + profilePhotoUrlString);
                         Picasso.get().load(profilePhotoUrlString).into(userImageView);
                     }
                 }

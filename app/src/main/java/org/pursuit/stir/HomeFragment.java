@@ -61,15 +61,11 @@ public class HomeFragment extends Fragment{
         if (context instanceof MainHostListener){
             mainHostListener = (MainHostListener) context;
         }
-
-//        mAuth = FirebaseAuth.getInstance();
-//        currentUser = mAuth.getCurrentUser();
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
     }
@@ -87,9 +83,7 @@ public class HomeFragment extends Fragment{
         profileName = view.findViewById(R.id.username_text_view);
         if (currentUser != null) {
             profileName.setText(currentUser.getDisplayName()+ "!");
-            Log.d("TAG", "onViewCreated: " + currentUser.getDisplayName());
         } else {
-            //profileName.setText("");
             Log.d("TAG", "onViewCreated: currentuser = null");
         }
         recyclerView = view.findViewById(R.id.home_itemview_recycler_view);
@@ -101,14 +95,6 @@ public class HomeFragment extends Fragment{
         imageList = new ArrayList<>();
 
         databaseReference = FirebaseDatabase.getInstance().getReference("imageUploads");
-
-
-//        if (currentUser != null) {
-//            profileName.setText(currentUser.getDisplayName());
-//            Log.d("TAG", "onViewCreated: " + currentUser.getDisplayName());
-//        } else {
-//            Log.d("TAG", "onViewCreated: currentuser = null");
-//        }
 
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override

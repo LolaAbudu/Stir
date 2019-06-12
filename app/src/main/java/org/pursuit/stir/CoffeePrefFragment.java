@@ -39,8 +39,6 @@ public class CoffeePrefFragment extends Fragment {
     RadioGroup groupTwo;
     @BindView(R.id.radio_group_three)
     RadioGroup groupThree;
-//    @BindView(R.id.radio_group_four)
-//    RadioGroup groupFour;
 
     private SignUpListener signUpListener;
     private FirebaseAuth firebaseAuth;
@@ -112,13 +110,6 @@ public class CoffeePrefFragment extends Fragment {
         });
     }
 
-//    @OnClick(R.id.coff_pref_continue_button)
-//    public void dostuff(){
-//        Intent intent = new Intent(getContext(), MainHostActivity.class);
-//        startActivity(intent);
-//    }
-
-
     @Override
     public void onDetach() {
         super.onDetach();
@@ -143,7 +134,6 @@ public class CoffeePrefFragment extends Fragment {
         } else {
             radioButtonTwo = view.findViewById(id);
             groupTwoAnswer = radioButtonTwo.getText().toString();
-            Log.d(TAG, "grouptwoanswer:" + groupTwoAnswer);
         }
     }
 

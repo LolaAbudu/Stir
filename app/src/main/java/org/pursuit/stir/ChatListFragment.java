@@ -88,13 +88,11 @@ public class ChatListFragment extends Fragment {
                 chatKeyList.clear();
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     String chatKeyNode = postSnapshot.getKey();
-                    Log.d(TAG, "onDataChange: " + chatKeyNode);
                     String myChatId = FirebaseAuth.getInstance().getUid().substring(22);
                     if (chatKeyNode.contains(myChatId)) {
                         chatKeyList.add(chatKeyNode);
                     }
                 }
-                Log.d(TAG, "CHAT LIST SIZE: " + chatKeyList.size());
                 adapter = new ChatListAdapter(chatKeyList, listener);
                 recyclerView.setAdapter(adapter);
                 recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
