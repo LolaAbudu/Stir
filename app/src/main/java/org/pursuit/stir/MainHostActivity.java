@@ -130,11 +130,11 @@ public class MainHostActivity extends AppCompatActivity implements MainHostListe
     }
 
     @Override
-    public void moveToDetailFragment(String imageName, String imageUrl, String userID) {
+    public void moveToDetailFragment(String imageName, String shopname, String imageUrl, String userID) {
         getSupportFragmentManager()
                 .beginTransaction()
                 .setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit)
-                .replace(R.id.main_host_container, DetailFragment.newInstance(imageName, imageUrl, userID))
+                .replace(R.id.main_host_container, DetailFragment.newInstance(imageName, shopname, imageUrl, userID))
                 .addToBackStack(null)
                 .commit();
     }

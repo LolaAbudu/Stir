@@ -68,6 +68,15 @@ public class FoursquareJSON implements Serializable {
                         // The address of the location.
                         private String address;
 
+                        // The zipcode of the location.
+                        private String postalCode;
+
+                        // The city of the location.
+                        private String city;
+
+                        // The state of the location.
+                        private String state;
+
                         // The latitude of the location.
                         private double lat;
 
@@ -79,6 +88,18 @@ public class FoursquareJSON implements Serializable {
 
                         public String getAddress() {
                             return address;
+                        }
+
+                        public String getPostalCode() {
+                            return postalCode;
+                        }
+
+                        public String getCity() {
+                            return city;
+                        }
+
+                        public String getState() {
+                            return state;
                         }
 
                         public double getLat() {
