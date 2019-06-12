@@ -34,6 +34,7 @@ import org.pursuit.stir.profilerv.ProfileAdapter;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static android.support.constraint.Constraints.TAG;
@@ -161,6 +162,7 @@ public class ProfileFragment extends Fragment {
                 final ImageUpload imageUpload = dataSnapshot.getValue(ImageUpload.class);
                 Log.d(TAG, "onChildAdded: " + imageUpload.getImageUrl());
                 imagesList.add(imageUpload);
+                Collections.reverse(imagesList);
                 Log.d(TAG, "onViewCreated: " + imagesList.size());
                 profileAdapter = new ProfileAdapter(imagesList);
                 recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
