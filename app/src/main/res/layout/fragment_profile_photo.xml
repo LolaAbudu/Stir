@@ -27,7 +27,7 @@
         android:layout_gravity="center"
         android:layout_marginTop="15dp"
         android:layout_marginBottom="15dp"
-        android:src="@drawable/photo_add" />
+        android:src="@drawable/image_placeholder" />
     <Button
         android:id="@+id/profile_edit_save_button"
         android:layout_width="150dp"
