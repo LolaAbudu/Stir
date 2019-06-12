@@ -32,11 +32,10 @@ public class HomeViewHolder extends RecyclerView.ViewHolder {
                 .into(imageview);
 
         imageview.setOnClickListener(v -> {
-            mainHostListener.moveToDetailFragment(imageUpload.getImageName(),
-                    imageUpload.getImageUrl(), imageUpload.getUserID());
-
-            Log.d("det", imageUpload.getImageName() + " " + imageUpload.getImageUrl() + " " + imageUpload.getUserID());
-        });
+                mainHostListener.moveToDetailFragment(imageUpload.getImageName(),
+                         imageUpload.getShopName(), imageUpload.getImageUrl(), imageUpload.getUserID());
+                Log.d("det", imageUpload.getImageName() + " "  + imageUpload.getShopName() + " " + imageUpload.getImageUrl() + " " + imageUpload.getUserID());
+            });
 
 
     }

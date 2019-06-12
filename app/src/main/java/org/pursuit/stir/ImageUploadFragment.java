@@ -9,7 +9,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -119,11 +118,11 @@ public class ImageUploadFragment extends Fragment {
         storageReference = FirebaseStorage.getInstance().getReference("imageUploads");
         databaseReference = FirebaseDatabase.getInstance().getReference("imageUploads");
 
+        getSearchCoffeeCall(view);
         onClickListener();
 
 //        recyclerView = view.findViewById(R.id.search_recyclerView);
 //        recyclerView.setHasFixedSize(true);
-        getSearchCoffeeCall(view);
     }
 
     @Override
@@ -191,8 +190,9 @@ public class ImageUploadFragment extends Fragment {
 
                         Toast.makeText(getContext(), "Image Upload Successful", Toast.LENGTH_SHORT).show();
 
+                        String shopName = autoCompleteTextView.getText().toString();
                         String imageName = imageNameEditText.getText().toString().trim();
-                        ImageUpload imageUpload = new ImageUpload(imageName, downloadUrl.toString(), mAuth.getUid());
+                        ImageUpload imageUpload = new ImageUpload(imageName, shopName, downloadUrl.toString(), mAuth.getUid());
                         String uploadId = databaseReference.push().getKey();
                         databaseReference.child(uploadId).setValue(imageUpload);
                         openHomeFragment();
@@ -239,7 +239,7 @@ public class ImageUploadFragment extends Fragment {
                                                 for (FoursquareJSON.FoursquareResponse.FoursquareGroup.FoursquareResults f : foursquareResponseList) {
                                                     newList.add(f.getVenue().getName());
                                                 }
-                                                arrayAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1,  newList);
+                                                arrayAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, newList);
                                                 autoCompleteTextView.setAdapter(arrayAdapter);
                                             }, throwable -> {
                                                 Log.d("ImageUploadFragment", "failed: " + throwable.getLocalizedMessage());
