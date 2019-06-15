@@ -82,7 +82,10 @@ public class HomeFragment extends Fragment{
 
         profileName = view.findViewById(R.id.username_text_view);
         if (currentUser != null) {
-            profileName.setText(currentUser.getDisplayName()+ "!");
+            String name = currentUser.getDisplayName();
+            String firstLetterCap = name.substring(0,1).toUpperCase();
+            String nameCapitalized = firstLetterCap + name.substring(1) + "!";
+            profileName.setText(nameCapitalized);
         } else {
             Log.d("TAG", "onViewCreated: currentuser = null");
         }
