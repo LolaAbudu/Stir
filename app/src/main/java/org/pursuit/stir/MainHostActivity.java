@@ -8,7 +8,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -34,23 +33,18 @@ public class MainHostActivity extends AppCompatActivity implements MainHostListe
         navigationView.setOnNavigationItemSelectedListener(menuItem -> {
             switch (menuItem.getItemId()) {
                 case R.id.navigation_home:
-                    Toast.makeText(this, "home selected", Toast.LENGTH_SHORT).show();
                     replaceWithHomeFragment();
                     break;
                 case R.id.navigation_profile:
-                    Toast.makeText(this, "profile selected", Toast.LENGTH_SHORT).show();
                     replaceWithProfileFragment();
                     break;
                 case R.id.navigation_shops:
-                    Toast.makeText(this, "shops selected", Toast.LENGTH_SHORT).show();
                     replaceWithShopFragment();
                     break;
                 case R.id.navigation_photo_upload:
-                    Toast.makeText(this, "add photo selected", Toast.LENGTH_SHORT).show();
                     replaceWithImageUploadFragment();
                     break;
                 case R.id.navigation_find_coffee_lover:
-                    Toast.makeText(this, "find coffee lovers selected", Toast.LENGTH_SHORT).show();
                     //replaceWithCoffeeLoversFragment("random");
                     replaceWithChatListFragment();
 
