@@ -37,8 +37,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.disposables.CompositeDisposable;
 
-import static android.support.constraint.Constraints.TAG;
-
 public class DetailFragment extends Fragment {
 
     private MainHostListener mainHostListener;
@@ -173,7 +171,6 @@ public class DetailFragment extends Fragment {
                     Snackbar snackbar = Snackbar.make(v, "Oops, you can't chat with yourself!", Snackbar.LENGTH_LONG);
                     snackbar.show();
                 } else {
-                    Toast.makeText(v.getContext(), "CHAT SELECTED", Toast.LENGTH_SHORT).show();
                     mainHostListener.replaceWithCoffeeLoversFragment(checkChatKey(mychatID, otherChatID));
                 }
             }
