@@ -13,17 +13,22 @@
         android:roundIcon="@mipmap/stir_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ErrorActivity"></activity>
+        <activity android:name=".ErrorActivity"
+            android:screenOrientation="portrait"></activity>
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/GoogleMapsApiKey" />
 
-        <activity android:name=".SignUpHostActivity" />
-        <activity android:name=".MainHostActivity" />
-        <activity android:name=".LoginActivity" />
-        <activity android:name=".SplashActivity">
+        <activity android:name=".SignUpHostActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".MainHostActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".LoginActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".SplashActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
