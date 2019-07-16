@@ -192,7 +192,7 @@ public class ImageUploadFragment extends Fragment {
 
                         String shopName = autoCompleteTextView.getText().toString();
                         String imageName = imageNameEditText.getText().toString().trim();
-                        ImageUpload imageUpload = new ImageUpload(imageName, shopName, downloadUrl.toString(), mAuth.getUid());
+                        ImageUpload imageUpload = new ImageUpload(imageName, shopName, downloadUrl.toString(), mAuth.getUid(), 0);
                         String uploadId = databaseReference.push().getKey();
                         databaseReference.child(uploadId).setValue(imageUpload);
                         openHomeFragment();

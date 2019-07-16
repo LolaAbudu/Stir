@@ -11,11 +11,12 @@ public class ImageUpload {
     private String shopName;
     private String imageUrl;
     private String userID;
+    private int beanCount;
 
     public ImageUpload() {
     }
 
-    public ImageUpload(@NotNull String imageName, String shopName, String imageUrl, String userID) {
+    public ImageUpload(@NotNull String imageName, String shopName, String imageUrl, String userID, int beanCount) {
 
         if (imageName.trim().equals("")) {
             imageName = "No Image Description";
@@ -24,6 +25,8 @@ public class ImageUpload {
         this.shopName = shopName;
         this.imageUrl = imageUrl;
         this.userID = userID;
+        this.beanCount = beanCount;
+
     }
 
     public String getImageName() {
@@ -56,5 +59,9 @@ public class ImageUpload {
 
     public void setUserID(String userID) {
         this.userID = userID;
+    }
+
+    public int getBeanCount() {
+        return beanCount;
     }
 }

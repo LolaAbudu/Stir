@@ -132,12 +132,12 @@ public class DetailFragment extends Fragment {
         shopNameView.setText(shopName);
 
         firebaseAuth = FirebaseAuth.getInstance();
-        databaseReference = FirebaseDatabase.getInstance().getReference("likes").child(imageName);
+        databaseReference = FirebaseDatabase.getInstance().getReference("likes").child("beanCount");
 
-        HashMap<String, String> hashMap = new HashMap<>();
-        hashMap.put("imageURL", imageUrl);
-        hashMap.put("beanCount", String.valueOf(onBeanClick()));
-        databaseReference.setValue(hashMap);
+//        HashMap<String, String> hashMap = new HashMap<>();
+//        hashMap.put("imageURL", imageUrl);
+//        hashMap.put("beanCount", String.valueOf(onBeanClick()));
+        databaseReference.setValue(onBeanClick());
 
 
         userDBReference = FirebaseDatabase.getInstance().getReference("users");
@@ -224,26 +224,32 @@ public class DetailFragment extends Fragment {
             beanCount = beanCount + 1;
             beanCountTextView.setText(String.valueOf(beanCount));
 
-            databaseReference.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    databaseReference.child("beanCount").setValue(beanCount);
-                }
+//            databaseReference.addValueEventListener(new ValueEventListener() {
+//                @Override
+//                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                    databaseReference.child("beanCount").setValue(beanCount);
+//                }
 
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                }
-            });
+//                @Override
+//                public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//                }
+//            });
         });
         return beanCount;
     }
 
     public String checkChatKey(String myChatId, String otherChatId) {
-        if (myChatId.charAt(0) < otherChatId.charAt(0)) {
-            chatKey = myChatId + "_" + otherChatId;
-        } else {
-            chatKey = otherChatId + "_" + myChatId;
+        for (int i = 0; i < myChatId.length(); i++) {
+            if (myChatId.charAt(i) != otherChatId.charAt(i)) {
+                if (myChatId.charAt(i) < otherChatId.charAt(i)) {
+                    chatKey = myChatId + "_" + otherChatId;
+                    break;
+                } else {
+                    chatKey = otherChatId + "_" + myChatId;
+                    break;
+                }
+            }
         }
         return chatKey;
     }
