@@ -1,6 +1,8 @@
 package org.pursuit.stir;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 
 public class SignUpHostActivity extends AppCompatActivity implements SignUpListener {
@@ -32,6 +34,11 @@ public class SignUpHostActivity extends AppCompatActivity implements SignUpListe
                 .commit();
     }
 
+    @Override
+    public void moveToPrivacyPolicyActivity() {
+        Intent intent = new Intent(this,
+                PrivacyPolicyActivity.class);
+        startActivity(intent);
 
-
+    }
 }

@@ -5,4 +5,6 @@ public interface SignUpListener {
     void replaceWithSignUpFragment();
 
     void replaceWithCoffeePrefFragment();
+
+    void moveToPrivacyPolicyActivity();
 }

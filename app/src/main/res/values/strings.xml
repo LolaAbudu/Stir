@@ -18,5 +18,6 @@
     <string name="coffee_pref_question_three">How many cups of coffee do you drink per day?</string>
     <string name="coffee_pref_question_two">What is your favorite coffee drink?</string>
     <string name="coffee_pref_question_four">What time of day do you usually drink coffee?</string>
+    <string name="privacy_policy">Privacy Policy</string>
 
 </resources>
