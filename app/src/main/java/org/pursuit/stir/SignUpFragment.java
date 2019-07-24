@@ -1,7 +1,10 @@
 package org.pursuit.stir;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -13,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -32,6 +36,9 @@ public class SignUpFragment extends Fragment {
     private FirebaseAuth firebaseAuth;
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
+    private SharedPreferences prefs;
+    private static final String USERNAMEKEY = "USERNAMEKEY";
+    private static final String EMAILKEY = "EMAILKEY";
 
     @BindView(R.id.sign_up_username_editText)
     EditText usernameEditText;
@@ -45,6 +52,10 @@ public class SignUpFragment extends Fragment {
     CheckBox acknowledgeCheckbox;
     @BindView(R.id.sign_up_continue_button)
     Button continueButton;
+    @BindView(R.id.privacy_checkbox)
+    CheckBox privacyCheckbox;
+    @BindView(R.id.privacy_policy_text)
+    TextView privacyPolicyText;
 
     private String username;
     private String email;
@@ -75,8 +86,17 @@ public class SignUpFragment extends Fragment {
 
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference();
-//        FirebaseUser user = firebaseAuth.getCurrentUser();
-//        userID = user.getUid();
+        prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+
+
+
+//        if (savedInstanceState != null) {
+//            username = savedInstanceState.getString(USERNAMEKEY);
+//            email = savedInstanceState.getString(EMAILKEY);
+//            Log.d(TAG, "onCreate: " + username + email);
+//            usernameEditText.setText(username);
+//            emailEditText.setText(email);
+//        }
     }
 
     @Override
@@ -89,18 +109,38 @@ public class SignUpFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
+        Log.d(TAG, "onCreate: " + username + email);
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        usernameEditText.setText(prefs.getString(USERNAMEKEY, ""));
+        emailEditText.setText(prefs.getString(EMAILKEY, ""));
+
+        if (savedInstanceState != null) {
+            username = savedInstanceState.getString(USERNAMEKEY);
+            email = savedInstanceState.getString(EMAILKEY);
+            Log.d(TAG, "onCreate: " + username + email);
+            usernameEditText.setText(username);
+            emailEditText.setText(email);
+        }
         continueButton.setOnClickListener(v -> {
             //TODO user authentication
-            validateUserInput();
-            if (!username.equals("") && !email.equals("") && !password.equals("") && !confirm.equals("")) {
+//            if (!username.equals("") && !email.equals("") && !password.equals("") && !confirm.equals("")) {
 //                User user = new User(username);
 //                databaseReference.child("users").child(userID).setValue(user);
-                Toast.makeText(getContext(), "New Information has been saved.",
+            if (validateUserInput()) {
+                Toast.makeText(v.getContext(), "New Information has been saved.",
                         Toast.LENGTH_SHORT).show();
                 signUpNewUsers(email, password);
+                signUpListener.replaceWithCoffeePrefFragment();
             }
-            signUpListener.replaceWithCoffeePrefFragment();
+        });
 
+
+        privacyPolicyText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                signUpListener.moveToPrivacyPolicyActivity();
+            }
         });
     }
 
@@ -147,6 +187,12 @@ public class SignUpFragment extends Fragment {
         } else {
             acknowledgeCheckbox.setError(null);
         }
+        if (!privacyCheckbox.isChecked()) {
+            privacyCheckbox.setError("Required.");
+            valid = false;
+        } else {
+            privacyCheckbox.setError(null);
+        }
         return valid;
     }
 
@@ -175,5 +221,23 @@ public class SignUpFragment extends Fragment {
                     }
                 });
     }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        username = usernameEditText.getText().toString();
+        email = emailEditText.getText().toString();
+        Log.d(TAG, "onSaveInstanceState: " + username + email);
+        outState.putString(USERNAMEKEY, username);
+        outState.putString(EMAILKEY, email);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString(USERNAMEKEY, username);
+        editor.putString(EMAILKEY, email);
+        editor.apply();
+
+
+        super.onSaveInstanceState(outState);
+    }
+
+
 }
 
